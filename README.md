@@ -18,7 +18,7 @@ Put together, Tinsel lets you easily script phone tree interactions using a simp
 
 Here's an example of what it might look like in the very simple example of a fantasy adventure game:
 
-```
+```ruby
 def encounter
   prompt do
     game.enemy = Goblin.new({hp: 5, attack: 2})
@@ -120,6 +120,7 @@ def borat
   pause
 
   say "Not!"
+end
 ```
 
 #### Prompt
