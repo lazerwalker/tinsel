@@ -51,7 +51,7 @@ end
 
 ## Example
 
-A more complex example can be found in the `app/models/flappy.rb` file. It's a functioning (if not particularly fun) turn-based Flappy Bird game. You can also check it out in action by calling [(646) 681-7902](tel:6466817902).
+A more complex example can be found in the [`app/models/flappy.rb`](https://github.com/lazerwalker/tinsel/blob/master/app/models/flappy.rb) file. It's a functioning (if not particularly fun) turn-based Flappy Bird game. You can also check it out in action by calling [(646) 681-7902](tel:6466817902).
 
 
 ## Installation
