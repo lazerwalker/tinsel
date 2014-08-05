@@ -1,6 +1,6 @@
 # Tinsel
 
-Tinsel is a game engine designed to help you create interactive experiences that can be experienced on any telephone, using a touchtone dial pad for input and audio text-to-speech for output.
+Tinsel is a game engine designed to help you create interactive experiences that can be experienced on any telephone, using a touch tone dial pad for input and audio text-to-speech for output.
 
 Why the name Tinsel? It's vaguely like [Twine](http://twinery.org), but it involves (phone) trees. I know, you're groaning.
 
@@ -14,7 +14,7 @@ At its core, Tinsel is a couple of different things:
 * A lightweight, database-free persistence layer to maintain user/player state within a given phone call
 * A [Ruby on Rails](https://rubyonrails.org) harness application that takes care of serving Twilio-compatible REST endpoints and automatically routing requests for TwiML data.
 
-Put together, Tinsel lets you easily script phone tree interactions using a simple Ruby interface. It was originally intended for Choose Your Own Adventure-style interactive fiction, but there's no reason you couldn't use it for any other phone system that communicates using touchtone phone input and text-to-speech output.
+Put together, Tinsel lets you easily script phone tree interactions using a simple Ruby interface. It was originally intended for Choose Your Own Adventure-style interactive fiction, but there's no reason you couldn't use it for any other phone system that communicates using touch tone phone input and text-to-speech output.
 
 Here's an example of what it might look like in the very simple example of a fantasy adventure game:
 
