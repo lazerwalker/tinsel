@@ -178,7 +178,7 @@ If you want to capture the raw input sent by a user, the latest value they have 
 
 ## Usage
 
-Run `rails s` from the command line to spin up a Rails server. If you are running it locally, it will by default be at `localhost:3000`. If you have it set up with your custom code, you should be able to reach any endpoint by hitting `localhost:3000/some_path`, where `some_path` corresponds to the name of a method/node inside your Game subclass.
+Run `foreman start` from the command line within the project folder to spin up a Rails server. If you are running it locally, it will by default be at `localhost:5000`. If you have it set up with your custom code, you should be able to reach any endpoint by hitting `localhost:5000/some_path`, where `some_path` corresponds to the name of a method/node inside your Game subclass.
 
 You should be able to go to a URL of that form inside your web browser, and see XML being loaded
 
@@ -194,7 +194,9 @@ You should now be able to call your Twilio phone number, and it should execute t
 
 ## Deploying
 
-As a pretty standard Rails app, an instance of Tinsel is ready to deploy on Heroku. If you've never used Heroku before, follow [their tutorial](https://devcenter.heroku.com/articles/getting-started-with-rails4) for deploying a Rails app.
+As a pretty standard Rails app, an instance of Tinsel is ready to deploy on Heroku. If you create a new Heroku application and push your code, it should just work. You can check out the Procfile yourself; it's currently configured to use Unicorn as a web server with Heroku's basic recommended config.
+
+If you've never used Heroku before, you may want to follow [their tutorial](https://devcenter.heroku.com/articles/getting-started-with-rails4) for deploying a Rails app.
 
 
 ## Caveats
