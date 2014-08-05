@@ -4,6 +4,7 @@ Tinsel is a game engine designed to help you create interactive experiences that
 
 Why the name Tinsel? It's vaguely like [Twine](http://twinery.org), but it involves (phone) trees. I know, you're groaning.
 
+Try it out by calling [(646) 681-7902](tel:6466817902).
 
 ## So, what actually is it?
 
@@ -50,7 +51,7 @@ end
 
 ## Example
 
-A more complex example can be found in the `app/models/flappy.rb` file. It's a functioning (if not particularly fun) turn-based Flappy Bird game. You can also check it out in action by calling [phone number].
+A more complex example can be found in the `app/models/flappy.rb` file. It's a functioning (if not particularly fun) turn-based Flappy Bird game. You can also check it out in action by calling [(646) 681-7902](tel:6466817902).
 
 
 ## Installation
