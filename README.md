@@ -200,11 +200,9 @@ If you've never used Heroku before, you may want to follow [their tutorial](http
 
 
 ## Caveats
-Tinsel was originally built as part of a transmedia game project I was prototyping. I eventually stopped work on that project, but I felt that Tinsel was worth salvaging and releasing on its own. As such, though, it's fairly rough. I recognize that the flow to get it installed and set up with your own custom code isn't ideal.
+Tinsel was originally built as part of a transmedia game project I was prototyping. I eventually stopped work on that project, but I felt that Tinsel was worth salvaging and releasing on its own. As such, it's fairly rough. This isn't production-ready code, both from a standpoint of scaling/stability and from the work required as a game designer to get things up and running. code isn't ideal.
 
-I'd love to get it to the point where it can function more as a traditional game engine/framework rather than requiring such familiarity with Ruby and Rails, but it's difficult to justify putting in the time without the guarantee that anybody else will use it.
-
-That being said, please check this out! If you find yourself using and enjoying Tinsel, definitely drop me a line; knowing that people out there are interested in this and want to build cool shit with it would definitely inspire me to give it the love and polish it deserves.
+I'd love to get it to the point where it can function more as a traditional game engine/framework rather than requiring such familiarity with Ruby and Rails, but it's difficult to justify putting in the time without the guarantee that anybody else will use it. If you find yourself using and enjoying Tinsel, drop me a line; knowing that people out there are interested in this and want to build cool shit with it would definitely inspire me to give it the love and polish it deserves.
 
 
 ## Contributing
