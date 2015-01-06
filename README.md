@@ -187,7 +187,7 @@ You should be able to go to a URL of that form inside your web browser, and see 
 
 You'll want to create a new Twilio phone number on their [configuration page](https://www.twilio.com/user/account/phone-numbers/).
 
-After creating a phone number, you will want to set its Voice Request URL to the appropriate URL. If you've deployed this repo as-is to a server and want to test out the included Flappy Bot example, you can set it to `http://<your-server-here>/flappy`.
+After creating a phone number, you will want to set its Voice Request URL to the appropriate URL. If you've deployed this repo as-is to a server and want to test out the included Flappy Bot example, you can set it to `http://<your-server-here>/flappy`. In the Flappy Bot example, you also want to make sure the request method is `GET` (the preselected default will probably be `POST`).
 
 If you're testing locally, I recommend using [ngrok](https://ngrok.com). Once it's installed and you have a server running, simply run `ngrok 3000`. It will give you a URL of the format `<x>.ngrok.com`, where `<x>` will be a random combination of letters and numbers. On the Twilio configuration page, enter that URL, followed by the name of the method that serves as the entrypoint into your game.
 
