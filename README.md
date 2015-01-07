@@ -167,8 +167,22 @@ end
 
 The system will not automatically tell the user what options there are, so be sure to explicitly spell out what choices there are using `say` commands.
 
-If you want to fall back to some sort of default behavior if the user doesn't enter anything (typically a redirect), you can do so by putting that code after the prompt block.
+You can use the `:any` symbol as a key if you want to specify a route in the case the user enters a number that isn't explicitly handled. Similarly, code that occurs after the prompt block will be fired if the user does not enter anything. In other words:
 
+```ruby
+prompt do
+  route 1 => :foo
+  route :any =>:bar
+end
+
+redirect :baz
+```
+
+Will do the following:
+
+* If the user enters `1`, they will be sent to the `foo` node
+* If the user enters any number that is not 1, they will be sent to `bar`
+* If the user does not enter any number, after a timeout period they will be sent to `baz`
 
 ### Persistence
 
