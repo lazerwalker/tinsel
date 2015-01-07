@@ -18,6 +18,10 @@ module Game
     @actions.push Action.new :Pause
   end
 
+  def play (url, opts={})
+    @actions.push Action.new :Play, [url, opts]
+  end
+
   def prompt (opts={})
     oldActions = @actions
     @actions = []

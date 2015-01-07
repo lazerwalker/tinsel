@@ -109,6 +109,18 @@ def titanic
 end
 ```
 
+#### Play
+
+The `play` command plays a static audio file. Currently, it takes in a URL to an audio file hosted elsewhere. Most standard audio file formats are accepted.
+
+By default, the audio will be played once. The "loop" option allows you to specify how many times it is repeated (or `0` to loop until the listener hangs up).
+
+```ruby
+def elevator_music
+  play "http://smoothjazz.com/saxophonesolo.mp3", {loop: 0}
+end
+```
+
 #### Pause
 
 The `pause` command simply pauses for a moment.
@@ -127,7 +139,7 @@ end
 
 A `prompt` is a block of code that, after executing, waits for the player to enter some numbers and moves to a different node accordingly.
 
-Within a `prompt` block, you can use the `say` or `pause` commands as normal. At the end, you'll want to specify what actions the player can take, using either the `choices` command or one or more `route` commands:
+Within a `prompt` block, you can use the `say`, `pause`, or `play` commands as normal. At the end, you'll want to specify what actions the player can take, using either the `choices` command or one or more `route` commands:
 
 ```ruby
 def clone_via_routes
