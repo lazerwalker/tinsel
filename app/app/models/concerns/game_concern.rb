@@ -40,6 +40,7 @@ module GameConcern
   end
 
   def route (hash={})
+    puts "IN ROUTE"
     @options ||= {}
     @options.merge! hash
   end

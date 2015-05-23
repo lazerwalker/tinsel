@@ -10,8 +10,6 @@ class GameController < ApplicationController
     game.choice = params[:Digits].to_i unless params[:Digits].nil?
     game.request = request
 
-    if game.respond_to? params[:url]
-      render_twiml game.play_room params[:url]
-    end
+    render_twiml game.play_room params[:url]
   end
 end
