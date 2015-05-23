@@ -51,12 +51,45 @@ end
 
 ## Example
 
-A more complex example can be found in the [`app/models/flappy.rb`](https://github.com/lazerwalker/tinsel/blob/master/app/models/flappy.rb) file. It's a functioning (if not particularly fun) turn-based Flappy Bird game. You can also check it out in action by calling [(646) 681-7902](tel:6466817902).
+A more complex example can be found in the [`flappy.rb`](https://github.com/lazerwalker/tinsel/blob/master/game/flappy.rb) file. It's a functioning (if not particularly fun) turn-based Flappy Bird game. You can also check it out in action by calling [(646) 681-7902](tel:6466817902).
 
 
 ## Installation
 
-Right now, the easiest way to get started with Tinsel is to clone this git repo. To start a new project, create a new file in the "models" folder that subclasses from the `Game` class. In `app/controllers/game_controller.rb`, replace the instantiation of a `Flappy` object on line 9 with an instantiation of your custom class.
+Start by cloning this git repo: `git clone https://github.com/lazerwalker/tinsel.git`
+Next, run `bundle install` to install all Ruby dependencies.
+
+
+## Project Structure
+
+There are two main folders within this project.
+
+The `app` folder contains the Ruby on Rails app that makes Tinsel tick. If you are just making your own game, rather than working on developing Tinsel itself, you shouldn't need to worry about this.
+
+The `game` folder contains all of your scripts and game logic. All files with a `.rb` file extension in this folder will be loaded as part of your game. By default, this includes a `flappy.rb` file that contains an example game, but as you develop your game you will want to delete that and replace it with your own file or files.
+
+## Running the app locally
+
+It is recommended to use the [Heroku toolbelt](https://toolbelt.heroku.com) to run the app locally. If this is installed, all you need to do is run `foreman start` from the root of the project directory. Otherwise, you can go into the `app` directory and run `rails s`. 
+
+To test your local setup is working: run `foreman start` on a fresh copy of this repo. While that is running, going to `http://localhost:5000/flappy` in a web browser should result in some XML being shown on-screen. (If you're using `rails s` instead, it will instead be at `http://localhost:3000/flappy`)
+
+## Twilio config
+
+You'll want to create a new Twilio phone number on their [configuration page](https://www.twilio.com/user/account/phone-numbers/).
+
+After creating a phone number, you will want to set its Voice Request URL to the appropriate URL. If you've deployed this repo as-is to a server and want to test out the included Flappy Bot example, you can set it to `http://<your-server-here>/flappy`. In the Flappy Bot example, you also want to make sure the request method is `GET` (the preselected default will probably be `POST`).
+
+If you're testing locally, I recommend using [ngrok](https://ngrok.com). Once it's installed and you have a server running, simply run `ngrok 3000`. It will give you a URL of the format `<x>.ngrok.com`, where `<x>` will be a random combination of letters and numbers. On the Twilio configuration page, enter that URL, followed by the name of the method that serves as the entrypoint into your game.
+
+You should now be able to call your Twilio phone number, and it should execute the code specified in the method you've specified.
+
+
+## Deploying
+
+As a pretty standard Rails app, an instance of Tinsel is ready to deploy on Heroku. If you create a new Heroku application and push your code, it should just work. You can check out the Procfile yourself; it's currently configured to use Unicorn as a web server with Heroku's basic recommended config.
+
+If you've never used Heroku before, you may want to follow [their tutorial](https://devcenter.heroku.com/articles/getting-started-with-rails4) for deploying a Rails app.
 
 
 ## Documentation
@@ -70,6 +103,10 @@ def some_action
   # Logic goes here
 end
 ```
+
+If you'd like, you can organize your nodes in separate files on-disk; any file that is within the `game` folder and ends with `.rb` will be loaded as part of the same game, and different files can cross-reference each other. 
+
+Tinsel currently does not handle naming collisions. Make sure that no two nodes have the same name, even across different files, or unexpected and bad things will happen.
 
 
 ### Actions
@@ -200,31 +237,6 @@ Within your game logic, you have access to two variables, `self.player` and `sel
 ### Raw Input
 
 If you want to capture the raw input sent by a user, the latest value they have entered will be automatically stored in `self.player.choice`. Since this will be wiped out after the next prompt, if you want to save it for later it's recommended that you store it into a different key on `self.player` or `self.game`.
-
-
-## Usage
-
-Run `foreman start` from the command line within the project folder to spin up a Rails server. If you are running it locally, it will by default be at `localhost:5000`. If you have it set up with your custom code, you should be able to reach any endpoint by hitting `localhost:5000/some_path`, where `some_path` corresponds to the name of a method/node inside your Game subclass.
-
-You should be able to go to a URL of that form inside your web browser, and see XML being loaded
-
-
-## Twilio config
-
-You'll want to create a new Twilio phone number on their [configuration page](https://www.twilio.com/user/account/phone-numbers/).
-
-After creating a phone number, you will want to set its Voice Request URL to the appropriate URL. If you've deployed this repo as-is to a server and want to test out the included Flappy Bot example, you can set it to `http://<your-server-here>/flappy`. In the Flappy Bot example, you also want to make sure the request method is `GET` (the preselected default will probably be `POST`).
-
-If you're testing locally, I recommend using [ngrok](https://ngrok.com). Once it's installed and you have a server running, simply run `ngrok 3000`. It will give you a URL of the format `<x>.ngrok.com`, where `<x>` will be a random combination of letters and numbers. On the Twilio configuration page, enter that URL, followed by the name of the method that serves as the entrypoint into your game.
-
-You should now be able to call your Twilio phone number, and it should execute the code specified in the method you've specified.
-
-
-## Deploying
-
-As a pretty standard Rails app, an instance of Tinsel is ready to deploy on Heroku. If you create a new Heroku application and push your code, it should just work. You can check out the Procfile yourself; it's currently configured to use Unicorn as a web server with Heroku's basic recommended config.
-
-If you've never used Heroku before, you may want to follow [their tutorial](https://devcenter.heroku.com/articles/getting-started-with-rails4) for deploying a Rails app.
 
 
 ## Caveats
