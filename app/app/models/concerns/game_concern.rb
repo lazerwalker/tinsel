@@ -1,6 +1,6 @@
 VOICE = "woman"
 
-module Game
+module GameConcern
   extend ActiveSupport::Concern
 
   attr_accessor :options, :choice, :request, :player, :game

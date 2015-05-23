@@ -6,7 +6,7 @@ class GameController < ApplicationController
   after_filter :set_header
 
   def route
-    game = Flappy.new(params)
+    game = Game.new(params)
     game.choice = params[:Digits].to_i unless params[:Digits].nil?
     game.request = request
 

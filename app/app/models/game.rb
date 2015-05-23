@@ -1,5 +1,5 @@
-class Flappy
-  include Game
+class Game
+  include GameConcern
 
   def flappy
     say "Welcome to flappy bot. To play, press 1 to flap. You can quit at any time by pressing 0."
