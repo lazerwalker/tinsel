@@ -3,4 +3,4 @@
 
 require File.expand_path('../config/application', __FILE__)
 
-Robotsex::Application.load_tasks
+Tinsel::Application.load_tasks

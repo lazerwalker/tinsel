@@ -9,4 +9,4 @@
 
 # Make sure your secret_key_base is kept private
 # if you're sharing your code publicly.
-Robotsex::Application.config.secret_key_base = '00636e13b577a6098516104fb793a0f1d567100e0ff7decf92af192a956da7a3b66b6a992ce32428dadcf6b63f5467f952a97cf06a7b7ebb6064339e0ade522e'
+Tinsel::Application.config.secret_key_base = '00636e13b577a6098516104fb793a0f1d567100e0ff7decf92af192a956da7a3b66b6a992ce32428dadcf6b63f5467f952a97cf06a7b7ebb6064339e0ade522e'

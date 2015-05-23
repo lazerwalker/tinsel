@@ -2,4 +2,4 @@
 require File.expand_path('../application', __FILE__)
 
 # Initialize the Rails application.
-Robotsex::Application.initialize!
+Tinsel::Application.initialize!
