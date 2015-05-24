@@ -1,3 +1,5 @@
+VOICE = "woman"
+
 class Game
   attr_accessor :options, :choice, :request, :player, :game
 
