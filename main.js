@@ -8,6 +8,13 @@ var server = app.listen(3000);
 
 app.get('/:slug', function (req, res) {
   var node = _(data.story).findWhere({'name': req.params.slug});
+
+  if (req.query["Digits"]) {
+    var newNodeName = node.routes[req.query["Digits"]];
+    var newNode = _(data.story).findWhere({'name': newNodeName});
+    if (newNode) { node = newNode; }
+  }
+  
   sendResponse(renderNode(node), res);
 });
 
