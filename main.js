@@ -12,8 +12,7 @@ app.get('/:slug', function (req, res) {
 });
 
 app.get('/', function(req, res) {
-  var node = _(data.story).findWhere({'name': data.start});
-  sendResponse(renderNode(node), res);
+  res.redirect("/" + data.start);
 });
 
 function renderNode(node) {
