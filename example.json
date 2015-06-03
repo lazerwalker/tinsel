@@ -1,0 +1,32 @@
+{
+  "start": "First",
+	"story": [
+		{ 
+			"name": "First",
+			"content": "This is the first node",
+			"routes": {
+				"1": "Second",
+				"2": "Third",
+				"default": "Default",
+				"none": "None"
+			}
+		},
+		{
+			"name": "Second",
+			"content": "This is the second node"
+		},
+		{
+			"name": "Third",
+			"content": "This is the third node"
+		},
+		{
+			"name": "Default",
+			"content": "You entered something different?"
+		},	
+		{
+			"name": "None",
+			"content": "You didn't enter anything!"
+		}
+
+	]
+}
