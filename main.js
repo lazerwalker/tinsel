@@ -8,20 +8,22 @@ var server = app.listen(3000);
 
 app.get('/:slug', function (req, res) {
   var node = _(data.story).findWhere({'name': req.params.slug});
-
-  res.set('Content-Type', 'text/html');
-  res.send(renderNode(node));
+  sendResponse(renderNode(node), res);
 });
 
 app.get('/', function(req, res) {
   var node = _(data.story).findWhere({'name': data.start});
-
-  res.set('Content-Type', 'text/html');
-  res.send(renderNode(node));
+  sendResponse(renderNode(node), res);
 });
 
 function renderNode(node) {
   var resp = new Twilio.TwimlResponse();
   resp.say(node.content);
   return resp.toString();
+}
+
+function sendResponse(text, res) {
+  res.set('Content-Type', 'text/xml');
+  console.log(text);
+  res.send(text);
 }
