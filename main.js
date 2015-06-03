@@ -26,13 +26,19 @@ function renderNode(node) {
   var response = new Twilio.TwimlResponse();
 
   function sayText(n) {
-    if (_.isString(node.content)) {
-      n.say(node.content);
-    } else {
-      var opts = _.clone(node.content);
-      delete opts.text
-      n.say(node.content.text, opts)
+    function handleObj(obj) {
+      if (_.isArray(obj)) {
+        console.log(obj);
+        _.each(obj, function(o) { handleObj(o); });
+      } else if (_.isString(obj)) {
+        n.say(obj);
+      } else {
+        var opts = _.clone(obj);
+        delete opts.text
+        n.say(obj.text, opts)
+      }
     }
+    handleObj(node.content);
   }
 
   if (node.routes) {

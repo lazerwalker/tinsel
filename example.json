@@ -3,11 +3,17 @@
   "story": [
     { 
       "name": "first",
-      "content": {
-        "text": "This is the first node",
-        "voice": "alice",
-        "language": "en"
-      },
+      "content": [
+        {
+          "text": "This is the first node",
+          "voice": "alice",
+          "language": "en"
+        },
+        {
+          "text": "Please make a selection!",
+          "voice": "man"
+        }
+      ],
       "routes": {
         "1": "second",
         "2": "third",
