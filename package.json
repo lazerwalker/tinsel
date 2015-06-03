@@ -1,0 +1,16 @@
+{
+  "name": "tinsel",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lazerwalker/tinsel.git"
+  },
+  "author": "https://github.com/lazerwalker",
+  "bugs": {
+    "url": "https://github.com/lazerwalker/tinsel/issues"
+  },
+  "homepage": "https://github.com/lazerwalker/tinsel",
+  "dependencies": {
+    "twilio": "^2.2.1"
+  }
+}
