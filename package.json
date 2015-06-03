@@ -11,6 +11,7 @@
   },
   "homepage": "https://github.com/lazerwalker/tinsel",
   "dependencies": {
+    "express": "^4.12.4",
     "twilio": "^2.2.1"
   }
 }
