@@ -1,30 +1,30 @@
 {
-  "start": "First",
+  "start": "first",
 	"story": [
 		{ 
-			"name": "First",
+			"name": "first",
 			"content": "This is the first node",
 			"routes": {
-				"1": "Second",
-				"2": "Third",
-				"default": "Default",
-				"none": "None"
+				"1": "second",
+				"2": "third",
+				"default": "default",
+				"none": "none"
 			}
 		},
 		{
-			"name": "Second",
+			"name": "second",
 			"content": "This is the second node"
 		},
 		{
-			"name": "Third",
+			"name": "third",
 			"content": "This is the third node"
 		},
 		{
-			"name": "Default",
+			"name": "default",
 			"content": "You entered something different?"
 		},	
 		{
-			"name": "None",
+			"name": "none",
 			"content": "You didn't enter anything!"
 		}
 
