@@ -30,7 +30,14 @@ function renderNode(node) {
   }
 
   if (node.routes) {
-    response.gather({method: "GET", numDigits:1}, sayText);
+    var defaultGatherOpts = {
+      method: "GET",
+      numDigits: 1
+    };
+
+    var gatherOptions = _.assign(defaultGatherOpts, node.gatherOptions);
+    response.gather(gatherOptions, sayText);
+
   } else {
     sayText(response);
   }

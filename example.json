@@ -9,6 +9,10 @@
 				"2": "third",
 				"default": "default",
 				"none": "none"
+			},
+			"gatherOptions": {
+				"numDigits": 3,
+				"finishOnKey": "*"
 			}
 		},
 		{
