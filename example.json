@@ -1,36 +1,40 @@
 {
   "start": "first",
-	"story": [
-		{ 
-			"name": "first",
-			"content": "This is the first node",
-			"routes": {
-				"1": "second",
-				"2": "third",
-				"default": "default",
-				"none": "none"
-			},
-			"gatherOptions": {
-				"numDigits": 3,
-				"finishOnKey": "*"
-			}
-		},
-		{
-			"name": "second",
-			"content": "This is the second node"
-		},
-		{
-			"name": "third",
-			"content": "This is the third node"
-		},
-		{
-			"name": "default",
-			"content": "You entered something different?"
-		},	
-		{
-			"name": "none",
-			"content": "You didn't enter anything!"
-		}
+  "story": [
+    { 
+      "name": "first",
+      "content": {
+        "text": "This is the first node",
+        "voice": "alice",
+        "language": "en"
+      },
+      "routes": {
+        "1": "second",
+        "2": "third",
+        "default": "default",
+        "none": "none"
+      },
+      "gatherOptions": {
+        "numDigits": 3,
+        "finishOnKey": "*"
+      }
+    },
+    {
+      "name": "second",
+      "content": "This is the second node"
+    },
+    {
+      "name": "third",
+      "content": "This is the third node"
+    },
+    {
+      "name": "default",
+      "content": "You entered something different?"
+    },  
+    {
+      "name": "none",
+      "content": "You didn't enter anything!"
+    }
 
-	]
+  ]
 }

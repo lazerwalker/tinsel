@@ -26,7 +26,13 @@ function renderNode(node) {
   var response = new Twilio.TwimlResponse();
 
   function sayText(n) {
-    n.say(node.content);
+    if (_.isString(node.content)) {
+      n.say(node.content);
+    } else {
+      var opts = _.clone(node.content);
+      delete opts.text
+      n.say(node.content.text, opts)
+    }
   }
 
   if (node.routes) {
