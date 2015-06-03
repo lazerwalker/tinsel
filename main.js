@@ -14,7 +14,7 @@ app.get('/:slug', function (req, res) {
     var newNode = _(data.story).findWhere({'name': newNodeName});
     if (newNode) { node = newNode; }
   }
-  
+
   sendResponse(renderNode(node), res);
 });
 
@@ -23,9 +23,19 @@ app.get('/', function(req, res) {
 });
 
 function renderNode(node) {
-  var resp = new Twilio.TwimlResponse();
-  resp.say(node.content);
-  return resp.toString();
+  var response = new Twilio.TwimlResponse();
+
+  function sayText(n) {
+    n.say(node.content);
+  }
+
+  if (node.routes) {
+    response.gather({method: "GET", numDigits:1}, sayText);
+  } else {
+    sayText(response);
+  }
+
+  return response.toString();
 }
 
 function sendResponse(text, res) {
