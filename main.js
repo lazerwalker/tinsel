@@ -34,8 +34,14 @@ function renderNode(node) {
         n.say(obj);
       } else {
         var opts = _.clone(obj);
-        delete opts.text
-        n.say(obj.text, opts)
+        delete opts.type
+
+        if (obj.type == "pause") {
+          n.pause(opts);
+        } else {
+          delete opts.text
+          n.say(obj.text, opts)
+        }
       }
     }
     handleObj(node.content);
