@@ -15,10 +15,8 @@ var foo = {
         },
         {
           "type": "function",
-          "function": function() {
-            var foo = 5; 
-            foo++; 
-            return "This is a fn with value " + foo;
+          "function": function(opts) {
+            return "The value of query param 'foo' is " + opts.foo;
           }
         },
         {
@@ -78,6 +76,7 @@ onmessage = function(message) {
   if (message === "tree") {
     postMessage(foo);
   } else {
-    postMessage(functions[message]());
+    var obj = JSON.parse(message);
+    postMessage(functions[obj.functionCount](obj.opts));
   }
 }

@@ -33,7 +33,7 @@ app.get('/:slug', function (req, res) {
     if (newNode) { node = newNode; }
   }
 
-  renderNode(node).then(function(xml) {
+  renderNode(node, req.query).then(function(xml) {
     sendResponse(xml, res);
   });
 });
@@ -42,7 +42,7 @@ app.get('/', function(req, res) {
   res.redirect("/" + data.start);
 });
 
-function renderNode(node) {
+function renderNode(node, data) {
   var response = new Twilio.TwimlResponse();
 
   // returns a promise containing a new node.content
@@ -51,7 +51,12 @@ function renderNode(node) {
       if (content.type !== "function") return Q(content);
 
       var defer = Q.defer();
-      runSandbox(content.functionCount, function(newContent) {
+
+      var message = JSON.stringify({
+        functionCount: content.functionCount,
+        opts: data
+      });
+      runSandbox(message, function(newContent) {
         defer.resolve(newContent);            
       });
       return defer.promise;
