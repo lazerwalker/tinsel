@@ -11,6 +11,7 @@
   },
   "homepage": "https://github.com/lazerwalker/tinsel",
   "scripts": {
+    "start": "node main.js",
     "test": "./node_modules/mocha/bin/mocha"
   },
   "dependencies": {
