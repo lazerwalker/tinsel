@@ -10,11 +10,18 @@
     "url": "https://github.com/lazerwalker/tinsel/issues"
   },
   "homepage": "https://github.com/lazerwalker/tinsel",
+  "scripts": {
+    "test": "./node_modules/mocha/bin/mocha"
+  },
   "dependencies": {
     "express": "^4.12.4",
     "lodash": "^3.9.3",
     "q": "^1.4.1",
     "sandbox": "^0.8.6",
     "twilio": "^2.2.1"
+  },
+  "devDependencies": {
+    "chai": "*",
+    "mocha": "*"
   }
 }
