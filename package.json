@@ -23,6 +23,7 @@
   },
   "devDependencies": {
     "chai": "*",
-    "mocha": "*"
+    "mocha": "*",
+    "request": "*"
   }
 }
