@@ -41,7 +41,12 @@
       "name": "second",
       "content": function(opts) {
         opts.baz = "Potato Salad";
-        return ["This is the second node. Foo is " + opts.foo, opts];
+        var say = {
+          "type": "text",
+          "text": "This is the second node. Foo is " + opts.foo,
+          "voice": "man"
+        };
+        return [say, opts];
       },
       "routes": {
         "1": "third"
