@@ -1,4 +1,4 @@
-{
+var foo = {
   "start": "first",
   "story": [
     { 
@@ -12,6 +12,14 @@
         {
           "type": "pause",
           "length": 2
+        },
+        {
+          "type": "function",
+          "function": function() {
+            var foo = 5; 
+            foo++; 
+            return "This is a fn with value " + foo;
+          }
         },
         {
           "type": "text",
@@ -47,4 +55,29 @@
       "content": "You didn't enter anything!"
     }
   ]
+}
+
+var functions = [];
+for (nodeIndex in foo.story) {
+  var node = foo.story[nodeIndex];
+  var array = node.content;
+  if (!Array.isArray(array)) {
+    array = [array];
+  }
+
+  for (i in array) {
+    var item = array[i];
+    if (item.type == "function" && typeof item["function"] == "function") {
+      functions.push(item.function);
+      item.functionCount = functions.length - 1;
+    }
+  }
+}
+
+onmessage = function(message) {
+  if (message === "tree") {
+    postMessage(foo);
+  } else {
+    postMessage(functions[message]());
+  }
 }
