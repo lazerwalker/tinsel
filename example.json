@@ -63,6 +63,13 @@
     {
       "name": "none",
       "content": "You didn't enter anything!"
+    },
+    {
+      "name": "pause",
+      "content": {
+        "type": "pause",
+        "length": 3
+      }
     }
   ]
 }

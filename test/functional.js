@@ -16,7 +16,7 @@ describe("when using the example JSON file", function() {
         });
     });
 
-    describe("when the content is a function", function(done) {
+    describe("when the content is a function", function() {
         it("should execute when it's the root content", function(done) {
             request("http://localhost:3000/second?foo=Applesauce", function(error, response, body) {
                 expect(body).to.equal('<?xml version="1.0" encoding="UTF-8"?><Response><Gather method="GET" numDigits="1" action="/second?foo=Applesauce&amp;baz=Potato%20Salad"><Say voice="man">This is the second node. Foo is Applesauce</Say></Gather></Response>');
@@ -32,7 +32,7 @@ describe("when using the example JSON file", function() {
         });
     });
 
-    describe("when passing parameters", function(done) {
+    describe("when passing parameters", function() {
         it("should persist through a Digit redirect", function(done) {
             request("http://localhost:3000/first?Digits=1&foo=Applesauce", function(error, response, body) {
                 expect(body).to.equal('<?xml version="1.0" encoding="UTF-8"?><Response><Gather method="GET" numDigits="1" action="/second?foo=Applesauce&amp;baz=Potato%20Salad"><Say voice="man">This is the second node. Foo is Applesauce</Say></Gather></Response>');
@@ -61,6 +61,15 @@ describe("when using the example JSON file", function() {
                 expect(body).to.equal('<?xml version="1.0" encoding="UTF-8"?><Response><Gather method="GET" numDigits="1" action="/second?foo=Applesauce&amp;baz=Potato%20Salad"><Say voice="man">This is the second node. Foo is Applesauce</Say></Gather></Response>');
                 done();
             });
+        });
+    });
+
+    describe("specific Twiml features", function() {
+        it("should work for 'pause'", function(done) {
+            request("http://localhost:3000/pause", function(error, response, body) {
+                expect(body).to.equal('<?xml version="1.0" encoding="UTF-8"?><Response><Pause length="3"></Pause></Response>');
+                done();
+            });        
         });
     });
 });
