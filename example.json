@@ -38,7 +38,9 @@
     },
     {
       "name": "second",
-      "content": "This is the second node"
+      "content": function(opts) {
+        return "This is the second node. Foo is " + opts.foo;
+      }
     },
     {
       "name": "third",

@@ -83,10 +83,6 @@ function renderNode(node, data) {
 
                     if (obj.type == "pause") {
                         n.pause(opts);
-                    } else if (obj.type == "function") {
-                        runSandbox(obj.functionCount, (m) => {
-                            handleObj(m);            
-                        });
                     } else {
                         delete opts.text
                         n.say(obj.text, opts)
