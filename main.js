@@ -93,6 +93,9 @@ function renderNode(node, data) {
                     delete opts.text
                     opts.method = "GET"
                     n.redirect(obj.text, opts);
+                } else if (obj.type === "play") {
+                    delete opts.text
+                    n.play(obj.text, opts);
                 } else {
                     delete opts.text
                     n.say(obj.text, opts)

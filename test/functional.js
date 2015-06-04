@@ -69,14 +69,21 @@ describe("when using the example JSON file", function() {
             request("http://localhost:3000/pause", function(error, response, body) {
                 expect(body).to.equal('<?xml version="1.0" encoding="UTF-8"?><Response><Pause length="3"></Pause></Response>');
                 done();
-            });        
+            });
         });
 
         it("should work for 'redirect'", function(done) {
             request("http://localhost:3000/redirect", function(error, response, body) {
                 expect(body).to.equal('<?xml version="1.0" encoding="UTF-8"?><Response><Redirect method="GET">first</Redirect></Response>');
                 done();
-            });        
+            });
+        });
+
+        it("should work for 'play'", function(done) {
+            request("http://localhost:3000/play", function(error, response, body) {
+                expect(body).to.equal('<?xml version="1.0" encoding="UTF-8"?><Response><Play loop="10">http://instantrimshot.com/rimshot.wav</Play></Response>');
+                done();
+            });
         });
     });
 });

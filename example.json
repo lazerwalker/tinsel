@@ -77,6 +77,14 @@
         "type": "redirect",
         "text": "first"
       }
+    },
+    {
+      "name": "play",
+      "content": {
+        "type": "play",
+        "text": "http://instantrimshot.com/rimshot.wav",
+        "loop": 10
+      }
     }
   ]
 }
