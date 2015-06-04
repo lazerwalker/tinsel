@@ -41,7 +41,7 @@ describe("when using the example JSON file", function() {
             });        
         });
 
-        xit("should persist through a root redirect", function(done) {
+        it("should persist through a root redirect", function(done) {
             request("http://localhost:3000/?foo=Applesauce", function(error, response, body) {
                 expect(body).to.exist;
                 expect(body).to.equal('<?xml version="1.0" encoding="UTF-8"?><Response><Gather method="GET" numDigits="3" finishOnKey="*"><Say voice="alice" language="en">This is the first node</Say><Pause length="2"></Pause><Say>The value of query param &apos;foo&apos; is Applesauce</Say><Say voice="man">Please make a selection!</Say></Gather></Response>');

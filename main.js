@@ -3,6 +3,7 @@ const Twilio = require('twilio');
 const Sandbox = require('sandbox');
 const Q = require('q');
 const fs = require('fs')
+const querystring = require('querystring');
 
 var data;
 const script = fs.readFileSync('example.json', 'utf8');
@@ -39,7 +40,7 @@ app.get('/:slug', (req, res) => {
 });
 
 app.get('/', (req, res) => {
-    res.redirect("/" + data.start);
+    res.redirect("/" + data.start + "?" + querystring.stringify(req.query));
 });
 
 function renderNode(node, data) {
