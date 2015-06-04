@@ -5,12 +5,14 @@ var Q = require('q');
 var fs = require('fs')
 
 var data;
-var file = fs.readFileSync('example.js', 'utf8');
+var script = fs.readFileSync('example.json', 'utf8');
+var sandbox = fs.readFileSync('sandbox.js', 'utf8')
+  .replace("{{SCRIPT}}", script);
 
 function runSandbox(message, callback) {
   console.log("Running sandbox with " + message)
   var s = new Sandbox();
-  s.run(file);
+  s.run(sandbox);
   s.on('message', callback);
   s.postMessage(message);
 }

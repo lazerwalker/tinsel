@@ -1,0 +1,27 @@
+var script = {{SCRIPT}};
+
+var functions = [];
+for (nodeIndex in script.story) {
+  var node = script.story[nodeIndex];
+  var array = node.content;
+  if (!Array.isArray(array)) {
+    array = [array];
+  }
+
+  for (i in array) {
+    var item = array[i];
+    if (item.type == "function" && typeof item["function"] == "function") {
+      functions.push(item.function);
+      item.functionCount = functions.length - 1;
+    }
+  }
+}
+
+onmessage = function(message) {
+  if (message === "tree") {
+    postMessage(script);
+  } else {
+    var obj = JSON.parse(message);
+    postMessage(functions[obj.functionCount](obj.opts));
+  }
+}
