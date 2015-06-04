@@ -49,7 +49,7 @@ function renderNode(node, data) {
     // returns a promise containing a new node.content
     function unwrapFunctions() {
         function unwrapFunction(content) {
-            if (content.type !== "function") return Q(content);
+            if (content.type !== "function") return Q([content, data]);
 
             const defer = Q.defer();
 
@@ -58,7 +58,7 @@ function renderNode(node, data) {
                 opts: data
             });
             runSandbox(message, (newContent) => {
-                defer.resolve(newContent);            
+                defer.resolve(JSON.parse(newContent));  
             });
             return defer.promise;
         }
@@ -67,40 +67,48 @@ function renderNode(node, data) {
             const promises = node.content.map(unwrapFunction);
             return Q.all(promises);
         } else {
-            return unwrapFunction(node.content);
+            return unwrapFunction(node.content).then((x) => [x]);
         }
     }
 
-    return unwrapFunctions().then( (content) => {
-        function sayText(n) {
-            function handleObj(obj) {
-                if (_.isArray(obj)) {
-                    _.each(obj, function(o) { handleObj(o); });
-                } else if (_.isString(obj)) {
-                    n.say(obj);
-                } else {
-                    var opts = _.clone(obj);
-                    delete opts.type
+    return unwrapFunctions().then( (result) => {
+        var newData = _.clone(data);
 
-                    if (obj.type == "pause") {
-                        n.pause(opts);
-                    } else {
-                        delete opts.text
-                        n.say(obj.text, opts)
-                    }
+        function sayText(n) {
+            function handleTuple(tuple) {
+                var obj = tuple[0];
+
+                console.log(obj, newData);
+                if (_.isString(obj)) {
+                    n.say(obj);
+                    return;
+                }
+
+                var opts = _.clone(obj);
+                delete opts.type
+
+                if (obj.type == "pause") {
+                    n.pause(opts);
+                } else {
+                    delete opts.text
+                    n.say(obj.text, opts)
                 }
             }
-            handleObj(content);
+
+            _.each(result, handleTuple);
         }
 
         if (node.routes) {
-            var params =_.clone(data)
-            delete params["Digits"]
+            newData = result.reduce((currentData, tuple) => {
+                return _.assign(currentData, tuple[1]);
+            }, {});
+
+            delete newData["Digits"]
 
             const defaultGatherOpts = {
                 method: "GET",
                 numDigits: 1,
-                action: "/" + node.name + "?" + querystring.stringify(params)
+                action: "/" + node.name + "?" + querystring.stringify(newData)
             };
 
             const gatherOptions = _.assign(defaultGatherOpts, node.gatherOptions);

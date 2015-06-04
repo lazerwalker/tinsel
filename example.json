@@ -16,7 +16,8 @@
         {
           "type": "function",
           "function": function(opts) {
-            return "The value of query param 'foo' is " + opts.foo;
+            opts.bar = "Sauerkraut";
+            return ["The value of query param 'foo' is " + opts.foo, opts];
           }
         },
         {
@@ -39,7 +40,8 @@
     {
       "name": "second",
       "content": function(opts) {
-        return "This is the second node. Foo is " + opts.foo;
+        opts.baz = "Potato Salad";
+        return ["This is the second node. Foo is " + opts.foo, opts];
       },
       "routes": {
         "1": "third"
