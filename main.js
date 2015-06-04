@@ -28,11 +28,19 @@ const server = app.listen(3000);
 app.get('/:slug', (req, res) => {
     var node = _(data.story).findWhere({'name': req.params.slug});
 
-    if (req.query["Digits"]) {
-        const newNodeName = node.routes[req.query["Digits"]];
+    const digits = req.query["Digits"];
+    if (digits) {
+        var newNodeName = node.routes[digits];
         const newNode = _(data.story).findWhere({'name': newNodeName});
-        if (newNode) { node = newNode; }
+        console.log(node.routes)
+        if (newNode) { 
+            node = newNode; 
+        } else if (node.routes.default) {
+            newNodeName = node.routes.default;
+            node = _(data.story).findWhere({'name': newNodeName})
+        }
     }
+    console.log(node)
 
     renderNode(node, req.query).then( (xml) => {
         sendResponse(xml, res);

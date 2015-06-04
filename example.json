@@ -57,9 +57,33 @@
       "content": "This is the third node"
     },
     {
+      "name": "default-defined",
+      "content": "You may only press 1",
+      "routes": {
+        "1": "first",
+        "default": "default"
+      }
+    },
+    {
+      "name": "default-undefined",
+      "content": "You may only press 1",
+      "routes": {
+        "1": "third"
+      }
+    },
+    {
       "name": "default",
       "content": "You entered something different?"
     },  
+    {
+      "name": "default-params",
+      "content": "A should equal B",
+      "routes": {"default": "default-params-2"}
+    },
+    {
+      "name": "default-params-2",
+      "content": function(opts) { return ["A still equals " + opts.a, opts]; }
+    },
     {
       "name": "none",
       "content": "You didn't enter anything!"

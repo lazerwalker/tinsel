@@ -46,6 +46,13 @@ describe("when using the example JSON file", function() {
                 done();
             });        
         });
+
+        it("should persist through a default redirect", function(done) {
+            request("http://localhost:3000/default-params?a=B&Digits=10", function(error, response, body) {
+                expect(body).to.equal('<?xml version="1.0" encoding="UTF-8"?><Response><Say>A still equals B</Say></Response>');
+                done();
+            });
+        });
     });
 
     describe("setting new parameters", function() {
@@ -83,6 +90,28 @@ describe("when using the example JSON file", function() {
             request("http://localhost:3000/play", function(error, response, body) {
                 expect(body).to.equal('<?xml version="1.0" encoding="UTF-8"?><Response><Play loop="10">http://instantrimshot.com/rimshot.wav</Play></Response>');
                 done();
+            });
+        });
+    });
+
+    describe("routing to new input", function() {
+        describe("entering a choice not specified", function() {
+            context("when a default route has been specified", function() {
+                it("should go to the default route", function(done) {
+                    request("http://localhost:3000/default-defined?Digits=8", function(error, response, body) {
+                        expect(body).to.equal('<?xml version="1.0" encoding="UTF-8"?><Response><Say>You entered something different?</Say></Response>');
+                        done();
+                    });
+                });
+            });
+
+            context("when there is no default route", function() {
+                it("should stay on the same route", function(done) {
+                    request("http://localhost:3000/default-undefined?Digits=8", function(error, response, body) {
+                        expect(body).to.equal('<?xml version="1.0" encoding="UTF-8"?><Response><Gather method="GET" numDigits="1" action="/default-undefined?"><Say>You may only press 1</Say></Gather></Response>');
+                        done();
+                    });
+                });
             });
         });
     });
