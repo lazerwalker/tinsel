@@ -87,8 +87,12 @@ function renderNode(node, data) {
                 var opts = _.clone(obj);
                 delete opts.type
 
-                if (obj.type == "pause") {
+                if (obj.type === "pause") {
                     n.pause(opts);
+                } else if (obj.type === "redirect") {
+                    delete opts.text
+                    opts.method = "GET"
+                    n.redirect(obj.text, opts);
                 } else {
                     delete opts.text
                     n.say(obj.text, opts)

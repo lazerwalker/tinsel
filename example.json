@@ -70,6 +70,13 @@
         "type": "pause",
         "length": 3
       }
+    },
+    {
+      "name": "redirect",
+      "content": {
+        "type": "redirect",
+        "text": "first"
+      }
     }
   ]
 }
