@@ -94,14 +94,17 @@ function renderNode(node, data) {
         }
 
         if (node.routes) {
+            var params =_.clone(data)
+            delete params["Digits"]
+
             const defaultGatherOpts = {
                 method: "GET",
-                numDigits: 1
+                numDigits: 1,
+                action: "/" + node.name + "?" + querystring.stringify(params)
             };
 
             const gatherOptions = _.assign(defaultGatherOpts, node.gatherOptions);
             response.gather(gatherOptions, sayText);
-
         } else {
             sayText(response);
         }

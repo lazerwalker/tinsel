@@ -40,6 +40,9 @@
       "name": "second",
       "content": function(opts) {
         return "This is the second node. Foo is " + opts.foo;
+      },
+      "routes": {
+        "1": "third"
       }
     },
     {
