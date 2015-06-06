@@ -63,7 +63,7 @@ describe("when using the example JSON file", function() {
             });        
         });
 
-        it("should persist through a default redirect", function(done) {
+        it("should persist through a 'default' gather redirect", function(done) {
             request("http://localhost:3000/example/default-params?a=B&Digits=10", function(error, response, body) {
                 expect(body).to.equal('<?xml version="1.0" encoding="UTF-8"?><Response><Say>A still equals B</Say></Response>');
                 done();
@@ -96,8 +96,8 @@ describe("when using the example JSON file", function() {
         });
 
         it("should work for 'redirect'", function(done) {
-            request("http://localhost:3000/example/redirect", function(error, response, body) {
-                expect(body).to.equal('<?xml version="1.0" encoding="UTF-8"?><Response><Redirect method="GET">first</Redirect></Response>');
+            request("http://localhost:3000/example/redirect?foo=bar", function(error, response, body) {
+                expect(body).to.equal('<?xml version="1.0" encoding="UTF-8"?><Response><Redirect method="GET">first?foo=bar</Redirect></Response>');
                 done();
             });
         });

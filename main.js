@@ -113,7 +113,8 @@ function renderNode(node, sandbox, data) {
                 } else if (obj.type === "redirect") {
                     delete opts.text
                     opts.method = "GET"
-                    n.redirect(obj.text, opts);
+                    const queryparams = "?" + querystring.stringify(tuple[1]);
+                    n.redirect(obj.text + queryparams, opts);
                 } else if (obj.type === "play") {
                     delete opts.text
                     n.play(obj.text, opts);
