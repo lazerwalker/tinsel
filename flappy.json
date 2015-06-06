@@ -1,8 +1,7 @@
 {
 	start: "flappy",
 	story: [
-		{
-			name: "flappy",
+		flappy: {
 			content: [
 				"Welcome to flappy bot. To play, press 1 to flap.",
 				{
@@ -10,9 +9,8 @@
 					text: "start"
 				}
 			]
-		},
-		{
-			name: "start",
+		}
+		start: {
 			content: function(opts) {
 				delete opts.choice;
 				opts.score = 0;
@@ -26,13 +24,12 @@
 				return [redirect, opts];
 			}
 		},
-		{
-			name: "recurse",
+		recurse: {
 			content: function(opts) {
 				opts.height = parseInt(opts.height)
 				opts.score = parseInt(opts.score)
 				opts.pipeHeight = parseInt(opts.pipeHeight)
-				
+
 				var c = [];
 
 				if (opts.height > 0) {
@@ -72,15 +69,13 @@
 				timeout: 1
 			}
 		},
-		{
-			name: "flap",
+		flap: {
 			content: function(opts) {
 				opts.height = parseInt(opts.height) + 2;
 				return [{type: 'redirect', text: 'recurse'}, opts];
 			}
 		},
-		{
-			name: "gameover",
+		gameover: {
 			content: function(opts) {
 				return ["You have lost. Your final score is " + opts.score + " points. Press 1 to play again, or nothing to disconnect.", opts];
 			},

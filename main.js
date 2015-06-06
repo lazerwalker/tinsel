@@ -22,22 +22,27 @@ app.get('/:story/:node', (req, res) => {
         .replace("{{SCRIPT}}", script);
         
     runSandbox("tree", sandbox, (data) => {
-        var node = _(data.story).findWhere({'name': req.params.node});
+        var nodeName = req.params.node;
+
+        var node = data.story[nodeName];
 
         const digits = req.query["Digits"];
         if (digits) {
-            var newNodeName = node.routes[digits];
-            const newNode = _(data.story).findWhere({'name': newNodeName});
+            const newNodeName = node.routes[digits];
+            const newNode = data.story[newNodeName];
             if (newNode) { 
                 node = newNode; 
+                nodeName = newNodeName;
             } else if (node.routes.any) {
-                newNodeName = node.routes.any;
-                node = _(data.story).findWhere({'name': newNodeName})
+                nodeName = node.routes.any;
+                node = data.story[nodeName];
             } else if (node.routes.default) {
-                newNodeName = node.routes.default;
-                node = _(data.story).findWhere({'name': newNodeName})
+                nodeName = node.routes.default;
+                node = data.story[nodeName];
             }
         }
+
+        node.name = nodeName;
 
         renderNode(node, sandbox, req.query).then( (xml) => {
             sendResponse(xml, res);

@@ -1,163 +1,145 @@
 {
   "start": "first",
-  "story": [
-    { 
-      "name": "first",
-      "content": [
-        {
-          "text": "This is the first node",
-          "voice": "alice",
-          "language": "en"
-        },
-        {
-          "type": "pause",
-          "length": 2
-        },
-        {
-          "type": "function",
-          "function": function(opts) {
-            opts.bar = "Sauerkraut";
-            return ["The value of query param 'foo' is " + opts.foo, opts];
+  "story": {
+      first: {
+        "content": [
+          {
+            "text": "This is the first node",
+            "voice": "alice",
+            "language": "en"
+          },
+          {
+            "type": "pause",
+            "length": 2
+          },
+          {
+            "type": "function",
+            "function": function(opts) {
+              opts.bar = "Sauerkraut";
+              return ["The value of query param 'foo' is " + opts.foo, opts];
+            }
+          },
+          {
+            "type": "text",
+            "text": "Please make a selection!",
+            "voice": "man"
           }
-        },
-        {
-          "type": "text",
-          "text": "Please make a selection!",
-          "voice": "man"
+        ],
+        "routes": {
+          "1": "second",
+          "2": "third",
+          "default": "default",
         }
-      ],
-      "routes": {
-        "1": "second",
-        "2": "third",
-        "default": "default",
-      }
-    },
-    {
-      "name": "second",
-      "content": function(opts) {
-        opts.baz = "Potato Salad";
-        var say = {
-          "type": "text",
-          "text": "This is the second node. Foo is " + opts.foo,
-          "voice": "man"
-        };
-        return [say, opts];
       },
-      "routes": {
-        "1": "third"
-      }
-    },
-    {
-      "name": "third",
-      "content": "This is the third node"
-    },
-    {
-      "name": "default-defined",
-      "content": "You may only press 1",
-      "routes": {
-        "1": "first",
-        "default": "default"
-      }
-    },
-    {
-      "name": "default-undefined",
-      "content": "You may only press 1",
-      "routes": {
-        "1": "third"
-      }
-    },
-    {
-      "name": "default",
-      "content": "You entered something different?"
-    },  
-    {
-      "name": "default-params",
-      "content": "A should equal B",
-      "routes": {"default": "default-params-2"}
-    },
-    {
-      "name": "default-params-2",
-      "content": function(opts) { return ["A still equals " + opts.a, opts]; }
-    },
-    {
-      "name": "timeoutRoute",
-      "content": "You didn't enter anything!"
-    },
-    {
-      "name": "pause",
-      "content": {
-        "type": "pause",
-        "length": 3
-      }
-    },
-    {
-      "name": "redirect",
-      "content": {
-        "type": "redirect",
-        "text": "first"
-      }
-    },
-    {
-      "name": "play",
-      "content": {
-        "type": "play",
-        "text": "http://instantrimshot.com/rimshot.wav",
-        "loop": 10
-      }
-    },
-    {
-      "name": "contentFnReturnsArray",
-      "content": function(opts) {
-        return [[{"type":"text", "text":"Hi"}, "Mom"], opts];
-      }
-    },
-    {
-      "name": "gatherOptions",
-      "content": "Enter 3 digits, then asterisk",
-      "routes": {
-        "123": "pause"
+      second: {
+        "name": "second",
+        "content": function(opts) {
+          opts.baz = "Potato Salad";
+          var say = {
+            "type": "text",
+            "text": "This is the second node. Foo is " + opts.foo,
+            "voice": "man"
+          };
+          return [say, opts];
+        },
+        "routes": {
+          "1": "third"
+        }
       },
-      "gatherOptions": {
-        "numDigits": 3,
-        "finishOnKey": "*"
-      }
-    },
-    {
-      "name": "timeout",
-      "content": "Don't press anything!",
-      "routes": {
-        "timeout": "timeoutRoute"
-      }
-    },
-    {
-      "name": "captureAny",
-      "content": "Type in a thing other than 1",
-      "routes": {
-        "1": "handleDigits-1",
-        "any": "handleDigits"
-      }
-    },
-    {
-      "name": "handleDigits",
-      "content": function(opts) {
-        return ["You entered " + opts.Digits, opts];
-      }
-    },
-    {
-      "name": "handleDigits-1",
-      "content": function(opts) {
-        return ["You pressed " + opts.Digits +", which should equal 1", opts];
-      }
-    },
-    {
-      name: "gatherSaveData",
-      content: function(opts) {
-        opts.working = true
-        return [["Press", "1"], opts];
+      third: {
+        "content": "This is the third node"
       },
-      routes: {
-        1: "timeout"
+      "default-defined": {
+        "content": "You may only press 1",
+        "routes": {
+          "1": "first",
+          "default": "default"
+        }
+      },
+      "default-undefined": {
+        "content": "You may only press 1",
+        "routes": {
+          "1": "third"
+        }
+      },
+      default: {
+        "content": "You entered something different?"
+      },  
+      "default-params": {
+        "content": "A should equal B",
+        "routes": {"default": "default-params-2"}
+      },
+      "default-params-2": {
+        "content": function(opts) { return ["A still equals " + opts.a, opts]; }
+      },
+      timeoutRoute: {
+        "content": "You didn't enter anything!"
+      },
+      pause: {
+        "content": {
+          "type": "pause",
+          "length": 3
+        }
+      },
+      redirect: {
+        "content": {
+          "type": "redirect",
+          "text": "first"
+        }
+      },
+      play: {
+        "content": {
+          "type": "play",
+          "text": "http://instantrimshot.com/rimshot.wav",
+          "loop": 10
+        }
+      },
+      contentFnReturnsArray: {
+        "content": function(opts) {
+          return [[{"type":"text", "text":"Hi"}, "Mom"], opts];
+        }
+      },
+      gatherOptions: {
+        "content": "Enter 3 digits, then asterisk",
+        "routes": {
+          "123": "pause"
+        },
+        "gatherOptions": {
+          "numDigits": 3,
+          "finishOnKey": "*"
+        }
+      },
+      timeout: {
+        "content": "Don't press anything!",
+        "routes": {
+          "timeout": "timeoutRoute"
+        }
+      },
+      captureAny: {
+        "content": "Type in a thing other than 1",
+        "routes": {
+          "1": "handleDigits-1",
+          "any": "handleDigits"
+        }
+      },
+      handleDigits: {
+        "content": function(opts) {
+          return ["You entered " + opts.Digits, opts];
+        }
+      },
+      "handleDigits-1": {
+        "content": function(opts) {
+          return ["You pressed " + opts.Digits +", which should equal 1", opts];
+        }
+      },
+      gatherSaveData: {
+        content: function(opts) {
+          opts.working = true
+          return [["Press", "1"], opts];
+        },
+        routes: {
+          1: "timeout"
+        }
       }
     }
-  ]
 }
