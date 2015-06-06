@@ -155,6 +155,6 @@ function renderNode(node, sandbox, data) {
 
 function sendResponse(text, res) {
     res.set('Content-Type', 'text/xml');
-    // console.log(text);
+    console.log(text);
     res.send(text);
 }
