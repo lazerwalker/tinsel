@@ -138,6 +138,13 @@ describe("when using the example JSON file", function() {
             });
 
             context("when there is an 'any' option", function() {
+                it("should give precedence to named routes, keeping digits", function(done) {
+                    request("http://localhost:3000/example/captureAny?Digits=1", function(error, response, body) {
+                        expect(body).to.equal('<?xml version="1.0" encoding="UTF-8"?><Response><Say>You pressed 1, which should equal 1</Say></Response>');
+                        done();
+                    });
+                });
+
                 it("should continue to that node, with input digits intact", function(done) {
                     request("http://localhost:3000/example/captureAny?Digits=1234", function(error, response, body) {
                         expect(body).to.equal('<?xml version="1.0" encoding="UTF-8"?><Response><Say>You entered 1234</Say></Response>');

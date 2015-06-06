@@ -131,8 +131,9 @@
     },
     {
       "name": "captureAny",
-      "content": "Type in a thing",
+      "content": "Type in a thing other than 1",
       "routes": {
+        "1": "handleDigits-1",
         "any": "handleDigits"
       }
     },
@@ -140,6 +141,12 @@
       "name": "handleDigits",
       "content": function(opts) {
         return ["You entered " + opts.Digits, opts];
+      }
+    },
+    {
+      "name": "handleDigits-1",
+      "content": function(opts) {
+        return ["You pressed " + opts.Digits +", which should equal 1", opts];
       }
     }
   ]
