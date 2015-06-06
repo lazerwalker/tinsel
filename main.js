@@ -16,7 +16,6 @@ const app = require('express')();
 const server = app.listen(process.env.PORT || 3000);
 
 app.get('/:story/:node', (req, res) => {
-    console.log("Received request with story '" + req.params.story +"' and node '" + req.params.node + "'");
     var data;
     const script = fs.readFileSync(req.params.story + '.json', 'utf8');
     const sandbox = fs.readFileSync('sandbox.js', 'utf8')
@@ -24,7 +23,6 @@ app.get('/:story/:node', (req, res) => {
         
     runSandbox("tree", sandbox, (data) => {
         var node = _(data.story).findWhere({'name': req.params.node});
-        console.log("Fetched data", data);
 
         const digits = req.query["Digits"];
         if (digits) {
