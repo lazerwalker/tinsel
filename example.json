@@ -31,10 +31,6 @@
         "2": "third",
         "default": "default",
         "none": "none"
-      },
-      "gatherOptions": {
-        "numDigits": 3,
-        "finishOnKey": "*"
       }
     },
     {
@@ -114,6 +110,17 @@
       "name": "contentFnReturnsArray",
       "content": function(opts) {
         return [[{"type":"text", "text":"Hi"}, "Mom"], opts];
+      }
+    },
+    {
+      "name": "gatherOptions",
+      "content": "Enter 3 digits, then asterisk",
+      "routes": {
+        "123": "pause"
+      },
+      "gatherOptions": {
+        "numDigits": 3,
+        "finishOnKey": "*"
       }
     }
   ]

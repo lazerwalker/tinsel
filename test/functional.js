@@ -11,7 +11,7 @@ describe("when using the example JSON file", function() {
     it("should redirect the root to the start node", function(done) {
         request("http://localhost:3000/example/", function(error, response, body) {
             expect(body).to.exist;
-            expect(body).to.equal('<?xml version="1.0" encoding="UTF-8"?><Response><Gather method="GET" numDigits="3" action="/first?bar=Sauerkraut" finishOnKey="*"><Say voice="alice" language="en">This is the first node</Say><Pause length="2"></Pause><Say>The value of query param &apos;foo&apos; is undefined</Say><Say voice="man">Please make a selection!</Say></Gather></Response>');
+            expect(body).to.equal('<?xml version="1.0" encoding="UTF-8"?><Response><Gather method="GET" numDigits="1" action="/first?bar=Sauerkraut"><Say voice="alice" language="en">This is the first node</Say><Pause length="2"></Pause><Say>The value of query param &apos;foo&apos; is undefined</Say><Say voice="man">Please make a selection!</Say></Gather></Response>');
             done();
         });
     });
@@ -35,7 +35,7 @@ describe("when using the example JSON file", function() {
 
         it("should execute when it's part of a content array", function(done) {
             request("http://localhost:3000/example/first?foo=Applesauce", function(error, response, body) {
-                expect(body).to.equal('<?xml version="1.0" encoding="UTF-8"?><Response><Gather method="GET" numDigits="3" action="/first?foo=Applesauce&amp;bar=Sauerkraut" finishOnKey="*"><Say voice="alice" language="en">This is the first node</Say><Pause length="2"></Pause><Say>The value of query param &apos;foo&apos; is Applesauce</Say><Say voice="man">Please make a selection!</Say></Gather></Response>');
+                expect(body).to.equal('<?xml version="1.0" encoding="UTF-8"?><Response><Gather method="GET" numDigits="1" action="/first?foo=Applesauce&amp;bar=Sauerkraut"><Say voice="alice" language="en">This is the first node</Say><Pause length="2"></Pause><Say>The value of query param &apos;foo&apos; is Applesauce</Say><Say voice="man">Please make a selection!</Say></Gather></Response>');
                 done();
             });        
         });
@@ -51,7 +51,7 @@ describe("when using the example JSON file", function() {
 
         it("should persist through a root redirect", function(done) {
             request("http://localhost:3000/example/?foo=Applesauce", function(error, response, body) {
-                expect(body).to.equal('<?xml version="1.0" encoding="UTF-8"?><Response><Gather method="GET" numDigits="3" action="/first?foo=Applesauce&amp;bar=Sauerkraut" finishOnKey="*"><Say voice="alice" language="en">This is the first node</Say><Pause length="2"></Pause><Say>The value of query param &apos;foo&apos; is Applesauce</Say><Say voice="man">Please make a selection!</Say></Gather></Response>');
+                expect(body).to.equal('<?xml version="1.0" encoding="UTF-8"?><Response><Gather method="GET" numDigits="1" action="/first?foo=Applesauce&amp;bar=Sauerkraut"><Say voice="alice" language="en">This is the first node</Say><Pause length="2"></Pause><Say>The value of query param &apos;foo&apos; is Applesauce</Say><Say voice="man">Please make a selection!</Say></Gather></Response>');
                 done();
             });        
         });
@@ -67,7 +67,7 @@ describe("when using the example JSON file", function() {
     describe("setting new parameters", function() {
         it("should work when the function is part of an array", function(done) {
             request("http://localhost:3000/example/first?foo=Applesauce", function(error, response, body) {
-                expect(body).to.equal('<?xml version="1.0" encoding="UTF-8"?><Response><Gather method="GET" numDigits="3" action="/first?foo=Applesauce&amp;bar=Sauerkraut" finishOnKey="*"><Say voice="alice" language="en">This is the first node</Say><Pause length="2"></Pause><Say>The value of query param &apos;foo&apos; is Applesauce</Say><Say voice="man">Please make a selection!</Say></Gather></Response>');
+                expect(body).to.equal('<?xml version="1.0" encoding="UTF-8"?><Response><Gather method="GET" numDigits="1" action="/first?foo=Applesauce&amp;bar=Sauerkraut"><Say voice="alice" language="en">This is the first node</Say><Pause length="2"></Pause><Say>The value of query param &apos;foo&apos; is Applesauce</Say><Say voice="man">Please make a selection!</Say></Gather></Response>');
                 done();
             });
         });
@@ -124,4 +124,11 @@ describe("when using the example JSON file", function() {
             });
         });
     });
+
+    it("should respect gatherOptions", function(done) {
+        request("http://localhost:3000/example/gatherOptions", function(error, response, body) {
+            expect(body).to.equal('<?xml version="1.0" encoding="UTF-8"?><Response><Gather method="GET" numDigits="3" action="/gatherOptions?" finishOnKey="*"><Say>Enter 3 digits, then asterisk</Say></Gather></Response>');
+            done();
+        });
+    })
 });
