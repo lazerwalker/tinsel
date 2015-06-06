@@ -13,7 +13,7 @@ function runSandbox(message, sandbox, callback) {
 }
 
 const app = require('express')();
-const server = app.listen(3000);
+const server = app.listen(process.env.PORT || 3000);
 
 app.get('/:story/:node', (req, res) => {
     console.log("Received request with story '" + req.params.story +"' and node '" + req.params.node + "'");
