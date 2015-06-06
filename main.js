@@ -32,7 +32,6 @@ app.get('/:slug', (req, res) => {
     if (digits) {
         var newNodeName = node.routes[digits];
         const newNode = _(data.story).findWhere({'name': newNodeName});
-        console.log(node.routes)
         if (newNode) { 
             node = newNode; 
         } else if (node.routes.default) {
@@ -40,7 +39,6 @@ app.get('/:slug', (req, res) => {
             node = _(data.story).findWhere({'name': newNodeName})
         }
     }
-    console.log(node)
 
     renderNode(node, req.query).then( (xml) => {
         sendResponse(xml, res);
@@ -55,14 +53,17 @@ function renderNode(node, data) {
     const response = new Twilio.TwimlResponse();
 
     // returns a promise containing a new node.content
-    function unwrapFunctions() {
-        function unwrapFunction(content) {
-            if (content.type !== "function") return Q([content, data]);
+    function unwrapFunctions(content) {
+
+        // input: content JSON or function that returns [content JSON, data]
+        // output: promise containing [content JSON, data]
+        function unwrapFunction(c) {
+            if (c.type !== "function") return Q([c, data]);
 
             const defer = Q.defer();
 
             const message = JSON.stringify({
-                functionCount: content.functionCount,
+                functionCount: c.functionCount,
                 opts: data
             });
             runSandbox(message, (newContent) => {
@@ -71,22 +72,29 @@ function renderNode(node, data) {
             return defer.promise;
         }
 
-        if (_(node.content).isArray()) {
-            const promises = node.content.map(unwrapFunction);
+        if (_(content).isArray()) {
+            const promises = content.map(unwrapFunction);
             return Q.all(promises);
         } else {
-            return unwrapFunction(node.content).then((x) => [x]);
+            return unwrapFunction(content).then((x) => {
+                if (_(x[0]).isArray()) {
+                    return unwrapFunctions(x[0]);
+                } else {
+                    return [x];                    
+                }
+            });
         }
     }
 
-    return unwrapFunctions().then( (result) => {
+    return unwrapFunctions(node.content).then( (result) => {
+        console.log("RESULT", result);
         var newData = _.clone(data);
 
         function sayText(n) {
             function handleTuple(tuple) {
+                console.log("Handling tuple")
                 var obj = tuple[0];
 
-                console.log(obj, newData);
                 if (_.isString(obj)) {
                     n.say(obj);
                     return;

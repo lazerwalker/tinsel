@@ -17,11 +17,20 @@ describe("when using the example JSON file", function() {
     });
 
     describe("when the content is a function", function() {
-        it("should execute when it's the root content", function(done) {
-            request("http://localhost:3000/second?foo=Applesauce", function(error, response, body) {
-                expect(body).to.equal('<?xml version="1.0" encoding="UTF-8"?><Response><Gather method="GET" numDigits="1" action="/second?foo=Applesauce&amp;baz=Potato%20Salad"><Say voice="man">This is the second node. Foo is Applesauce</Say></Gather></Response>');
-                done();
+        context("when it's the root content", function(done) {
+            it("should work if it returns a single bit of content", function(done) {
+                request("http://localhost:3000/second?foo=Applesauce", function(error, response, body) {
+                    expect(body).to.equal('<?xml version="1.0" encoding="UTF-8"?><Response><Gather method="GET" numDigits="1" action="/second?foo=Applesauce&amp;baz=Potato%20Salad"><Say voice="man">This is the second node. Foo is Applesauce</Say></Gather></Response>');
+                    done();
+                });
             });        
+
+            it("should work if it returns an array of content", function(done) {
+                request("http://localhost:3000/contentFnReturnsArray", function(error, response, body) {
+                    expect(body).to.equal('<?xml version="1.0" encoding="UTF-8"?><Response><Say>Hi</Say><Say>Mom</Say></Response>');
+                    done();
+                });
+            });
         })
 
         it("should execute when it's part of a content array", function(done) {

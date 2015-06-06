@@ -109,6 +109,12 @@
         "text": "http://instantrimshot.com/rimshot.wav",
         "loop": 10
       }
+    },
+    {
+      "name": "contentFnReturnsArray",
+      "content": function(opts) {
+        return [[{"type":"text", "text":"Hi"}, "Mom"], opts];
+      }
     }
   ]
 }
