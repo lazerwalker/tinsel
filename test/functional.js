@@ -101,6 +101,20 @@ describe("when using the example JSON file", function() {
                 done();
             });
         });
+
+        it("should respect gatherOptions", function(done) {
+            request("http://localhost:3000/example/gatherOptions", function(error, response, body) {
+                expect(body).to.equal('<?xml version="1.0" encoding="UTF-8"?><Response><Gather method="GET" numDigits="3" action="gatherOptions?" finishOnKey="*"><Say>Enter 3 digits, then asterisk</Say></Gather></Response>');
+                done();
+            });
+        });
+
+        it("should redirect to a 'timeout' route after a timeout", function(done) {
+            request("http://localhost:3000/example/timeout", function(error, response, body) {
+                expect(body).to.equal('<?xml version="1.0" encoding="UTF-8"?><Response><Gather method="GET" numDigits="1" action="timeout?"><Say>Don&apos;t press anything!</Say></Gather><Redirect method="GET">timeoutRoute</Redirect></Response>');
+                done();
+            });
+        });
     });
 
     describe("routing to new input", function() {
@@ -124,6 +138,7 @@ describe("when using the example JSON file", function() {
             });
         });
     });
+
 
     it("should respect gatherOptions", function(done) {
         request("http://localhost:3000/example/gatherOptions", function(error, response, body) {

@@ -30,7 +30,6 @@
         "1": "second",
         "2": "third",
         "default": "default",
-        "none": "none"
       }
     },
     {
@@ -81,7 +80,7 @@
       "content": function(opts) { return ["A still equals " + opts.a, opts]; }
     },
     {
-      "name": "none",
+      "name": "timeoutRoute",
       "content": "You didn't enter anything!"
     },
     {
@@ -121,6 +120,13 @@
       "gatherOptions": {
         "numDigits": 3,
         "finishOnKey": "*"
+      }
+    },
+    {
+      "name": "timeout",
+      "content": "Don't press anything!",
+      "routes": {
+        "timeout": "timeoutRoute"
       }
     }
   ]

@@ -140,6 +140,10 @@ function renderNode(node, sandbox, data) {
 
             const gatherOptions = _.assign(defaultGatherOpts, node.gatherOptions);
             response.gather(gatherOptions, sayText);
+
+            if (node.routes.timeout) {
+                response.redirect(node.routes.timeout, {method: "GET"})
+            }
         } else {
             sayText(response);
         }
