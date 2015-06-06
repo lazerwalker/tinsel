@@ -128,6 +128,19 @@
       "routes": {
         "timeout": "timeoutRoute"
       }
+    },
+    {
+      "name": "captureAny",
+      "content": "Type in a thing",
+      "routes": {
+        "any": "handleDigits"
+      }
+    },
+    {
+      "name": "handleDigits",
+      "content": function(opts) {
+        return ["You entered " + opts.Digits, opts];
+      }
     }
   ]
 }

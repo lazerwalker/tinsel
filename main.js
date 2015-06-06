@@ -30,6 +30,9 @@ app.get('/:story/:node', (req, res) => {
             const newNode = _(data.story).findWhere({'name': newNodeName});
             if (newNode) { 
                 node = newNode; 
+            } else if (node.routes.any) {
+                newNodeName = node.routes.any;
+                node = _(data.story).findWhere({'name': newNodeName})
             } else if (node.routes.default) {
                 newNodeName = node.routes.default;
                 node = _(data.story).findWhere({'name': newNodeName})
