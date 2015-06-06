@@ -60,18 +60,18 @@ function renderNode(node, sandbox, data) {
     const response = new Twilio.TwimlResponse();
 
     // returns a promise containing a new node.content
-    function unwrapFunctions(content) {
+    function unwrapFunctions(content, opts) {
 
         // input: content JSON or function that returns [content JSON, data]
         // output: promise containing [content JSON, data]
         function unwrapFunction(c) {
-            if (c.type !== "function") return Q([c, data]);
+            if (c.type !== "function") return Q([c, opts]);
 
             const defer = Q.defer();
 
             const message = JSON.stringify({
                 functionCount: c.functionCount,
-                opts: data
+                opts: opts
             });
             runSandbox(message, sandbox, (newContent) => {
                 defer.resolve(JSON.parse(newContent));  
@@ -85,7 +85,7 @@ function renderNode(node, sandbox, data) {
         } else {
             return unwrapFunction(content).then((x) => {
                 if (_(x[0]).isArray()) {
-                    return unwrapFunctions(x[0]);
+                    return unwrapFunctions(x[0], x[1]);
                 } else {
                     return [x];                    
                 }
@@ -93,13 +93,11 @@ function renderNode(node, sandbox, data) {
         }
     }
 
-    return unwrapFunctions(node.content).then( (result) => {
-        console.log("RESULT", result);
+    return unwrapFunctions(node.content, data).then( (result) => {
         var newData = _.clone(data);
 
         function sayText(n) {
             function handleTuple(tuple) {
-                console.log("Handling tuple")
                 var obj = tuple[0];
 
                 if (_.isString(obj)) {

@@ -31,6 +31,13 @@ describe("when using the example JSON file", function() {
                     done();
                 });
             });
+
+            it("should persist options if it returns an array", function(done) {
+                request("http://localhost:3000/example/gatherSaveData", function(error, response, body) {
+                    expect(body).to.equal('<?xml version="1.0" encoding="UTF-8"?><Response><Gather method="GET" numDigits="1" action="gatherSaveData?working=true"><Say>Press</Say><Say>1</Say></Gather></Response>');
+                    done();
+                });
+            });
         })
 
         it("should execute when it's part of a content array", function(done) {

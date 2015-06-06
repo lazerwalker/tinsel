@@ -148,6 +148,16 @@
       "content": function(opts) {
         return ["You pressed " + opts.Digits +", which should equal 1", opts];
       }
+    },
+    {
+      name: "gatherSaveData",
+      content: function(opts) {
+        opts.working = true
+        return [["Press", "1"], opts];
+      },
+      routes: {
+        1: "timeout"
+      }
     }
   ]
 }
