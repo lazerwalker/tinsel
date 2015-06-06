@@ -135,7 +135,7 @@ function renderNode(node, sandbox, data) {
             const defaultGatherOpts = {
                 method: "GET",
                 numDigits: 1,
-                action: "/" + node.name + "?" + querystring.stringify(newData)
+                action: node.name + "?" + querystring.stringify(newData)
             };
 
             const gatherOptions = _.assign(defaultGatherOpts, node.gatherOptions);
