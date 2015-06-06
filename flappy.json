@@ -29,6 +29,10 @@
 		{
 			name: "recurse",
 			content: function(opts) {
+				opts.height = parseInt(opts.height)
+				opts.score = parseInt(opts.score)
+				opts.pipeHeight = parseInt(opts.pipeHeight)
+				
 				var c = [];
 
 				if (opts.height > 0) {
@@ -71,7 +75,7 @@
 		{
 			name: "flap",
 			content: function(opts) {
-				opts.height += 2;
+				opts.height = parseInt(opts.height) + 2;
 				return [{type: 'redirect', text: 'recurse'}, opts];
 			}
 		},
