@@ -5,51 +5,55 @@ const Q = require('q');
 const fs = require('fs')
 const querystring = require('querystring');
 
-var data;
-const script = fs.readFileSync('example.json', 'utf8');
-const sandbox = fs.readFileSync('sandbox.js', 'utf8')
-    .replace("{{SCRIPT}}", script);
-
-function runSandbox(message, callback) {
+function runSandbox(message, sandbox, callback) {
     const s = new Sandbox();
     s.run(sandbox);
     s.on('message', callback);
     s.postMessage(message);
 }
 
-runSandbox("tree", (message) => {
-    data = message;
-});
-
-
 const app = require('express')();
 const server = app.listen(3000);
 
-app.get('/:slug', (req, res) => {
-    var node = _(data.story).findWhere({'name': req.params.slug});
+app.get('/:story/:node', (req, res) => {
+    var data;
+    const script = fs.readFileSync(req.params.story + '.json', 'utf8');
+    const sandbox = fs.readFileSync('sandbox.js', 'utf8')
+        .replace("{{SCRIPT}}", script);
+        
+    runSandbox("tree", sandbox, (data) => {
+        var node = _(data.story).findWhere({'name': req.params.node});
 
-    const digits = req.query["Digits"];
-    if (digits) {
-        var newNodeName = node.routes[digits];
-        const newNode = _(data.story).findWhere({'name': newNodeName});
-        if (newNode) { 
-            node = newNode; 
-        } else if (node.routes.default) {
-            newNodeName = node.routes.default;
-            node = _(data.story).findWhere({'name': newNodeName})
+        const digits = req.query["Digits"];
+        if (digits) {
+            var newNodeName = node.routes[digits];
+            const newNode = _(data.story).findWhere({'name': newNodeName});
+            if (newNode) { 
+                node = newNode; 
+            } else if (node.routes.default) {
+                newNodeName = node.routes.default;
+                node = _(data.story).findWhere({'name': newNodeName})
+            }
         }
-    }
 
-    renderNode(node, req.query).then( (xml) => {
-        sendResponse(xml, res);
+        renderNode(node, sandbox, req.query).then( (xml) => {
+            sendResponse(xml, res);
+        });
     });
 });
 
-app.get('/', (req, res) => {
-    res.redirect("/" + data.start + "?" + querystring.stringify(req.query));
+app.get('/:story', (req, res) => {
+    var data;
+    const script = fs.readFileSync(req.params.story + '.json', 'utf8');
+    const sandbox = fs.readFileSync('sandbox.js', 'utf8')
+        .replace("{{SCRIPT}}", script);
+        
+    runSandbox("tree", sandbox, (data) => {
+        res.redirect("/" + req.params.story + "/" + data.start + "?" + querystring.stringify(req.query));
+    });
 });
 
-function renderNode(node, data) {
+function renderNode(node, sandbox, data) {
     const response = new Twilio.TwimlResponse();
 
     // returns a promise containing a new node.content
@@ -66,7 +70,7 @@ function renderNode(node, data) {
                 functionCount: c.functionCount,
                 opts: data
             });
-            runSandbox(message, (newContent) => {
+            runSandbox(message, sandbox, (newContent) => {
                 defer.resolve(JSON.parse(newContent));  
             });
             return defer.promise;
