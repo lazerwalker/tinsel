@@ -1,0 +1,88 @@
+{
+	start: "flappy",
+	story: [
+		{
+			name: "flappy",
+			content: [
+				"Welcome to flappy bot. To play, press 1 to flap.",
+				{
+					type: "redirect",
+					text: "start"
+				}
+			]
+		},
+		{
+			name: "start",
+			content: function(opts) {
+				delete opts.choice;
+				opts.score = 0;
+				opts.first = true;
+				opts.height = 1;
+
+				var redirect = {
+					type: "redirect",
+					text: "recurse"
+				};
+				return [redirect, opts];
+			}
+		},
+		{
+			name: "recurse",
+			content: function(opts) {
+				var c = [];
+
+				if (opts.height > 0) {
+					opts.height -= 1;
+				}
+
+				if (opts.height > 2) {
+					opts.height = 2;
+				}
+
+				if (opts.first) {
+					opts.first = false;
+				} else {
+					if (opts.height != opts.pipeHeight) {
+						var redirect = {
+							type: 'redirect',
+							text: 'gameover'
+						}
+						return [redirect, opts];
+					}
+
+					opts.score++;
+					c.push("" + opts.score + "points.");
+				}
+
+				opts.pipeHeight = Math.floor(Math.random() * 3);
+
+				c.push("You are flying at a " + opts.height + " height. A pipe is approaching with a " + opts.pipeHeight + " height.");
+
+				return [c, opts];
+			},
+			routes: {
+				1: "flap",
+				timeout: "recurse"
+			},
+			gatherOptions: {
+				timeout: 1
+			}
+		},
+		{
+			name: "flap",
+			content: function(opts) {
+				opts.height += 2;
+				return [{type: 'redirect', text: 'recurse'}, opts];
+			}
+		},
+		{
+			name: "gameover",
+			content: function(opts) {
+				return ["You have lost. Your final score is " + opts.score + " points. Press 1 to play again, or nothing to disconnect.", opts];
+			},
+			routes: {
+				1: "start"
+			}
+		},
+	]
+}
