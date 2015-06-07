@@ -12,6 +12,11 @@ function runSandbox(message, sandbox, callback) {
     s.postMessage(message);
 }
 
+function queryParamsForState(state) {
+    if (state == undefined || _(state).size() == 0) { return "" }
+    return queryparams = "?" + querystring.stringify({state:JSON.stringify(state)})
+}
+
 const app = require('express')();
 const server = app.listen(process.env.PORT || 3000);
 
@@ -20,7 +25,7 @@ app.get('/:story/:node', (req, res) => {
     const script = fs.readFileSync(req.params.story + '.json', 'utf8');
     const sandbox = fs.readFileSync('sandbox.js', 'utf8')
         .replace("{{SCRIPT}}", script);
-        
+
     runSandbox("tree", sandbox, (data) => {
         var nodeName = req.params.node;
 
@@ -44,7 +49,15 @@ app.get('/:story/:node', (req, res) => {
 
         node.name = nodeName;
 
-        renderNode(node, sandbox, req.query).then( (xml) => {
+        var state;
+        if (req.query.state) {
+            state = JSON.parse(req.query.state)
+        } else {
+            state = {}
+        }
+        state.Digits = req.query.Digits
+
+        renderNode(node, sandbox, state).then( (xml) => {
             sendResponse(xml, res);
         });
     });
@@ -57,11 +70,11 @@ app.get('/:story', (req, res) => {
         .replace("{{SCRIPT}}", script);
         
     runSandbox("tree", sandbox, (data) => {
-        res.redirect("/" + req.params.story + "/" + data.start + "?" + querystring.stringify(req.query));
+        res.redirect("/" + req.params.story + "/" + data.start + "?" + querystring.stringify({state:req.query.state}));
     });
 });
 
-function renderNode(node, sandbox, data) {
+function renderNode(node, sandbox, state) {
     const response = new Twilio.TwimlResponse();
 
     // returns a promise containing a new node.content
@@ -98,8 +111,8 @@ function renderNode(node, sandbox, data) {
         }
     }
 
-    return unwrapFunctions(node.content, data).then( (result) => {
-        var newData = _.clone(data);
+    return unwrapFunctions(node.content, state).then( (result) => {
+        var newData = _.clone(state);
 
         function sayText(n) {
             function handleTuple(tuple) {
@@ -118,8 +131,7 @@ function renderNode(node, sandbox, data) {
                 } else if (obj.type === "redirect") {
                     delete opts.text
                     opts.method = "GET"
-                    const queryparams = "?" + querystring.stringify(tuple[1]);
-                    n.redirect(obj.text + queryparams, opts);
+                    n.redirect(obj.text + queryParamsForState(tuple[1]), opts);
                 } else if (obj.type === "play") {
                     delete opts.text
                     n.play(obj.text, opts);
@@ -142,7 +154,7 @@ function renderNode(node, sandbox, data) {
             const defaultGatherOpts = {
                 method: "GET",
                 numDigits: 1,
-                action: node.name + "?" + querystring.stringify(newData)
+                action: node.name + queryParamsForState(newData)
             };
 
             const gatherOptions = _.assign(defaultGatherOpts, node.gatherOptions);
