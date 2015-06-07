@@ -82,10 +82,13 @@
         }
       },
       redirect: {
-        "content": {
-          "type": "redirect",
-          "text": "first"
-        }
+        "content": [
+          "I am redirecting!",
+          {
+            "type": "redirect",
+            "text": "first"
+          }
+        ]
       },
       play: {
         "content": {

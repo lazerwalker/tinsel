@@ -97,7 +97,7 @@ describe("when using the example JSON file", function() {
 
         it("should work for 'redirect'", function(done) {
             request("http://localhost:3000/example/redirect?state=%7B%22foo%22%3A%22bar%22%7D", function(error, response, body) {
-                expect(body).to.equal('<?xml version="1.0" encoding="UTF-8"?><Response><Redirect method="GET">first?state=%7B%22foo%22%3A%22bar%22%7D</Redirect></Response>');
+                expect(body).to.equal('<?xml version="1.0" encoding="UTF-8"?><Response><Say>I am redirecting!</Say><Redirect method="GET">first?state=%7B%22foo%22%3A%22bar%22%7D</Redirect></Response>');
                 done();
             });
         });
@@ -117,8 +117,8 @@ describe("when using the example JSON file", function() {
         });
 
         it("should redirect to a 'timeout' route after a timeout", function(done) {
-            request("http://localhost:3000/example/timeout", function(error, response, body) {
-                expect(body).to.equal('<?xml version="1.0" encoding="UTF-8"?><Response><Gather method="GET" numDigits="1" action="timeout"><Say>Don&apos;t press anything!</Say></Gather><Redirect method="GET">timeoutRoute</Redirect></Response>');
+            request("http://localhost:3000/example/timeout?state=%7B%22working%22%3Atrue%7D", function(error, response, body) {
+                expect(body).to.equal('<?xml version="1.0" encoding="UTF-8"?><Response><Gather method="GET" numDigits="1" action="timeout?state=%7B%22working%22%3Atrue%7D"><Say>Don&apos;t press anything!</Say></Gather><Redirect method="GET">timeoutRoute?state=%7B%22working%22%3Atrue%7D</Redirect></Response>');
                 done();
             });
         });

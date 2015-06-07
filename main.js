@@ -14,7 +14,7 @@ function runSandbox(message, sandbox, callback) {
 
 function queryParamsForState(state) {
     if (state == undefined || _(state).size() == 0) { return "" }
-    return queryparams = "?" + querystring.stringify({state:JSON.stringify(state)})
+    return "?" + querystring.stringify({state:JSON.stringify(state)})
 }
 
 const app = require('express')();
@@ -161,7 +161,7 @@ function renderNode(node, sandbox, state) {
             response.gather(gatherOptions, sayText);
 
             if (node.routes.timeout) {
-                response.redirect(node.routes.timeout, {method: "GET"})
+                response.redirect(node.routes.timeout + queryParamsForState(newData), {method: "GET"})
             }
         } else {
             sayText(response);
