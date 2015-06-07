@@ -14,9 +14,9 @@
           },
           {
             "type": "function",
-            "function": function(opts) {
-              opts.bar = "Sauerkraut";
-              return ["The value of query param 'foo' is " + opts.foo, opts];
+            "function": function() {
+              this.bar = "Sauerkraut";
+              return "The value of query param 'foo' is " + this.foo;
             }
           },
           {
@@ -32,14 +32,13 @@
         }
       },
       "second": {
-        "content": function(opts) {
-          opts.baz = "Potato Salad";
-          var say = {
+        "content": function() {
+          this.baz = "Potato Salad";
+          return {
             "type": "text",
-            "text": "This is the second node. Foo is " + opts.foo,
+            "text": "This is the second node. Foo is " + this.foo,
             "voice": "man"
           };
-          return [say, opts];
         },
         "routes": {
           "1": "third"
@@ -69,7 +68,7 @@
         "routes": {"default": "default-params-2"}
       },
       "default-params-2": {
-        "content": function(opts) { return ["A still equals " + opts.a, opts]; }
+        "content": function() { return "A still equals " + this.a; }
       },
       "timeoutRoute": {
         "content": "You didn't enter anything!"
@@ -97,8 +96,8 @@
         }
       },
       "contentFnReturnsArray": {
-        "content": function(opts) {
-          return [[{"type":"text", "text":"Hi"}, "Mom"], opts];
+        "content": function() {
+          return [{"type":"text", "text":"Hi"}, "Mom"];
         }
       },
       "gatherOptions": {
@@ -125,19 +124,19 @@
         }
       },
       "handleDigits": {
-        "content": function(opts) {
-          return ["You entered " + opts.Digits, opts];
+        "content": function() {
+          return "You entered " + this.Digits;
         }
       },
       "handleDigits-1": {
-        "content": function(opts) {
-          return ["You pressed " + opts.Digits +", which should equal 1", opts];
+        "content": function() {
+          return "You pressed " + this.Digits +", which should equal 1";
         }
       },
       "gatherSaveData": {
-        "content": function(opts) {
-          opts.working = true
-          return [["Press", "1"], opts];
+        "content": function() {
+          this.working = true
+          return ["Press", "1"];
         },
         "routes": {
           1: "timeout"
@@ -171,7 +170,7 @@
         "content": ["I see you shiver with anticip", "pause:2", "ation"]
       },
       "shorthand-function": {
-        "content": function() { return ["redirect:first", {}] }
+        "content": function() { return "redirect:first"; }
       },
       "shorthand-space": {
         "content": "pause: 3"

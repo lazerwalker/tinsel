@@ -28,7 +28,8 @@ onmessage = function(message) {
     postMessage(script);
   } else {
     var obj = JSON.parse(message);
-    var result = functions[obj.functionCount](obj.opts)
-    postMessage(JSON.stringify(result));
+    var context = obj.opts;
+    var result = functions[obj.functionCount].bind(context)();
+    postMessage(JSON.stringify([result, context]));
   }
 }
