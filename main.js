@@ -82,7 +82,7 @@ function renderNode(node, sandbox, state) {
     function handleShorthand(content) {
         if (_.isString(content)) {
             var prefixWord;
-            const testForShorthand = /(.*?):(.*)/.exec(content);
+            const testForShorthand = /(.*?):\s?(.*)/.exec(content);
             if (testForShorthand) { prefixWord = testForShorthand[1]; }
             if (["pause", "redirect", "play"].indexOf(prefixWord) != -1) {
                 obj = {};

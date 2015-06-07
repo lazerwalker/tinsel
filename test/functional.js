@@ -175,7 +175,14 @@ describe("when using the example JSON file", function() {
                 expect(body).to.equal('<?xml version="1.0" encoding="UTF-8"?><Response><Redirect method="GET">first</Redirect></Response>');
                 done();
             });
-        });         
+        });
+
+        it("allows a space after the colon", function(done) {
+            request("http://localhost:3000/example/shorthand-space", function(error, response, body) {
+                expect(body).to.equal('<?xml version="1.0" encoding="UTF-8"?><Response><Pause length="3"></Pause></Response>');
+                done();
+            });
+        });
     });
 
     describe("routing to new input", function() {

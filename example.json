@@ -172,6 +172,9 @@
       },
       "shorthand-function": {
         "content": function() { return ["redirect:first", {}] }
+      },
+      "shorthand-space": {
+        "content": "pause: 3"
       }
     }
 }
