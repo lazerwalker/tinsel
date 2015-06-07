@@ -1,6 +1,6 @@
 {
 	start: "flappy",
-	story: [
+	story: {
 		flappy: {
 			content: [
 				"Welcome to flappy bot. To play, press 1 to flap.",
@@ -9,7 +9,7 @@
 					text: "start"
 				}
 			]
-		}
+		},
 		start: {
 			content: function(opts) {
 				delete opts.choice;
@@ -82,6 +82,6 @@
 			routes: {
 				1: "start"
 			}
-		},
-	]
+		}
+	}
 }
