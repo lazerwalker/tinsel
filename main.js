@@ -28,7 +28,6 @@ app.get('/:story/:node', (req, res) => {
 
     runSandbox("tree", sandbox, (data) => {
         var nodeName = req.params.node;
-
         var node = data.story[nodeName];
 
         const digits = req.query["Digits"];
@@ -80,13 +79,32 @@ app.get('/:story', (req, res) => {
 function renderNode(node, sandbox, state) {
     const response = new Twilio.TwimlResponse();
 
+    function handleShorthand(content) {
+        if (_.isString(content)) {
+            var prefixWord;
+            const testForShorthand = /(.*?):(.*)/.exec(content);
+            if (testForShorthand) { prefixWord = testForShorthand[1]; }
+            if (["pause", "redirect", "play"].indexOf(prefixWord) != -1) {
+                obj = {};
+                obj.type = prefixWord;
+                if (prefixWord === "pause") {
+                    obj["length"] = testForShorthand[2];
+                } else {
+                    obj.text = testForShorthand[2];
+                }
+                return obj;
+            }
+        }
+        return content;
+    }
+
     // returns a promise containing a new node.content
     function unwrapFunctions(content, opts) {
 
         // input: content JSON or function that returns [content JSON, data]
         // output: promise containing [content JSON, data]
         function unwrapFunction(c) {
-            if (c.type !== "function") return Q([c, opts]);
+            if (c.type !== "function") return Q([handleShorthand(c), opts]);
 
             const defer = Q.defer();
 
@@ -122,22 +140,10 @@ function renderNode(node, sandbox, state) {
                 var obj = tuple[0];
 
                 if (_.isString(obj)) {
-                    var prefixWord;
-                    const testForShorthand = /(.*?):(.*)/.exec(obj);
-                    if (testForShorthand) { prefixWord = testForShorthand[1]; }
-                    if (["pause", "redirect", "play"].indexOf(prefixWord) != -1) {
-                        obj = {};
-                        obj.type = prefixWord;
-                        if (prefixWord === "pause") {
-                            obj["length"] = testForShorthand[2];
-                        } else {
-                            obj.text = testForShorthand[2];
-                        }
-                    } else {
-                        n.say(obj);
-                        return;
-                    }
+                    n.say(obj);
+                    return;
                 }
+
                 var opts = _.clone(obj);
                 delete opts.type
 

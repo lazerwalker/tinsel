@@ -123,12 +123,22 @@ describe("when using the example JSON file", function() {
             });
         });
 
-        it("should prioritize redirect over gather", function(done) {
-            request("http://localhost:3000/example/redirectAndGather", function(error, response, body) {
-                expect(body).to.equal('<?xml version="1.0" encoding="UTF-8"?><Response><Redirect method="GET">first</Redirect></Response>');
-                done();
+        context("when a redirect is within a gather", function() {
+            it("should prioritize a regular redirect", function(done) {
+                request("http://localhost:3000/example/redirectAndGather", function(error, response, body) {
+                    expect(body).to.equal('<?xml version="1.0" encoding="UTF-8"?><Response><Redirect method="GET">first</Redirect></Response>');
+                    done();
+                });
+            });            
+
+            it("should prioritize a shorthand redirect", function(done) {
+                request("http://localhost:3000/example/redirectAndGatherShorthand", function(error, response, body) {
+                    expect(body).to.equal('<?xml version="1.0" encoding="UTF-8"?><Response><Redirect method="GET">first</Redirect></Response>');
+                    done();
+                });
             });
         });
+
     });
 
     describe("shorthand", function() {

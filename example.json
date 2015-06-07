@@ -32,7 +32,6 @@
         }
       },
       "second": {
-        "name": "second",
         "content": function(opts) {
           opts.baz = "Potato Salad";
           var say = {
@@ -149,6 +148,12 @@
           "type": "redirect",
           "text": "first"
         },
+        "routes": {
+          "2": "second"
+        }
+      },
+      "redirectAndGatherShorthand": {
+        "content": "redirect:first",
         "routes": {
           "2": "second"
         }
