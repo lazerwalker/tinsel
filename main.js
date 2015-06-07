@@ -55,7 +55,10 @@ app.get('/:story/:node', (req, res) => {
         } else {
             state = {}
         }
-        state.Digits = req.query.Digits
+
+        if (req.query.Digits) {
+            state.Digits = req.query.Digits
+        }
 
         renderNode(node, sandbox, state).then( (xml) => {
             sendResponse(xml, res);
