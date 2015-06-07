@@ -64,7 +64,7 @@
 					}
 
 					opts.score++;
-					c.push("" + opts.score + pluralizePoints(opts.score));
+					c.push("" + opts.score + " " + pluralizePoints(opts.score) + ".");
 				}
 
 				opts.pipeHeight = Math.floor(Math.random() * 3);
@@ -95,7 +95,7 @@
 					return "points";
 				}
 
-				return ["You have lost. Your final score is " + pluralizePoints(opts.score) + " points. Press 1 to play again, or nothing to disconnect.", opts];
+				return ["You have lost. Your final score is " + opts.score + " " + pluralizePoints(points) + ". Press 1 to play again, or nothing to disconnect.", opts];
 			},
 			routes: {
 				1: "start"
