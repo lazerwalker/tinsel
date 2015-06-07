@@ -1,7 +1,7 @@
 {
   "start": "first",
   "story": {
-      first: {
+      "first": {
         "content": [
           {
             "text": "This is the first node",
@@ -31,7 +31,7 @@
           "default": "default",
         }
       },
-      second: {
+      "second": {
         "name": "second",
         "content": function(opts) {
           opts.baz = "Potato Salad";
@@ -46,7 +46,7 @@
           "1": "third"
         }
       },
-      third: {
+      "third": {
         "content": "This is the third node"
       },
       "default-defined": {
@@ -62,7 +62,7 @@
           "1": "third"
         }
       },
-      default: {
+      "default": {
         "content": "You entered something different?"
       },  
       "default-params": {
@@ -72,16 +72,16 @@
       "default-params-2": {
         "content": function(opts) { return ["A still equals " + opts.a, opts]; }
       },
-      timeoutRoute: {
+      "timeoutRoute": {
         "content": "You didn't enter anything!"
       },
-      pause: {
+      "pause": {
         "content": {
           "type": "pause",
           "length": 3
         }
       },
-      redirect: {
+      "redirect": {
         "content": [
           "I am redirecting!",
           {
@@ -90,19 +90,19 @@
           }
         ]
       },
-      play: {
+      "play": {
         "content": {
           "type": "play",
           "text": "http://instantrimshot.com/rimshot.wav",
           "loop": 10
         }
       },
-      contentFnReturnsArray: {
+      "contentFnReturnsArray": {
         "content": function(opts) {
           return [[{"type":"text", "text":"Hi"}, "Mom"], opts];
         }
       },
-      gatherOptions: {
+      "gatherOptions": {
         "content": "Enter 3 digits, then asterisk",
         "routes": {
           "123": "pause"
@@ -112,20 +112,20 @@
           "finishOnKey": "*"
         }
       },
-      timeout: {
+      "timeout": {
         "content": "Don't press anything!",
         "routes": {
           "timeout": "timeoutRoute"
         }
       },
-      captureAny: {
+      "captureAny": {
         "content": "Type in a thing other than 1",
         "routes": {
           "1": "handleDigits-1",
           "any": "handleDigits"
         }
       },
-      handleDigits: {
+      "handleDigits": {
         "content": function(opts) {
           return ["You entered " + opts.Digits, opts];
         }
@@ -135,12 +135,12 @@
           return ["You pressed " + opts.Digits +", which should equal 1", opts];
         }
       },
-      gatherSaveData: {
-        content: function(opts) {
+      "gatherSaveData": {
+        "content": function(opts) {
           opts.working = true
           return [["Press", "1"], opts];
         },
-        routes: {
+        "routes": {
           1: "timeout"
         }
       },

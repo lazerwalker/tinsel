@@ -1,17 +1,17 @@
 {
-	start: "flappy",
-	story: {
-		flappy: {
-			content: [
+	"start": "flappy",
+	"story": {
+		"flappy": {
+			"content": [
 				"Welcome to phoney bird. Once the game starts, press 1 to flap.",
 				{
-					type: "redirect",
-					text: "start"
+					"type": "redirect",
+					"text": "start"
 				}
 			]
 		},
-		start: {
-			content: function(opts) {
+		"start": {
+			"content": function(opts) {
 				delete opts.choice;
 				opts.score = 0;
 				opts.first = true;
@@ -24,8 +24,8 @@
 				return [redirect, opts];
 			}
 		},
-		recurse: {
-			content: function(opts) {
+		"recurse": {
+			"content": function(opts) {
 				opts.height = parseInt(opts.height)
 				opts.score = parseInt(opts.score)
 				opts.pipeHeight = parseInt(opts.pipeHeight)
@@ -73,23 +73,23 @@
 
 				return [c, opts];
 			},
-			routes: {
+			"routes": {
 				"1": "flap",
-				default: "recurse",
-				timeout: "recurse"
+				"default": "recurse",
+				"timeout": "recurse"
 			},
-			gatherOptions: {
-				timeout: 2
+			"gatherOptions": {
+				"timeout": 2
 			}
 		},
-		flap: {
-			content: function(opts) {
+		"flap": {
+			"content": function(opts) {
 				opts.height = parseInt(opts.height) + 2;
 				return [{type: 'redirect', text: 'recurse'}, opts];
 			}
 		},
-		gameover: {
-			content: function(opts) {
+		"gameover": {
+			"content": function(opts) {
 				var pluralizePoints = function(points) {
 					if (points == 1) return "point";
 					return "points";
@@ -97,16 +97,16 @@
 
 				return ["You have lost. Your final score is " + opts.score + " " + pluralizePoints(opts.score) + ". Press 1 to play again.", opts];
 			},
-			routes: {
+			"routes": {
 				1: "start",
 				"timeout": "thanks"
 			},
-			gatherOptions: {
-				timeout: 3
+			"gatherOptions": {
+				"timeout": 3
 			}
 		},
-		thanks: {
-			content: [
+		"thanks": {
+			"content": [
 				"Thank you for playing!", 
 				{"type": "pause", "length": 2}
 			]
