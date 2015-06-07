@@ -131,6 +131,33 @@ describe("when using the example JSON file", function() {
         });
     });
 
+    describe("shorthand", function() {
+        it("allows 'pause' shorthand", function(done) {
+            request("http://localhost:3000/example/shorthand-pause", function(error, response, body) {
+                expect(body).to.equal('<?xml version="1.0" encoding="UTF-8"?><Response><Pause length="3"></Pause></Response>');
+                done();
+            });
+        });
+        it("allows 'play' shorthand", function(done) {
+            request("http://localhost:3000/example/shorthand-play", function(error, response, body) {
+                expect(body).to.equal('<?xml version="1.0" encoding="UTF-8"?><Response><Play>http://icq.com/uhoh.wav</Play></Response>');
+                done();
+            });
+        });
+        it("allows 'redirect' shorthand", function(done) {
+            request("http://localhost:3000/example/shorthand-redirect", function(error, response, body) {
+                expect(body).to.equal('<?xml version="1.0" encoding="UTF-8"?><Response><Redirect method="GET">first</Redirect></Response>');
+                done();
+            });
+        });
+        it("allows shorthand in arrays", function(done) {
+            request("http://localhost:3000/example/shorthand-nested", function(error, response, body) {
+                expect(body).to.equal('<?xml version="1.0" encoding="UTF-8"?><Response><Say>I see you shiver with anticip</Say><Pause length="2"></Pause><Say>ation</Say></Response>');
+                done();
+            });
+        });         
+    });
+
     describe("routing to new input", function() {
         describe("entering a choice not specified", function() {
             context("when a default route has been specified", function() {

@@ -122,10 +122,22 @@ function renderNode(node, sandbox, state) {
                 var obj = tuple[0];
 
                 if (_.isString(obj)) {
-                    n.say(obj);
-                    return;
+                    var prefixWord;
+                    const testForShorthand = /(.*?):(.*)/.exec(obj);
+                    if (testForShorthand) { prefixWord = testForShorthand[1]; }
+                    if (["pause", "redirect", "play"].indexOf(prefixWord) != -1) {
+                        obj = {};
+                        obj.type = prefixWord;
+                        if (prefixWord === "pause") {
+                            obj["length"] = testForShorthand[2];
+                        } else {
+                            obj.text = testForShorthand[2];
+                        }
+                    } else {
+                        n.say(obj);
+                        return;
+                    }
                 }
-
                 var opts = _.clone(obj);
                 delete opts.type
 

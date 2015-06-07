@@ -152,6 +152,18 @@
         "routes": {
           "2": "second"
         }
+      },
+      "shorthand-pause": {
+        "content": "pause:3"
+      },
+      "shorthand-play": {
+        "content": "play:http://icq.com/uhoh.wav"
+      },
+      "shorthand-redirect": {
+        "content": "redirect:first"
+      },
+      "shorthand-nested": {
+        "content": ["I see you shiver with anticip", "pause:2", "ation"]
       }
     }
 }

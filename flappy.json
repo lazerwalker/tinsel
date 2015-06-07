@@ -17,11 +17,7 @@
 				opts.first = true;
 				opts.height = 2;
 
-				var redirect = {
-					type: "redirect",
-					text: "recurse"
-				};
-				return [redirect, opts];
+				return ["redirect:recurse", opts];
 			}
 		},
 		"recurse": {
@@ -56,11 +52,7 @@
 					opts.first = false;
 				} else {
 					if (opts.height != opts.pipeHeight) {
-						var redirect = {
-							type: 'redirect',
-							text: 'gameover'
-						}
-						return [redirect, opts];
+						return ["redirect:gameover", opts];
 					}
 
 					opts.score++;
