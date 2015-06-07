@@ -46,6 +46,13 @@ describe("when using the example JSON file", function() {
                 done();
             });        
         });
+
+        it("should allow access to the 'helpers' functions", function(done) {
+            request("http://localhost:3000/example/usesHelpers", function(error, response, body) {
+                expect(body).to.equal('<?xml version="1.0" encoding="UTF-8"?><Response><Say>Does this work? Yes!</Say></Response>');
+                done();
+            });    
+        });
     });
 
     describe("when passing parameters", function() {

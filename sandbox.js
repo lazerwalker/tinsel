@@ -29,7 +29,11 @@ onmessage = function(message) {
   } else {
     var obj = JSON.parse(message);
     var context = obj.opts;
+    context.helpers = script.helpers;
+
     var result = functions[obj.functionCount].bind(context)();
+    delete context.helpers;
+    
     postMessage(JSON.stringify([result, context]));
   }
 }

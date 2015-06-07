@@ -23,18 +23,6 @@
 				this.score = parseInt(this.score)
 				this.pipeHeight = parseInt(this.pipeHeight)
 
-				var pluralizePoints = function(points) {
-					if (points == 1) return "point";
-					return "points";
-				}
-
-				var heightString = function(height) {
-					if (height == 0) return "low";
-					if (height == 1) return "medium";
-					if (height == 2) return "high";
-					return "unknown";
-				}
-
 				var c = [];
 
 				if (this.height > 0) {
@@ -53,12 +41,12 @@
 					}
 
 					this.score++;
-					c.push("" + this.score + " " + pluralizePoints(this.score) + ".");
+					c.push("" + this.score + " " + this.helpers.pluralizePoints(this.score) + ".");
 				}
 
 				this.pipeHeight = Math.floor(Math.random() * 3);
 
-				c.push("You are flying at a " + heightString(this.height) + " height. A pipe is approaching with a " + heightString(this.pipeHeight) + " height.");
+				c.push("You are flying at a " + this.helpers.heightString(this.height) + " height. A pipe is approaching with a " + this.helpers.heightString(this.pipeHeight) + " height.");
 
 				return c;
 			},
@@ -79,12 +67,7 @@
 		},
 		"gameover": {
 			"content": function() {
-				var pluralizePoints = function(points) {
-					if (points == 1) return "point";
-					return "points";
-				}
-
-				return "You have lost. Your final score is " + this.score + " " + pluralizePoints(this.score) + ". Press 1 to play again.";
+				return "You have lost. Your final score is " + this.score + " " + this.helpers.pluralizePoints(this.score) + ". Press 1 to play again.";
 			},
 			"routes": {
 				1: "start",
@@ -99,6 +82,18 @@
 				"Thank you for playing!", 
 				"pause:2"
 			]
+		}
+	},
+	"helpers": {
+		"pluralizePoints": function(points) {
+			if (points == 1) return "point";
+			return "points";
+		},
+		heightString: function(height) {
+			if (height == 0) return "low";
+			if (height == 1) return "medium";
+			if (height == 2) return "high";
+			return "unknown";
 		}
 	}
 }
