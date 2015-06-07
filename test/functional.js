@@ -122,6 +122,13 @@ describe("when using the example JSON file", function() {
                 done();
             });
         });
+
+        it("should prioritize redirect over gather", function(done) {
+            request("http://localhost:3000/example/redirectAndGather", function(error, response, body) {
+                expect(body).to.equal('<?xml version="1.0" encoding="UTF-8"?><Response><Redirect method="GET">first</Redirect></Response>');
+                done();
+            });
+        });
     });
 
     describe("routing to new input", function() {

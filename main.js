@@ -147,7 +147,8 @@ function renderNode(node, sandbox, state) {
             _.each(result, handleTuple);
         }
 
-        if (node.routes) {
+        const hasRedirect = _.detect(result, (tuple) => tuple[0]["type"] === "redirect");
+        if (node.routes && !hasRedirect) {
             newData = result.reduce((currentData, tuple) => {
                 return _.assign(currentData, tuple[1]);
             }, {});

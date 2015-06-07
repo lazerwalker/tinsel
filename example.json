@@ -143,6 +143,15 @@
         routes: {
           1: "timeout"
         }
+      },
+      "redirectAndGather": {
+        "content": {
+          "type": "redirect",
+          "text": "first"
+        },
+        "routes": {
+          "2": "second"
+        }
       }
     }
 }
