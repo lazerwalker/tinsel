@@ -148,21 +148,31 @@ describe("when using the example JSON file", function() {
                 done();
             });
         });
+
         it("allows 'play' shorthand", function(done) {
             request("http://localhost:3000/example/shorthand-play", function(error, response, body) {
                 expect(body).to.equal('<?xml version="1.0" encoding="UTF-8"?><Response><Play>http://icq.com/uhoh.wav</Play></Response>');
                 done();
             });
         });
+
         it("allows 'redirect' shorthand", function(done) {
             request("http://localhost:3000/example/shorthand-redirect", function(error, response, body) {
                 expect(body).to.equal('<?xml version="1.0" encoding="UTF-8"?><Response><Redirect method="GET">first</Redirect></Response>');
                 done();
             });
         });
+
         it("allows shorthand in arrays", function(done) {
             request("http://localhost:3000/example/shorthand-nested", function(error, response, body) {
                 expect(body).to.equal('<?xml version="1.0" encoding="UTF-8"?><Response><Say>I see you shiver with anticip</Say><Pause length="2"></Pause><Say>ation</Say></Response>');
+                done();
+            });
+        }); 
+        
+        it("allows shorthand from functions", function(done) {
+            request("http://localhost:3000/example/shorthand-function", function(error, response, body) {
+                expect(body).to.equal('<?xml version="1.0" encoding="UTF-8"?><Response><Redirect method="GET">first</Redirect></Response>');
                 done();
             });
         });         

@@ -169,6 +169,9 @@
       },
       "shorthand-nested": {
         "content": ["I see you shiver with anticip", "pause:2", "ation"]
+      },
+      "shorthand-function": {
+        "content": function() { return ["redirect:first", {}] }
       }
     }
 }

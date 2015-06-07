@@ -113,7 +113,8 @@ function renderNode(node, sandbox, state) {
                 opts: opts
             });
             runSandbox(message, sandbox, (newContent) => {
-                defer.resolve(JSON.parse(newContent));  
+                newContent = JSON.parse(newContent);
+                defer.resolve([handleShorthand(newContent[0]), newContent[1]]);
             });
             return defer.promise;
         }
