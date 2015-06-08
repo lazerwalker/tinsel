@@ -24,6 +24,25 @@ function queryParamsForState(state) {
 const app = require('express')();
 const server = app.listen(process.env.PORT || 3000);
 
+function handleDigitRounding(digits, story, node) {
+  const newNodeName = node.routes[digits];
+  const newNode = story[newNodeName];
+
+  if (newNode) {
+    node = newNode;
+    nodeName = newNodeName;
+  } else if (node.routes.any) {
+    nodeName = node.routes.any;
+    node = story[nodeName];
+  } else if (node.routes.default) {
+    nodeName = node.routes.default;
+    node = story[nodeName];
+  }
+
+  node.name = nodeName;
+  return node;
+}
+
 app.get('/:story/:node', (req, res) => {
   console.log("Loading " + req.params.story)
   const storyPromise = db.loadStory('lazerwalker', req.params.story);
@@ -35,35 +54,13 @@ app.get('/:story/:node', (req, res) => {
     }).then((script) => {
       return Q.all([runSandbox("tree", script), Q(script)]);
     }).spread((data, script) => {
+      var state = req.query.state ? JSON.parse(req.query.state) : {};
+
       var nodeName = req.params.node;
       var node = data.story[nodeName];
 
-      const digits = req.query["Digits"];
-      if (digits) {
-        const newNodeName = node.routes[digits];
-        const newNode = data.story[newNodeName];
-        if (newNode) { 
-          node = newNode; 
-          nodeName = newNodeName;
-        } else if (node.routes.any) {
-          nodeName = node.routes.any;
-          node = data.story[nodeName];
-        } else if (node.routes.default) {
-          nodeName = node.routes.default;
-          node = data.story[nodeName];
-        }
-      }
-
-      node.name = nodeName;
-
-      var state;
-      if (req.query.state) {
-        state = JSON.parse(req.query.state)
-      } else {
-        state = {}
-      }
-
       if (req.query.Digits) {
+        handleDigitRounding(req.query.Digits, story, node);
         state.Digits = req.query.Digits
       }
 
