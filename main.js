@@ -4,6 +4,7 @@ const Sandbox = require('sandbox');
 const Q = require('q');
 const fs = require('fs')
 const querystring = require('querystring');
+const db = require('./db')
 
 function runSandbox(message, sandbox, callback) {
     const s = new Sandbox();
@@ -21,48 +22,52 @@ const app = require('express')();
 const server = app.listen(process.env.PORT || 3000);
 
 app.get('/:story/:node', (req, res) => {
-    var data;
-    const script = fs.readFileSync(req.params.story + '.json', 'utf8');
-    const sandbox = fs.readFileSync('sandbox.js', 'utf8')
-        .replace("{{SCRIPT}}", script);
+    console.log("Loading " + req.params.story)
+    const storyPromise = db.loadStory('lazerwalker', req.params.story);
+    const sandboxPromise = Q.nfcall(fs.readFile, 'sandbox.js', 'utf8');
 
-    runSandbox("tree", sandbox, (data) => {
-        var nodeName = req.params.node;
-        var node = data.story[nodeName];
+    Q.all([storyPromise, sandboxPromise])
+        .spread((story, sandbox) => {
+            return Q(sandbox.replace("{{SCRIPT}}", story.data));
+        }).then((script) => {
+            runSandbox("tree", script, (data) => {
+                var nodeName = req.params.node;
+                var node = data.story[nodeName];
 
-        const digits = req.query["Digits"];
-        if (digits) {
-            const newNodeName = node.routes[digits];
-            const newNode = data.story[newNodeName];
-            if (newNode) { 
-                node = newNode; 
-                nodeName = newNodeName;
-            } else if (node.routes.any) {
-                nodeName = node.routes.any;
-                node = data.story[nodeName];
-            } else if (node.routes.default) {
-                nodeName = node.routes.default;
-                node = data.story[nodeName];
-            }
-        }
+                const digits = req.query["Digits"];
+                if (digits) {
+                    const newNodeName = node.routes[digits];
+                    const newNode = data.story[newNodeName];
+                    if (newNode) { 
+                        node = newNode; 
+                        nodeName = newNodeName;
+                    } else if (node.routes.any) {
+                        nodeName = node.routes.any;
+                        node = data.story[nodeName];
+                    } else if (node.routes.default) {
+                        nodeName = node.routes.default;
+                        node = data.story[nodeName];
+                    }
+                }
 
-        node.name = nodeName;
+                node.name = nodeName;
 
-        var state;
-        if (req.query.state) {
-            state = JSON.parse(req.query.state)
-        } else {
-            state = {}
-        }
+                var state;
+                if (req.query.state) {
+                    state = JSON.parse(req.query.state)
+                } else {
+                    state = {}
+                }
 
-        if (req.query.Digits) {
-            state.Digits = req.query.Digits
-        }
+                if (req.query.Digits) {
+                    state.Digits = req.query.Digits
+                }
 
-        renderNode(node, sandbox, state).then( (xml) => {
-            sendResponse(xml, res);
-        });
-    });
+                renderNode(node, script, state).then( (xml) => {
+                    sendResponse(xml, res);
+                });
+            });
+        }).catch( (e) => console.log("ERROR: ", e));
 });
 
 app.get('/:story', (req, res) => {
