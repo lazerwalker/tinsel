@@ -6,11 +6,14 @@ const fs = require('fs')
 const querystring = require('querystring');
 const db = require('./db')
 
-function runSandbox(message, sandbox, callback) {
+function runSandbox(message, sandbox) {
   const s = new Sandbox();
+  var defer = Q.defer();
   s.run(sandbox);
-  s.on('message', callback);
+  s.on('message', (result) => defer.resolve(result));
   s.postMessage(message);
+
+  return defer.promise;
 }
 
 function queryParamsForState(state) {
@@ -30,42 +33,42 @@ app.get('/:story/:node', (req, res) => {
     .spread((story, sandbox) => {
       return Q(sandbox.replace("{{SCRIPT}}", story.data));
     }).then((script) => {
-      runSandbox("tree", script, (data) => {
-        var nodeName = req.params.node;
-        var node = data.story[nodeName];
+      return Q.all([runSandbox("tree", script), Q(script)]);
+    }).spread((data, script) => {
+      var nodeName = req.params.node;
+      var node = data.story[nodeName];
 
-        const digits = req.query["Digits"];
-        if (digits) {
-          const newNodeName = node.routes[digits];
-          const newNode = data.story[newNodeName];
-          if (newNode) { 
-            node = newNode; 
-            nodeName = newNodeName;
-          } else if (node.routes.any) {
-            nodeName = node.routes.any;
-            node = data.story[nodeName];
-          } else if (node.routes.default) {
-            nodeName = node.routes.default;
-            node = data.story[nodeName];
-          }
+      const digits = req.query["Digits"];
+      if (digits) {
+        const newNodeName = node.routes[digits];
+        const newNode = data.story[newNodeName];
+        if (newNode) { 
+          node = newNode; 
+          nodeName = newNodeName;
+        } else if (node.routes.any) {
+          nodeName = node.routes.any;
+          node = data.story[nodeName];
+        } else if (node.routes.default) {
+          nodeName = node.routes.default;
+          node = data.story[nodeName];
         }
+      }
 
-        node.name = nodeName;
+      node.name = nodeName;
 
-        var state;
-        if (req.query.state) {
-          state = JSON.parse(req.query.state)
-        } else {
-          state = {}
-        }
+      var state;
+      if (req.query.state) {
+        state = JSON.parse(req.query.state)
+      } else {
+        state = {}
+      }
 
-        if (req.query.Digits) {
-          state.Digits = req.query.Digits
-        }
+      if (req.query.Digits) {
+        state.Digits = req.query.Digits
+      }
 
-        renderNode(node, script, state).then( (xml) => {
-          sendResponse(xml, res);
-        });
+      renderNode(node, script, state).then( (xml) => {
+        sendResponse(xml, res);
       });
     }).catch( (e) => console.log("ERROR: ", e));
 });
@@ -76,7 +79,7 @@ app.get('/:story', (req, res) => {
   const sandbox = fs.readFileSync('sandbox.js', 'utf8')
     .replace("{{SCRIPT}}", script);
     
-  runSandbox("tree", sandbox, (data) => {
+  runSandbox("tree", sandbox).then((data) => {
     res.redirect("/" + req.params.story + "/" + data.start + "?" + querystring.stringify({state:req.query.state}));
   });
 });
@@ -117,7 +120,7 @@ function renderNode(node, sandbox, state) {
         functionCount: c.functionCount,
         opts: opts
       });
-      runSandbox(message, sandbox, (newContent) => {
+      runSandbox(message, sandbox).then((newContent) => {
         newContent = JSON.parse(newContent);
         defer.resolve([handleShorthand(newContent[0]), newContent[1]]);
       });
