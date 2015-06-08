@@ -1,187 +1,187 @@
 {
   "start": "first",
   "story": {
-      "first": {
-        "content": [
-          {
-            "text": "This is the first node",
-            "voice": "alice",
-            "language": "en"
-          },
-          {
-            "type": "pause",
-            "length": 2
-          },
-          {
-            "type": "function",
-            "function": function() {
-              this.bar = "Sauerkraut";
-              return "The value of query param 'foo' is " + this.foo;
-            }
-          },
-          {
-            "type": "text",
-            "text": "Please make a selection!",
-            "voice": "man"
-          }
-        ],
-        "routes": {
-          "1": "second",
-          "2": "third",
-          "default": "default",
-        }
-      },
-      "second": {
-        "content": function() {
-          this.baz = "Potato Salad";
-          return {
-            "type": "text",
-            "text": "This is the second node. Foo is " + this.foo,
-            "voice": "man"
-          };
+    "first": {
+      "content": [
+        {
+          "text": "This is the first node",
+          "voice": "alice",
+          "language": "en"
         },
-        "routes": {
-          "1": "third"
-        }
-      },
-      "third": {
-        "content": "This is the third node"
-      },
-      "default-defined": {
-        "content": "You may only press 1",
-        "routes": {
-          "1": "first",
-          "default": "default"
-        }
-      },
-      "default-undefined": {
-        "content": "You may only press 1",
-        "routes": {
-          "1": "third"
-        }
-      },
-      "default": {
-        "content": "You entered something different?"
-      },  
-      "default-params": {
-        "content": "A should equal B",
-        "routes": {"default": "default-params-2"}
-      },
-      "default-params-2": {
-        "content": function() { return "A still equals " + this.a; }
-      },
-      "timeoutRoute": {
-        "content": "You didn't enter anything!"
-      },
-      "pause": {
-        "content": {
+        {
           "type": "pause",
-          "length": 3
-        }
-      },
-      "redirect": {
-        "content": [
-          "I am redirecting!",
-          {
-            "type": "redirect",
-            "text": "first"
+          "length": 2
+        },
+        {
+          "type": "function",
+          "function": function() {
+            this.bar = "Sauerkraut";
+            return "The value of query param 'foo' is " + this.foo;
           }
-        ]
-      },
-      "play": {
-        "content": {
-          "type": "play",
-          "text": "http://instantrimshot.com/rimshot.wav",
-          "loop": 10
-        }
-      },
-      "contentFnReturnsArray": {
-        "content": function() {
-          return [{"type":"text", "text":"Hi"}, "Mom"];
-        }
-      },
-      "gatherOptions": {
-        "content": "Enter 3 digits, then asterisk",
-        "routes": {
-          "123": "pause"
         },
-        "gatherOptions": {
-          "numDigits": 3,
-          "finishOnKey": "*"
+        {
+          "type": "text",
+          "text": "Please make a selection!",
+          "voice": "man"
         }
-      },
-      "timeout": {
-        "content": "Don't press anything!",
-        "routes": {
-          "timeout": "timeoutRoute"
-        }
-      },
-      "captureAny": {
-        "content": "Type in a thing other than 1",
-        "routes": {
-          "1": "handleDigits-1",
-          "any": "handleDigits"
-        }
-      },
-      "handleDigits": {
-        "content": function() {
-          return "You entered " + this.Digits;
-        }
-      },
-      "handleDigits-1": {
-        "content": function() {
-          return "You pressed " + this.Digits +", which should equal 1";
-        }
-      },
-      "gatherSaveData": {
-        "content": function() {
-          this.working = true
-          return ["Press", "1"];
-        },
-        "routes": {
-          1: "timeout"
-        }
-      },
-      "redirectAndGather": {
-        "content": {
-          "type": "redirect",
-          "text": "first"
-        },
-        "routes": {
-          "2": "second"
-        }
-      },
-      "redirectAndGatherShorthand": {
-        "content": "redirect:first",
-        "routes": {
-          "2": "second"
-        }
-      },
-      "shorthand-pause": {
-        "content": "pause:3"
-      },
-      "shorthand-play": {
-        "content": "play:http://icq.com/uhoh.wav"
-      },
-      "shorthand-redirect": {
-        "content": "redirect:first"
-      },
-      "shorthand-nested": {
-        "content": ["I see you shiver with anticip", "pause:2", "ation"]
-      },
-      "shorthand-function": {
-        "content": function() { return "redirect:first"; }
-      },
-      "shorthand-space": {
-        "content": "pause: 3"
-      },
-      "usesHelpers": {
-        "content": function() { return this.helpers.callAFunction("Yes!"); }
+      ],
+      "routes": {
+        "1": "second",
+        "2": "third",
+        "default": "default",
       }
     },
-    "helpers": {
-      "callAFunction": function(doesItWork) {
-        return "Does this work? " + doesItWork;
+    "second": {
+      "content": function() {
+        this.baz = "Potato Salad";
+        return {
+          "type": "text",
+          "text": "This is the second node. Foo is " + this.foo,
+          "voice": "man"
+        };
+      },
+      "routes": {
+        "1": "third"
       }
+    },
+    "third": {
+      "content": "This is the third node"
+    },
+    "default-defined": {
+      "content": "You may only press 1",
+      "routes": {
+        "1": "first",
+        "default": "default"
+      }
+    },
+    "default-undefined": {
+      "content": "You may only press 1",
+      "routes": {
+        "1": "third"
+      }
+    },
+    "default": {
+      "content": "You entered something different?"
+    },  
+    "default-params": {
+      "content": "A should equal B",
+      "routes": {"default": "default-params-2"}
+    },
+    "default-params-2": {
+      "content": function() { return "A still equals " + this.a; }
+    },
+    "timeoutRoute": {
+      "content": "You didn't enter anything!"
+    },
+    "pause": {
+      "content": {
+        "type": "pause",
+        "length": 3
+      }
+    },
+    "redirect": {
+      "content": [
+        "I am redirecting!",
+        {
+          "type": "redirect",
+          "text": "first"
+        }
+      ]
+    },
+    "play": {
+      "content": {
+        "type": "play",
+        "text": "http://instantrimshot.com/rimshot.wav",
+        "loop": 10
+      }
+    },
+    "contentFnReturnsArray": {
+      "content": function() {
+        return [{"type":"text", "text":"Hi"}, "Mom"];
+      }
+    },
+    "gatherOptions": {
+      "content": "Enter 3 digits, then asterisk",
+      "routes": {
+        "123": "pause"
+      },
+      "gatherOptions": {
+        "numDigits": 3,
+        "finishOnKey": "*"
+      }
+    },
+    "timeout": {
+      "content": "Don't press anything!",
+      "routes": {
+        "timeout": "timeoutRoute"
+      }
+    },
+    "captureAny": {
+      "content": "Type in a thing other than 1",
+      "routes": {
+        "1": "handleDigits-1",
+        "any": "handleDigits"
+      }
+    },
+    "handleDigits": {
+      "content": function() {
+        return "You entered " + this.Digits;
+      }
+    },
+    "handleDigits-1": {
+      "content": function() {
+        return "You pressed " + this.Digits +", which should equal 1";
+      }
+    },
+    "gatherSaveData": {
+      "content": function() {
+        this.working = true
+        return ["Press", "1"];
+      },
+      "routes": {
+        1: "timeout"
+      }
+    },
+    "redirectAndGather": {
+      "content": {
+        "type": "redirect",
+        "text": "first"
+      },
+      "routes": {
+        "2": "second"
+      }
+    },
+    "redirectAndGatherShorthand": {
+      "content": "redirect:first",
+      "routes": {
+        "2": "second"
+      }
+    },
+    "shorthand-pause": {
+      "content": "pause:3"
+    },
+    "shorthand-play": {
+      "content": "play:http://icq.com/uhoh.wav"
+    },
+    "shorthand-redirect": {
+      "content": "redirect:first"
+    },
+    "shorthand-nested": {
+      "content": ["I see you shiver with anticip", "pause:2", "ation"]
+    },
+    "shorthand-function": {
+      "content": function() { return "redirect:first"; }
+    },
+    "shorthand-space": {
+      "content": "pause: 3"
+    },
+    "usesHelpers": {
+      "content": function() { return this.helpers.callAFunction("Yes!"); }
     }
+  },
+  "helpers": {
+    "callAFunction": function(doesItWork) {
+      return "Does this work? " + doesItWork;
+    }
+  }
 }
