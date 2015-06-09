@@ -48,15 +48,21 @@ function nodeAfterResolvingDigits(digits, story, nodeName) {
   return node;
 }
 
-app.get('/:story/:node', (req, res) => {
-  console.log("Loading " + req.params.story)
-  const storyPromise = db.loadStory('lazerwalker', req.params.story);
-  const sandboxPromise = Q.nfcall(fs.readFile, 'sandbox.js', 'utf8');
+const sandboxPromise = Q.nfcall(fs.readFile, 'sandbox.js', 'utf8');
+function sandboxedStory(username, story) {
+  const storyPromise = db.loadStory('lazerwalker', story);
 
-  Q.all([storyPromise, sandboxPromise])
+  return Q.all([storyPromise, sandboxPromise])
     .spread((story, sandbox) => {
       return Q(sandbox.replace("{{SCRIPT}}", story.data));
-    }).then((script) => {
+    });
+}
+
+app.get('/:story/:node', (req, res) => {
+  console.log("Loading " + req.params.story)
+  
+  sandboxedStory('lazerwalker', req.params.story)
+    .then((script) => {
       return Q.all([runSandbox("tree", script), Q(script)]);
     }).spread((data, script) => {
       var state = req.query.state ? JSON.parse(req.query.state) : {};
@@ -74,14 +80,11 @@ app.get('/:story/:node', (req, res) => {
 });
 
 app.get('/:story', (req, res) => {
-  var data;
-  const script = fs.readFileSync(req.params.story + '.json', 'utf8');
-  const sandbox = fs.readFileSync('sandbox.js', 'utf8')
-    .replace("{{SCRIPT}}", script);
-    
-  runSandbox("tree", sandbox).then((data) => {
-    res.redirect("/" + req.params.story + "/" + data.start + "?" + querystring.stringify({state:req.query.state}));
-  });
+  sandboxedStory('lazerwalker', req.params.story)
+    .then((sandbox) => { runSandbox("tree", sandbox) })
+    .then((data) => {
+      res.redirect("/" + req.params.story + "/" + data.start + queryParamsForState(req.query.state));
+    });
 });
 
 function renderNode(node, sandbox, state) {
