@@ -24,7 +24,12 @@ function queryParamsForState(state) {
 const app = require('express')();
 const server = app.listen(process.env.PORT || 3000);
 
-function handleDigitRounding(digits, story, node) {
+function nodeAfterResolvingDigits(digits, story, nodeName) {
+  var node = story[nodeName];
+  node.name = nodeName;
+
+  if (digits === undefined) return node;
+
   const newNodeName = node.routes[digits];
   const newNode = story[newNodeName];
 
@@ -56,11 +61,9 @@ app.get('/:story/:node', (req, res) => {
     }).spread((data, script) => {
       var state = req.query.state ? JSON.parse(req.query.state) : {};
 
-      var nodeName = req.params.node;
-      var node = data.story[nodeName];
+      node = nodeAfterResolvingDigits(req.query.Digits, data.story, req.params.node);
 
       if (req.query.Digits) {
-        handleDigitRounding(req.query.Digits, story, node);
         state.Digits = req.query.Digits
       }
 
