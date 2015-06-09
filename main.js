@@ -6,6 +6,10 @@ const fs = require('fs')
 const querystring = require('querystring');
 const db = require('./db')
 
+function getSandboxedStoryStructure(sandbox) {
+  return runSandbox("tree", sandbox);
+}
+
 function runSandbox(message, sandbox) {
   const s = new Sandbox();
   var defer = Q.defer();
@@ -50,20 +54,36 @@ function nodeAfterResolvingDigits(digits, story, nodeName) {
 
 const sandboxPromise = Q.nfcall(fs.readFile, 'sandbox.js', 'utf8');
 function sandboxedStory(username, story) {
-  const storyPromise = db.loadStory('lazerwalker', story);
+  const storyPromise = db.loadStory(username, story);
 
   return Q.all([storyPromise, sandboxPromise])
     .spread((story, sandbox) => {
+      console.log(story, sandbox);
       return Q(sandbox.replace("{{SCRIPT}}", story.data));
     });
 }
 
-app.get('/:story/:node', (req, res) => {
+app.get('/:username/:story/', (req, res) => {
+  console.log("QUERY = " + req.query.state);
+  sandboxedStory(req.params.username, req.params.story)
+    .then((sandbox) => { 
+      return getSandboxedStoryStructure(sandbox) })
+    .then((data) => {
+      var state = "";
+      if (req.query.state) {
+        state = queryParamsForState(JSON.parse(req.query.state));
+      }
+
+      res.redirect("/" + req.params.username + "/" + req.params.story + "/" + data.start + state);
+    });
+});
+
+app.get('/:username/:story/:node/', (req, res) => {
   console.log("Loading " + req.params.story)
-  
-  sandboxedStory('lazerwalker', req.params.story)
+
+  sandboxedStory(req.params.username, req.params.story)
     .then((script) => {
-      return Q.all([runSandbox("tree", script), Q(script)]);
+      return Q.all([getSandboxedStoryStructure(script), Q(script)]);
     }).spread((data, script) => {
       var state = req.query.state ? JSON.parse(req.query.state) : {};
 
@@ -77,14 +97,6 @@ app.get('/:story/:node', (req, res) => {
         sendResponse(xml, res);
       });
     }).catch( (e) => console.log("ERROR: ", e));
-});
-
-app.get('/:story', (req, res) => {
-  sandboxedStory('lazerwalker', req.params.story)
-    .then((sandbox) => { runSandbox("tree", sandbox) })
-    .then((data) => {
-      res.redirect("/" + req.params.story + "/" + data.start + queryParamsForState(req.query.state));
-    });
 });
 
 function renderNode(node, sandbox, state) {
