@@ -2,7 +2,8 @@ const Q = require('q');
 const MongoClient = require('mongodb').MongoClient;
 const fs = require('fs');
 
-const url = process.env.MONGOLAB_URI
+const url = process.env.MONGOLAB_URI || "mongodb://localhost:27017/"
+console.log(url);
 
 const dbPromise = Q.nfcall(MongoClient.connect, url);
 
