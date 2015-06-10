@@ -67,6 +67,15 @@ function sandboxedStory(username, story) {
     });
 }
 
+app.get('/:username/:story/raw.js', (req, res) => {
+  const storyPromise = db.loadStory(req.params.username, req.params.story);
+  storyPromise.then((story) => {
+    res.set('Content-Type', 'text/js');
+    console.log(story.data);
+    res.send(story.data);
+  });
+});
+
 app.get('/:username/:story/', (req, res) => {
   console.log("QUERY = " + req.query.state);
   sandboxedStory(req.params.username, req.params.story)
