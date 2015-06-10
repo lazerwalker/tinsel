@@ -6,6 +6,8 @@ const fs = require('fs')
 const querystring = require('querystring');
 const db = require('./db')
 const express = require('express');
+const bodyParser = require('body-parser');
+
 
 function getSandboxedStoryStructure(sandbox) {
   return runSandbox("tree", sandbox);
@@ -27,6 +29,9 @@ function queryParamsForState(state) {
 }
 
 const app = express();
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/editor', express.static(__dirname + '/client'));
 
 const server = app.listen(process.env.PORT || 3000);
@@ -66,6 +71,15 @@ function sandboxedStory(username, story) {
       return Q(sandbox.replace("{{SCRIPT}}", story.data));
     });
 }
+
+app.post('/story', (req, res) => {
+  db.updateStory(req.body.username, req.body.story, req.body.data)
+    .then((result) => res.send(200) )
+    .catch((e) =>  {
+      console.log("ERROR: ", e)
+      res.sendStatus(500);
+    });
+});
 
 app.get('/:username/:story/raw.js', (req, res) => {
   const storyPromise = db.loadStory(req.params.username, req.params.story);

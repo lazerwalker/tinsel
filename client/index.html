@@ -17,6 +17,7 @@
 </head>
 <body>
   Write the code, change the world!
+  <button id='save'>Save</button>
   <script>
     window.codeMirror = CodeMirror(document.body, {
       theme: "solarized"
@@ -25,9 +26,17 @@
     var query = URI(window.location).query(true)
     $.get("/lazerwalker/" + query.story + "/raw.js")
       .done(function(json) {
-        console.log(json);
         codeMirror.getDoc().setValue(json);
       })
+
+    $(document).on('click', '#save', function(e) {
+      var data = {
+        username: "lazerwalker",
+        story: query.story,
+        data: codeMirror.getDoc().getValue()
+      };
+      $.post("/story", data);
+    });
   </script>
 </body>
 </html>
