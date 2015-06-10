@@ -5,6 +5,7 @@ const Q = require('q');
 const fs = require('fs')
 const querystring = require('querystring');
 const db = require('./db')
+const express = require('express');
 
 function getSandboxedStoryStructure(sandbox) {
   return runSandbox("tree", sandbox);
@@ -25,8 +26,11 @@ function queryParamsForState(state) {
   return "?" + querystring.stringify({state:JSON.stringify(state)})
 }
 
-const app = require('express')();
+const app = express();
+app.use('/editor', express.static(__dirname + '/client'));
+
 const server = app.listen(process.env.PORT || 3000);
+
 
 function nodeAfterResolvingDigits(digits, story, nodeName) {
   var node = story[nodeName];
