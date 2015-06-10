@@ -2,18 +2,32 @@
 <head>
   <title>Tinsel</title>
 
+  <script src="bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="bower_components/uri.js/src/URI.min.js"></script>  
   <script src="bower_components/codemirror/lib/codemirror.js"></script>
   <link rel="stylesheet" href="bower_components/codemirror/lib/codemirror.css">
   <link rel="stylesheet" href="bower_components/codemirror/theme/solarized.css">  
   <script src="bower_components/codemirror/mode/javascript/javascript.js"></script>
+
+  <style>
+    textarea, .CodeMirror {
+      height: 95%;
+    }
+    </style>
 </head>
 <body>
   Write the code, change the world!
   <script>
-    var myCodeMirror = CodeMirror(document.body, {
+    window.codeMirror = CodeMirror(document.body, {
       theme: "solarized"
     });
-    console.log(document.body, myCodeMirror);
+
+    var query = URI(window.location).query(true)
+    $.get("/lazerwalker/" + query.story + "/raw.js")
+      .done(function(json) {
+        console.log(json);
+        codeMirror.getDoc().setValue(json);
+      })
   </script>
 </body>
 </html>
