@@ -121,6 +121,15 @@ app.post('/story', (req, res) => {
     });
 });
 
+app.get('/:story/raw.js', (req, res) => {
+  console.log("RAW JS")
+  if (req.user) {
+    res.redirect("/" + req.user + "/" + req.params.story + "/raw.js");
+  } else {
+    res.sendStatus(403);
+  }
+});
+
 app.get('/:username/:story/raw.js', (req, res) => {
   const storyPromise = db.loadStory(req.params.username, req.params.story);
   storyPromise.then((story) => {
