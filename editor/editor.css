@@ -1,0 +1,16 @@
+body, html {
+    height: 100%;
+}
+
+textarea, .CodeMirror {
+    height: 95%;
+}
+
+#main {
+    margin-top: 70px;
+    height: 90%;
+}
+
+#main .toolbar {
+    margin-bottom: 1em;
+}

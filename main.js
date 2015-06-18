@@ -134,7 +134,6 @@ app.post('/story', (req, res) => {
 });
 
 app.get('/:story/raw.js', (req, res) => {
-  console.log("RAW JS")
   if (req.user) {
     res.redirect("/" + req.user + "/" + req.params.story + "/raw.js");
   } else {
