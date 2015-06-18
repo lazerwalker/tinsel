@@ -45,7 +45,7 @@ Passport.use(new TwitterStrategy({
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use('/editor', express.static(__dirname + '/editor'));
+app.use('/', express.static(__dirname + '/editor'));
 app.use(session({ 
   secret: process.env.SESSION_SECRET, 
   saveUninitialized: false,
@@ -59,11 +59,13 @@ Passport.deserializeUser((uid, done) => done(null, uid));
 
 const server = app.listen(process.env.PORT || 3000);
 
+app.use('/', express.static(__dirname + '/editor/welcome.html'));
+
 app.get('/auth/twitter', Passport.authenticate('twitter'), (req, res) => {});
 
 app.get('/auth/twitter/callback', 
-  Passport.authenticate('twitter', { failureRedirect: '/login' }), (req, res) => {
-    res.redirect("/editor?story=example")
+  Passport.authenticate('twitter', { failureRedirect: '/' }), (req, res) => {
+    res.redirect("/editor.html?story=example")
   });
 
 app.get('/logout', function(req, res){
