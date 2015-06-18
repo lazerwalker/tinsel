@@ -47,11 +47,11 @@
   <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 
   <script>
-    $.get("/stories")
+    $.get("/api/stories")
       .done(function(stories) {
         for (var i = 0; i < stories.length; i++) {
           var story = stories[i];
-          $("#stories").append("<h3><a href='editor.html?story=" + encodeURIComponent(story) + "'>" + story + "</a></h3>");
+          $("#stories").append("<h3><a href='editor?story=" + encodeURIComponent(story) + "'>" + story + "</a></h3>");
         }
       })
   </script>

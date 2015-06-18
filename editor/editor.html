@@ -67,7 +67,7 @@
     var query = URI(window.location).query(true)
 
     $("#title").text(query.story)
-    $.get("/" + query.story + "/raw.js")
+    $.get("/api/" + query.story + "/raw.js")
       .done(function(json) {
         codeMirror.getDoc().setValue(json);
       }).error(function(err) {
@@ -80,7 +80,7 @@
         story: query.story,
         data: codeMirror.getDoc().getValue()
       };
-      $.post("/story", data);
+      $.post("/api/story", data);
     });
   </script>
 </body>

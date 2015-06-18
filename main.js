@@ -65,7 +65,7 @@ app.get('/auth/twitter', Passport.authenticate('twitter'), (req, res) => {});
 
 app.get('/auth/twitter/callback', 
   Passport.authenticate('twitter', { failureRedirect: '/' }), (req, res) => {
-    res.redirect("/stories.html")
+    res.redirect("/stories")
   });
 
 app.get('/logout', function(req, res){
@@ -107,21 +107,37 @@ function sandboxedStory(username, story) {
     });
 }
 
-app.get('/stories', (req, res) => {
-  if (!req.user) res.sendStatus(403);
+app.get('/editor', (req, res) => {
+  if (!req.user) {
+    res.redirect("/")
+    return
+  }
+  res.sendFile(__dirname + "/editor/editor.html")
+});
+
+app.get('/stories',  (req, res) => {
+  if (!req.user) {
+    res.redirect("/")
+    return
+  }
+  res.sendFile(__dirname + "/editor/stories.html")
+});
+
+app.get('/api/stories', (req, res) => {
+  console.log("Fetching stories", req.user)
   db.fetchStories(req.user)
     .then((result) => {
       const names = _(result)
         .pluck('name')
         .reject((name) => _.isNull(name))
         .value()
-      res.send(names);
+      res.json(names);
     });
 });
 
-app.post('/story', (req, res) => {
+app.post('/api/story', (req, res) => {
   if (req.body.username != req.user) {
-    res.sendStatus(403)
+    res.sendStatus(401)
     return
   }
 
@@ -133,11 +149,11 @@ app.post('/story', (req, res) => {
     });
 });
 
-app.get('/:story/raw.js', (req, res) => {
+app.get('/api/:story/raw.js', (req, res) => {
   if (req.user) {
     res.redirect("/" + req.user + "/" + req.params.story + "/raw.js");
   } else {
-    res.sendStatus(403);
+    res.sendStatus(401);
   }
 });
 
@@ -145,7 +161,6 @@ app.get('/:username/:story/raw.js', (req, res) => {
   const storyPromise = db.loadStory(req.params.username, req.params.story);
   storyPromise.then((story) => {
     res.set('Content-Type', 'text/js');
-    console.log(story.data);
     res.send(story.data);
   });
 });
