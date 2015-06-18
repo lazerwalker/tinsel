@@ -22,6 +22,14 @@ exports.loadStory = (username, filename) => {
   });
 }
 
+exports.fetchStories = (username) => {
+  return dbPromise.then((db) => {
+    const collection = db.collection(username);
+    return Q.ninvoke(collection, "find")
+      .then((stories) => Q.ninvoke(stories, "toArray"))
+  });
+}
+
 exports.createStory = (username, filename) => {
   return dbPromise.then((db) => {
     const collection = db.collection(username);

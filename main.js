@@ -65,7 +65,7 @@ app.get('/auth/twitter', Passport.authenticate('twitter'), (req, res) => {});
 
 app.get('/auth/twitter/callback', 
   Passport.authenticate('twitter', { failureRedirect: '/' }), (req, res) => {
-    res.redirect("/editor.html?story=example")
+    res.redirect("/stories.html")
   });
 
 app.get('/logout', function(req, res){
@@ -106,6 +106,18 @@ function sandboxedStory(username, story) {
       return Q(sandbox.replace("{{SCRIPT}}", story.data));
     });
 }
+
+app.get('/stories', (req, res) => {
+  if (!req.user) res.sendStatus(403);
+  db.fetchStories(req.user)
+    .then((result) => {
+      const names = _(result)
+        .pluck('name')
+        .reject((name) => _.isNull(name))
+        .value()
+      res.send(names);
+    });
+});
 
 app.post('/story', (req, res) => {
   if (req.body.username != req.user) {
