@@ -7,7 +7,9 @@ const querystring = require('querystring');
 const db = require('./db')
 const express = require('express');
 const bodyParser = require('body-parser');
-
+const Passport = require('passport');
+const TwitterStrategy = require('passport-twitter')
+const session = require('express-session')
 
 function getSandboxedStoryStructure(sandbox) {
   return runSandbox("tree", sandbox);
@@ -30,12 +32,43 @@ function queryParamsForState(state) {
 
 const app = express();
 
+
+Passport.use(new TwitterStrategy({
+  consumerKey: process.env.TWITTER_KEY,
+  consumerSecret: process.env.TWITTER_SECRET,
+  callbackURL: process.env.HOSTNAME + "/auth/twitter/callback"
+}, (token, tokenSecret, profile, done) => {
+  console.log("Logged in with Twitter user: ", profile.username);
+  done(null, profile.username)
+}));
+
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/editor', express.static(__dirname + '/client'));
+app.use(session({ 
+  secret: process.env.SESSION_SECRET, 
+  saveUninitialized: false,
+  resave: true}));
+app.use(Passport.initialize());
+app.use(Passport.session());
+
+Passport.serializeUser((uid, done) => done(null, uid));
+Passport.deserializeUser((uid, done) => done(null, uid));
+
 
 const server = app.listen(process.env.PORT || 3000);
 
+app.get('/auth/twitter', Passport.authenticate('twitter'), (req, res) => {});
+
+app.get('/auth/twitter/callback', 
+  Passport.authenticate('twitter', { failureRedirect: '/login' }), (req, res) => {
+    res.redirect("/editor?story=example")
+  });
+
+app.get('/logout', function(req, res){
+  res.redirect('/');
+});
 
 function nodeAfterResolvingDigits(digits, story, nodeName) {
   var node = story[nodeName];
@@ -73,8 +106,13 @@ function sandboxedStory(username, story) {
 }
 
 app.post('/story', (req, res) => {
-  db.updateStory(req.body.username, req.body.story, req.body.data)
-    .then((result) => res.send(200) )
+  if (req.body.username != req.user) {
+    res.sendStatus(403)
+    return
+  }
+
+  db.updateStory(req.user, req.body.story, req.body.data)
+    .then((result) => res.sendStatus(200) )
     .catch((e) =>  {
       console.log("ERROR: ", e)
       res.sendStatus(500);
@@ -90,7 +128,7 @@ app.get('/:username/:story/raw.js', (req, res) => {
   });
 });
 
-app.get('/:username/:story/', (req, res) => {
+app.get('/:username/:story/', (req, res) => { 
   console.log("QUERY = " + req.query.state);
   sandboxedStory(req.params.username, req.params.story)
     .then((sandbox) => { 
