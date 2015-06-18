@@ -1,39 +1,38 @@
-var script = {{SCRIPT}};
+const fs = require('fs')
+const Q = require('q')
+const Sandbox = require('sandbox');
 
-var functions = [];
-for (nodeIndex in script.story) {
-  var node = script.story[nodeIndex];
-  var array = node.content;
-  if (Array.isArray(array)) {
-    for (i in array) {
-      var item = array[i];
-      if (item.type == "function" && typeof item["function"] == "function") {
-        functions.push(item.function);
-        item.functionCount = functions.length - 1;
-      }
-    }
-  } else {
-    if (typeof node.content == "function") {
-      functions.push(node.content);
-      node.content = {
-        type: "function",
-        functionCount: functions.length - 1
-      };
-    }
-  }
+
+function sandboxedStoryStructure(sandbox) {
+  return runSandbox("tree", sandbox);
 }
 
-onmessage = function(message) {
-  if (message === "tree") {
-    postMessage(script);
-  } else {
-    var obj = JSON.parse(message);
-    var context = obj.opts;
-    context.helpers = script.helpers;
+function runSandbox(message, sandbox) {
+  const s = new Sandbox();
+  var defer = Q.defer();
+  s.run(sandbox);
+  s.on('message', (result) => defer.resolve(result));
+  s.postMessage(message);
 
-    var result = functions[obj.functionCount].bind(context)();
-    delete context.helpers;
-    
-    postMessage(JSON.stringify([result, context]));
-  }
+  return defer.promise;
 }
+
+const sandboxPromise = Q.nfcall(fs.readFile, 'sandbox-helper.js', 'utf8');
+function sandboxedStory(storyPromise) {
+  return Q.all([storyPromise, sandboxPromise])
+    .spread((story, sandbox) => {
+      const script = sandbox.replace("{{SCRIPT}}", story.data)
+      return Q({
+        script: script,
+        story: () => { return sandboxedStoryStructure(script) },
+        sendMessage: (message) => { return runSandbox(message, script) }
+      });
+    });
+}
+
+
+module.exports = {
+  sandboxedStoryStructure: sandboxedStoryStructure, 
+  runSandbox: runSandbox, 
+  sandboxedStory: sandboxedStory
+};
