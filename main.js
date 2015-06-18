@@ -45,7 +45,7 @@ Passport.use(new TwitterStrategy({
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use('/editor', express.static(__dirname + '/client'));
+app.use('/editor', express.static(__dirname + '/editor'));
 app.use(session({ 
   secret: process.env.SESSION_SECRET, 
   saveUninitialized: false,
