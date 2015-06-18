@@ -136,8 +136,8 @@ app.get('/api/stories', (req, res) => {
 });
 
 app.post('/api/story', (req, res) => {
-  if (req.body.username != req.user) {
-    res.sendStatus(401)
+  if (!req.user) {
+    res.sendStatus(403)
     return
   }
 
