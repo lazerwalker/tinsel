@@ -28,7 +28,7 @@
       "routes": {
         "1": "second",
         "2": "third",
-        "default": "default",
+        "any": "default",
       }
     },
     "second": {
@@ -51,7 +51,7 @@
       "content": "You may only press 1",
       "routes": {
         "1": "first",
-        "default": "default"
+        "any": "default"
       }
     },
     "default-undefined": {
@@ -65,7 +65,7 @@
     },  
     "default-params": {
       "content": "A should equal B",
-      "routes": {"default": "default-params-2"}
+      "routes": {"any": "default-params-2"}
     },
     "default-params-2": {
       "content": function() { return "A still equals " + this.a; }

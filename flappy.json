@@ -52,7 +52,7 @@
 			},
 			"routes": {
 				"1": "flap",
-				"default": "recurse",
+				"any": "recurse",
 				"timeout": "recurse",
 				"options": {
 					"timeout": 2

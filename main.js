@@ -63,10 +63,7 @@ function nodeAfterResolvingDigits(digits, story, nodeName) {
   } else if (node.routes.any) {
     nodeName = node.routes.any;
     node = story[nodeName];
-  } else if (node.routes.default) {
-    nodeName = node.routes.default;
-    node = story[nodeName];
-  }
+  } 
 
   node.name = nodeName;
   return node;

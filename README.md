@@ -240,9 +240,9 @@ You can specify a catchall node if a player enters something that's not specifie
 If the player enters anything other than 2, 4, or 6, they will be routed to the "choseUnknownFood" node.
 
 
-#### "Default" Route
+#### "Any" Route
 
-Tinsel won't wait forever for input. You can specify a `default` route that will be triggered after five seconds of no user input. (That timeout is configurable).
+Tinsel won't wait forever for input. You can specify an `any` route that will be triggered after five seconds of no user input. (That timeout is configurable).
 
 ```json
 "coinToss": {
@@ -250,7 +250,7 @@ Tinsel won't wait forever for input. You can specify a `default` route that will
     "routes": {
         "1": "heads",
         "2": "tails",
-        "default": "tooSlow"
+        "any": "tooSlow"
     }
 },
 "tooSlow": {
@@ -328,7 +328,7 @@ Visiting "whoAreYou" will result in the spoken text "I'm afraid I can't let you 
 
 #### Capturing entered input
 
-If a node is visited as a result of the user entering in one or more digits, the entered number(s) can be accessed using the `this.Digits` property. This is particularly useful if a user was routed via an "any" or "default" node.
+If a node is visited as a result of the user entering in one or more digits, the entered number(s) can be accessed using the `this.Digits` property. This is particularly useful if a user was routed via an "any" node.
 
 ```js
 "captureAny": {
