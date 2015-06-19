@@ -94,7 +94,7 @@
     };
 
     function validate() {
-      var url = "http://" + window.location.hostname + ":" + (parseInt(window.location.port) + 1);
+      var url = "http://sandbox.maketinsel.com";
       stuff(url, function (context) { 
         var string = "var foo = " + codeMirror.getDoc().getValue();
         context.load("<html><head></head><body></body></html>")
