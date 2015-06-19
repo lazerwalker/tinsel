@@ -175,6 +175,15 @@
     "shorthand-space": {
       "content": "pause: 3"
     },
+    "shorthand-alice": {
+      "content": "alice: My name is Alice!"
+    },
+    "shorthand-woman": {
+      "content": "woman: I am a woman."
+    },
+    "shorthand-man": {
+      "content": "man: I am a man!"
+    },
     "usesHelpers": {
       "content": function() { return this.helpers.callAFunction("Yes!"); }
     }

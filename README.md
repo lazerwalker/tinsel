@@ -112,6 +112,16 @@ The `text` type corresponds to the TwiML [Say](https://www.twilio.com/docs/api/t
 
 If you just pass in a string containing text, it will be assumed to be Text content with Twilio's default options (that is, it will be read a single time using the American English "man" voice).
 
+You can also prefix a string with the name of the voice to use for the three `en-us` voices:
+
+```json
+"content": [
+    "man: I'm late! I'm late!",
+    "woman": Off with their heads!",
+    "alice: I really shouldn't have fallen down that rabbithole!"
+]
+```
+
 
 #### Pause
 

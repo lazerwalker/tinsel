@@ -18,6 +18,12 @@ function handleShorthand(content) {
         obj.text = testForShorthand[2];
       }
       return obj;
+    } else if (["man", "woman", "alice"].indexOf(prefixWord) != -1) {
+      obj = {};
+      obj.type = "text";
+      obj.voice = prefixWord;
+      obj.text = testForShorthand[2];
+      return obj;
     }
   }
   return content;

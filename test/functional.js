@@ -170,6 +170,30 @@ describe("when using the example JSON file", function() {
       });
     });
 
+    it("allows 'man' shorthand", function(done) {
+      request("http://localhost:5000/lazerwalker/example/shorthand-man", function(error, response, body) {
+        expect(body).to.equal('<?xml version="1.0" encoding="UTF-8"?><Response><Say voice="man">I am a man!</Say></Response>');
+        done();
+      });
+    });
+
+
+    it("allows 'woman' shorthand", function(done) {
+      request("http://localhost:5000/lazerwalker/example/shorthand-woman", function(error, response, body) {
+        expect(body).to.equal('<?xml version="1.0" encoding="UTF-8"?><Response><Say voice="woman">I am a woman.</Say></Response>');
+        done();
+      });
+    });
+
+
+    it("allows 'alice' shorthand", function(done) {
+      request("http://localhost:5000/lazerwalker/example/shorthand-alice", function(error, response, body) {
+        expect(body).to.equal('<?xml version="1.0" encoding="UTF-8"?><Response><Say voice="alice">My name is Alice!</Say></Response>');
+        done();
+      });
+    });
+
+
     it("allows shorthand in arrays", function(done) {
       request("http://localhost:5000/lazerwalker/example/shorthand-nested", function(error, response, body) {
         expect(body).to.equal('<?xml version="1.0" encoding="UTF-8"?><Response><Say>I see you shiver with anticip</Say><Pause length="2"></Pause><Say>ation</Say></Response>');
