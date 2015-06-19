@@ -53,10 +53,10 @@
 			"routes": {
 				"1": "flap",
 				"default": "recurse",
-				"timeout": "recurse"
-			},
-			"gatherOptions": {
-				"timeout": 2
+				"timeout": "recurse",
+				"options": {
+					"timeout": 2
+				}
 			}
 		},
 		"flap": {
@@ -71,10 +71,10 @@
 			},
 			"routes": {
 				1: "start",
-				"timeout": "thanks"
-			},
-			"gatherOptions": {
-				"timeout": 3
+				"timeout": "thanks",
+				"options": {
+					"timeout": 3
+				}
 			}
 		},
 		"thanks": {
