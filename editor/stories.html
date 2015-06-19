@@ -43,6 +43,7 @@
     <div class='jumbotron'>
       <h1>Your Stories</h1>
       <p>Any stories you have created will show up here. Click on a title to edit it!</p>
+      <button id='new' class='btn btn-primary'>New Story</button>
     </div>
     <div id='stories'></div>
   </div>
@@ -58,6 +59,12 @@
           $("#stories").append("<h3><a href='editor?story=" + encodeURIComponent(story) + "'>" + story + "</a></h3>");
         }
       })
+    $(document).on('click', '#new', function (e) {
+      var name = prompt("What should we call your new story?", "Your Awesome Story");
+      if (name) {
+        window.location = window.location.origin + "/editor?story=" + name;
+      }
+    })
   </script>
 </body>
 </html>
