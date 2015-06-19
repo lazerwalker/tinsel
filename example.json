@@ -100,14 +100,14 @@
         return [{"type":"text", "text":"Hi"}, "Mom"];
       }
     },
-    "gatherOptions": {
+    "routeOptions": {
       "content": "Enter 3 digits, then asterisk",
       "routes": {
-        "123": "pause"
-      },
-      "gatherOptions": {
-        "numDigits": 3,
-        "finishOnKey": "*"
+        "123": "pause",
+        "options": {
+          "numDigits": 3,
+          "finishOnKey": "*"
+        }
       }
     },
     "timeout": {

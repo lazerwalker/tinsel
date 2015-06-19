@@ -107,14 +107,14 @@ function renderNode(node, sandbox, state) {
 
       delete newData["Digits"]
 
-      const defaultGatherOpts = {
+      const defaultRouteOpts = {
         method: "GET",
         numDigits: 1,
         action: node.name + queryParamsForState(newData)
       };
 
-      const gatherOptions = _.assign(defaultGatherOpts, node.gatherOptions);
-      response.gather(gatherOptions, (n) => sayText(result, n));
+      const routeOptions = _.assign(defaultRouteOpts, node.routes.options);
+      response.gather(routeOptions, (n) => sayText(result, n));
 
       if (node.routes.timeout) {
         response.redirect(node.routes.timeout + queryParamsForState(newData), {method: "GET"})

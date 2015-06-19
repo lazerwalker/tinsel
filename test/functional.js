@@ -116,9 +116,9 @@ describe("when using the example JSON file", function() {
       });
     });
 
-    it("should respect gatherOptions", function(done) {
-      request("http://localhost:5000/lazerwalker/example/gatherOptions", function(error, response, body) {
-        expect(body).to.equal('<?xml version="1.0" encoding="UTF-8"?><Response><Gather method="GET" numDigits="3" action="gatherOptions" finishOnKey="*"><Say>Enter 3 digits, then asterisk</Say></Gather></Response>');
+    it("should respect routeOptions", function(done) {
+      request("http://localhost:5000/lazerwalker/example/routeOptions", function(error, response, body) {
+        expect(body).to.equal('<?xml version="1.0" encoding="UTF-8"?><Response><Gather method="GET" numDigits="3" action="routeOptions" finishOnKey="*"><Say>Enter 3 digits, then asterisk</Say></Gather></Response>');
         done();
       });
     });
@@ -231,9 +231,9 @@ describe("when using the example JSON file", function() {
   });
 
 
-  it("should respect gatherOptions", function(done) {
-    request("http://localhost:5000/lazerwalker/example/gatherOptions", function(error, response, body) {
-      expect(body).to.equal('<?xml version="1.0" encoding="UTF-8"?><Response><Gather method="GET" numDigits="3" action="gatherOptions" finishOnKey="*"><Say>Enter 3 digits, then asterisk</Say></Gather></Response>');
+  it("should respect routeOptions", function(done) {
+    request("http://localhost:5000/lazerwalker/example/routeOptions", function(error, response, body) {
+      expect(body).to.equal('<?xml version="1.0" encoding="UTF-8"?><Response><Gather method="GET" numDigits="3" action="routeOptions" finishOnKey="*"><Say>Enter 3 digits, then asterisk</Say></Gather></Response>');
       done();
     });
   })
