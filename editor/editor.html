@@ -84,7 +84,14 @@
       };
       $.post("/api/story", data)
         .done(function(result) {
-          console.log("Saved")
+          $("#save")
+            .addClass("btn-success")
+            .text("Saved!")
+          $(".CodeMirror textarea").one("focus", function(el) {
+            $("#save")
+              .removeClass("btn-success")
+              .html("Save")
+          });
         }).error(function(err) {
           alert("An error has occurred. Your data has NOT been saved.")
         });
