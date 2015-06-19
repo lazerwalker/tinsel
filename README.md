@@ -377,7 +377,7 @@ To say that once more: **this will cost you real money.** We are not responsible
 4. Set the Voice request URL to be `http://www.maketinsel.com/YOUR_USERNAME/STORY_NAME`, with a verb of `GET`. `YOUR_USERNAME` will be the Twitter handle you use to log in to Tinsel.
 5. Hit "Save"
 
-That's it! If you call the number, it should start at the node specified by the `start` property of your Tinsel file.
+That's it! If you call the number, it should start at the node specified by the `start` property of your Tinsel file. After it's set up, any new changes you make to your story script should be reflected instantly on Twilio as soon as you save them in the web editor.
 
 
 # Self-Hosting Tinsel
