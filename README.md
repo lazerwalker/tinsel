@@ -117,7 +117,7 @@ You can also prefix a string with the name of the voice to use for the three `en
 ```json
 "content": [
     "man: I'm late! I'm late!",
-    "woman": Off with their heads!",
+    "woman: Off with their heads!",
     "alice: I really shouldn't have fallen down that rabbithole!"
 ]
 ```
@@ -131,9 +131,9 @@ The easiest way to use `pause` is with a string of the format `pause:x`, where `
 
 ```
 "content": [
-    "This is so interesting!",
-    "pause:2",
-    "NOT!"
+    "I see you shiver with anticip-",
+    "pause:1",
+    "ation."
 ]
 ```
 
@@ -143,15 +143,15 @@ This is equivalent to:
 "content": [
     {
         "type": "text",
-        "text": "This is so interesting!"
+        "text": "I see you shiver with anticip-"
     },
     {
         "type": "pause",
-        "length": 2
+        "length": 1
     },
     {
         "type": "text",
-        "text": "NOT!"
+        "text": "ation."
     }
 ]
 ```
@@ -228,7 +228,7 @@ The simplest way to do this is by adding a `routes` dictionary to a node that ma
 }
 ```
 
-If the "routes" dictionary exists as part of a node, Tinsel will listen for user input and take care of routing to the appropriate node.
+If the `routes` dictionary exists as part of a node, Tinsel will listen for user input and take care of routing to the appropriate node.
 
 
 #### "Any" Route
@@ -250,9 +250,9 @@ You can specify a catchall node if a player enters something that's not specifie
 If the player enters anything other than 2, 4, or 6, they will be routed to the "choseUnknownFood" node.
 
 
-#### "Any" Route
+#### "Timeout" Route
 
-Tinsel won't wait forever for input. You can specify an `any` route that will be triggered after five seconds of no user input. (That timeout is configurable).
+Tinsel won't wait forever for input. You can specify an `timeout` route that will be triggered after five seconds of no user input. (That timeout is configurable).
 
 ```json
 "coinToss": {
@@ -260,7 +260,7 @@ Tinsel won't wait forever for input. You can specify an `any` route that will be
     "routes": {
         "1": "heads",
         "2": "tails",
-        "any": "tooSlow"
+        "timeout": "tooSlow"
     }
 },
 "tooSlow": {
@@ -311,6 +311,8 @@ For example, the following will result in a voice saying "one plus one equals tw
 Pretty awesome, right?
 
 All the standard rules apply about content blocks; that function could just as easily have returned `["1 plus 1 equals ", result]` or full content objects instead of strings.
+
+(For the security-minded: this JS is all executed within a jailed sandbox context.)
 
 
 #### Persisting state across nodes
