@@ -4,6 +4,9 @@ Tinsel is a game engine and hosted web service that enables the creation of tele
 
 Why the name Tinsel? It's vaguely like [Twine](http://twinery.org), but it involves (phone) trees. I know, you're groaning.
 
+It's heavily inspired by the lovely [Cheap Bots Done Quick](http://cheapbotsdonequick.com).
+
+
 ## What actually is it?
 
 At a high level, Tinsel is a web app that lets you type or paste in scripts in a specific format, point a [Twilio](http://twilio.com) app at its servers, and magically have a functioning interactive phone tree you can call on any touch-tone phone.
