@@ -82,7 +82,12 @@
         story: query.story,
         data: codeMirror.getDoc().getValue()
       };
-      $.post("/api/story", data);
+      $.post("/api/story", data)
+        .done(function(result) {
+          console.log("Saved")
+        }).error(function(err) {
+          alert("An error has occurred. Your data has NOT been saved.")
+        });
     });
   </script>
 </body>
