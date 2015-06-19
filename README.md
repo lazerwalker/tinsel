@@ -369,7 +369,7 @@ Once you've written your Tinsel script, you probably want to play it! Tinsel use
 
 **WARNING**: This costs real money. Twilio charges you to get a phone number through them ($1/month for a US number at the time of writing), as well as per minute of use ($0.01/minute for that same U.S. number to receive calls from a U.S. number). 
 
-To say that more more time: **this will cost you real money.** We are not responsible for any charges you may incur.
+To say that once more: **this will cost you real money.** We are not responsible for any charges you may incur.
 
 1. Register for a Twilio account
 2. Buy a phone number capable of receiving voice calls
