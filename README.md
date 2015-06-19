@@ -4,7 +4,7 @@ Tinsel is a game engine and hosted web service that enables the creation of tele
 
 Although it wasn't built using Tinsel, [Here And There Along The Echo](http://kentuckyroutezero.com/here-and-there-along-the-echo/) is a great example of the sort of experience you could use Tinsel to build. A few other sample projects also exist:
 
-* Call [(858) 215-1980](tel:+18582151980) for a Flappy Bird clone ([source](https://github.com/lazerwalker/tinsel/blob/json/flappy.json))
+* Call [(858) 215-1980](tel:+18582151980) for a Flappy Bird clone ([source](https://github.com/lazerwalker/tinsel/blob/master/flappy.json))
 
 Why the name Tinsel? It's vaguely like [Twine](http://twinery.org), but it involves (phone) trees. I know, you're groaning. Tinsel is also heavily inspired by the lovely [Cheap Bots Done Quick](http://cheapbotsdonequick.com).
 
