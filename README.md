@@ -2,10 +2,11 @@
 
 Tinsel is a game engine and hosted web service that enables the creation of telephony-based interactive audio experiences. If you want to make something that uses a touch tone dial pad for input and either text-to-speech or recorded audio for output, Tinsel might be the tool for you!
 
-Why the name Tinsel? It's vaguely like [Twine](http://twinery.org), but it involves (phone) trees. I know, you're groaning.
+Although it wasn't built using Tinsel, [Here And There Along The Echo](http://kentuckyroutezero.com/here-and-there-along-the-echo/) is a great example of the sort of experience you could use Tinsel to build. A few other sample projects also exist:
 
-It's heavily inspired by the lovely [Cheap Bots Done Quick](http://cheapbotsdonequick.com).
+* Call [(858) 215-1980](tel:+18582151980) for a Flappy Bird clone ([source](https://github.com/lazerwalker/tinsel/blob/json/flappy.json))
 
+Why the name Tinsel? It's vaguely like [Twine](http://twinery.org), but it involves (phone) trees. I know, you're groaning. Tinsel is also heavily inspired by the lovely [Cheap Bots Done Quick](http://cheapbotsdonequick.com).
 
 ## What actually is it?
 
@@ -18,6 +19,7 @@ In actuality, Tinsel is really two different things.
 * A web application that offers a browser-based UI for creating and editing Tinsel documents. It then dynamically transforms those scripts into Twilio-compatible TwiML files.
 
 (Looking for the old, Ruby-based version of Tinsel? Check out the `ruby` branch: http://github.com/lazerwalker/tinsel/tree/ruby)
+
 
 ## So how do I use it?
 
