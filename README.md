@@ -21,7 +21,12 @@ In actuality, Tinsel is really two different things.
 http://maketinsel.com is the hosted version of Tinsel. That's probably what you want.
 
 
-## Language Reference
+## A caveat on stability and security
+
+Tinsel is very rough prototype software, with many bugs and missing features. Furthermore, it has been designed largely for games and interactive art, a choice that doesn't place particular importance on security or privacy. Which is to say: use Tinsel to make cool things. If you're trying to use it to fulfill a business need, you're likely better off building a custom solution yourself on top of Twilio.
+
+
+# Language Reference
 
 A Tinsel document is more or less a [JSON](http://json.org) document in a particular format. Here's a "Hello World" :
 
@@ -358,7 +363,7 @@ To say that more more time: **this will cost you real money.** We are not respon
 That's it! If you call the number, it should start at the node specified by the `start` property of your Tinsel file.
 
 
-## Self-Hosting Tinsel
+# Self-Hosting Tinsel
 
 It's also possible to host your own Tinsel instance. The suggested way to deploy Tinsel is to [Heroku](http://heroku.com) or an alternative PaaS with support for Heroku buildpacks.
 
@@ -386,7 +391,7 @@ heroku config:set SESSION_SECRET="some string"
 If you have the Heroku Toolbelt installed, you should be able to create a `.env` file with the appropriate keys, and `foreman start` should do it. You'll need Mongo running.
 
 
-## Contributing
+# Contributing
 Contributions are appreciated/accepted in any form! Please get in touch if you have questions or comments.
 
 There is a test suite you can run via `npm test`. It requires Mongo to be running, and will populate a test user in the database. It only tests consumer-facing features (e.g. serving TwiML files from a Tinsel script). 
@@ -394,11 +399,11 @@ There is a test suite you can run via `npm test`. It requires Mongo to be runnin
 As a warning: the code surrounding the editor UI is... not the most carefully crafted code I've ever written.
 
 
-## License
+# License
 Tinsel is available under the MIT License. See the LICENSE file for more information.
 
 
-## Contact
+# Contact
 
 Mike Lazer-Walker
 
