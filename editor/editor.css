@@ -14,3 +14,28 @@ textarea, .CodeMirror {
 #main .toolbar {
     margin-bottom: 1em;
 }
+
+iframe {
+    display: none;
+}
+
+.alert {
+    margin: auto;
+    width: 75%;
+}
+
+#delete {
+    position: absolute;
+    right: 0;
+    top: 25%;
+}
+
+#save {
+    position: absolute;
+    left: 0;
+    top: 25%;
+}
+
+.toolbar {
+    position: relative;
+}

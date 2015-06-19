@@ -46,16 +46,19 @@
       </div>
     </nav>
   <div class='container' id='main'>
-    <div class='toolbar'>
       <p>
         You are editing the story '<strong id='title'></strong>'. 
         <button id='rename' class='btn btn-xs btn-default'>Rename</button>
       </p>
-      <button id='delete' class='btn btn-danger' style='float:right'>Delete</button>      
+    <div class='toolbar'>
+      <button id='delete' class='btn btn-danger'>Delete</button> 
+      <div class="alert" role="alert" id="validation"></div>     
       <button id='save' class='btn btn-default'>Save</button>
     </div>
+     <textarea id="editor"></textarea>
   </div>
 
+  <script src="stuff.min.js"></script>  
   <script src="bower_components/uri.js/src/URI.min.js"></script>  
 
   <script src="
@@ -67,21 +70,7 @@
   <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 
   <script>
-    window.codeMirror = CodeMirror($("#main")[0], {
-      theme: "solarized"
-    });
-
-    var query = URI(window.location).query(true)
-
-    $("#title").text(query.story)
-    $.get("/api/" + query.story + "/raw.js")
-      .done(function(json) {
-        codeMirror.getDoc().setValue(json);
-      }).error(function(err) {
-        console.log(err);
-      })
-
-    $(document).on('click', '#save', function(e) {
+    function save() {
       var data = {
         story: query.story,
         data: codeMirror.getDoc().getValue()
@@ -99,7 +88,55 @@
         }).error(function(err) {
           alert("An error has occurred. Your data has NOT been saved.")
         });
+    };
+
+    function validate() {
+      var url = "http://" + window.location.hostname + ":" + (parseInt(window.location.port) + 1);
+      stuff(url, function (context) { 
+        var string = "var foo = " + codeMirror.getDoc().getValue();
+        context.load("<html><head></head><body></body></html>")
+        context.evaljs(string, function(err, result) {
+          if (err) {
+            $("#validation")
+              .removeClass("alert-success")
+              .addClass("alert-danger")
+              .html("<strong>Uh oh!</strong> Your script's not quite valid. Here's the error: <pre>" + err + "</pre>")
+          } else {
+            $("#validation")
+              .removeClass("alert-danger")
+              .addClass("alert-success")
+              .html("<strong>Right on!</strong> Your script is valid Tinsel code.")
+          }
+        });
+      });
+    }
+
+    function update() {
+      validate();
+      save();
+    }
+
+    window.codeMirror = CodeMirror.fromTextArea($('#editor')[0], {
+      theme: "solarized",
     });
+
+    var typingTimer;
+    codeMirror.on('change', function(cm) {
+      clearTimeout(typingTimer);
+      typingTimer = setTimeout(validate, 1000);
+    });
+
+    var query = URI(window.location).query(true)
+
+    $("#title").text(query.story)
+    $.get("/api/" + query.story + "/raw.js")
+      .done(function(json) {
+        codeMirror.getDoc().setValue(json);
+      }).error(function(err) {
+        console.log(err);
+      })
+
+    $(document).on('click', '#save', save);
 
     $(document).on('click', '#rename', function(e) {
       var newName = prompt("Enter a new name for the story", query.story);

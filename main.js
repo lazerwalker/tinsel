@@ -35,7 +35,15 @@ app.use(session({
 app.use(Passport.initialize());
 app.use(Passport.session());
 
-const server = app.listen(process.env.PORT || 3000);
+const port = process.env.PORT || 3000
+const server = app.listen(port);
+
+const sandboxApp = express()
+sandboxApp.use('/', express.static(__dirname + "/client-sandbox"))
+console.log("Listening to sandbox on port " + (parseInt(port) + 1))
+const sandboxServer = sandboxApp.listen(parseInt(port) + 1)
+
+
 
 //----------------------------------------
 // Helpers
