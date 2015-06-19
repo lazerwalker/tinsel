@@ -1,6 +1,6 @@
 # Tinsel
 
-Tinsel is a hosted game engine and web service that enables the creation of telephony-based interactive audio experiences. If you want to make something that uses a touch tone dial pad for input and either text-to-speech or recorded audio for output, Tinsel might be the tool for you!
+Tinsel is a game engine and hosted web service that enables the creation of telephony-based interactive audio experiences. If you want to make something that uses a touch tone dial pad for input and either text-to-speech or recorded audio for output, Tinsel might be the tool for you!
 
 Why the name Tinsel? It's vaguely like [Twine](http://twinery.org), but it involves (phone) trees. I know, you're groaning.
 
@@ -41,17 +41,17 @@ If you hooked that up to Twilio and called the appropriate phone number (see the
 
 ### Nodes
 
-A Tinsel game is made up of one or more named nodes. The document's "story" key defines a dictionary. Inside this dictionary, each key is the name of a node and its value is the node itself. In this case, there's a single node, titled "helloWorld", whose content is the text "Hello, World!". A node name can be any string that's a valid identifier name. While the quotation marks around the name are generally not necessary, they're recommended.
+A Tinsel game is made up of one or more named nodes. The document's `story` key defines a dictionary. Inside this dictionary, each key is the name of a node and its value is the node itself. In this case, there's a single node, titled `helloWorld`, whose content is the text "Hello, World!". A node name can be any string that's a valid identifier name. While the quotation marks around the name are generally not necessary, they're recommended.
 
 
 ### Starting Node
 
-The "start" key at the root of the document contains the name of the node that should be the first node players go to when they call the appropriate phone number.
+The `start` key at the root of the document contains the name of the node that should be the first node players go to when they call the appropriate phone number.
 
 
 ### Content Arrays
 
-Instead of a node containing a single piece of content, its "content" property can be an array containing one or more pieces of content. Here's a slightly modified version of our Hello World.
+Instead of a node containing a single piece of content, its `content` property can be an array containing one or more pieces of content. Here's a slightly modified version of our Hello World.
 
 ```json
 {
@@ -83,12 +83,12 @@ In our Hello World example, the node's content is just a string containing some 
 }
 ```
 
-Notice that "type" option. You might be guessing right now that there are other types of content you can include that aren't "a robot says things". There are a whole bunch, each corresponding to a different [TwiML](https://www.twilio.com/docs/api/twiml/) verb. All of them also support any of the TwiML options right there as properties on the content object. How interesting!
+Notice that `type` option. You might be guessing right now that there are other types of content you can include that aren't "a robot says things". There are a whole bunch, each corresponding to a different [TwiML](https://www.twilio.com/docs/api/twiml/) verb. All of them also support any of the TwiML options right there as properties on the content object. How interesting!
 
 
 #### Text
 
-The "text" type corresponds to the TwiML [Say](https://www.twilio.com/docs/api/twiml/say) verb. It supports any options that the Say verb supports. For example, if we wanted that "Hello, World!" text to be said five times by a female robot voice, we could pass in the following:
+The `text` type corresponds to the TwiML [Say](https://www.twilio.com/docs/api/twiml/say) verb. It supports any options that the Say verb supports. For example, if we wanted that "Hello, World!" text to be said five times by a female robot voice, we could pass in the following:
 
 ```json
 "content": {
@@ -105,9 +105,9 @@ If you just pass in a string containing text, it will be assumed to be Text cont
 
 #### Pause
 
-The "pause" type corresponds to the TwiML [Pause](https://www.twilio.com/docs/api/twiml/pause) verb, and (surprise!) results in a brief pause.
+The `pause` type corresponds to the TwiML [Pause](https://www.twilio.com/docs/api/twiml/pause) verb, and (surprise!) results in a brief pause.
 
-The easiest way to use "pause" is with a string of the format "pause:X", where X is the number of seconds to pause.
+The easiest way to use `pause` is with a string of the format `pause:x`, where `x` is the number of seconds to pause.
 
 ```
 "content": [
@@ -122,7 +122,7 @@ This is equivalent to:
 ```
 "content": [
     {
-        "type": "text"
+        "type": "text",
         "text": "This is so interesting!"
     },
     {
@@ -130,7 +130,7 @@ This is equivalent to:
         "length": 2
     },
     {
-        "type": "text"
+        "type": "text",
         "text": "NOT!"
     }
 ]
@@ -138,7 +138,7 @@ This is equivalent to:
 
 #### Redirect
 
-Sometimes, it's useful to just jump straight to another node. The "redirect" type lets you specify a node to jump to.
+It's often useful to jump straight to another node. The `redirect` type lets you specify a node to move to.
 
 The following will result in the text "One, Two, Three!" being spoken:
 
@@ -159,11 +159,11 @@ The following will result in the text "One, Two, Three!" being spoken:
 }
 ```
 
-Any node can refer to any named node; you don't need to worry about what order they're defined in. If you include a redirect within a node that contains one or more routes (described below), the redirect will take precedence over user input.
+Any node can refer to any named node; you don't need to worry about what order they're defined in. A redirect happens instantly; if you include text or other content in a node after a redirect, it won't play. Similarly, if you include a redirect within a node that contains one or more routes (described below), the redirect will take precedence over user input.
 
-As you can probably guess by now, a string of the format "redirect:nodeName" is equivalent to:
+As you can probably guess by now, a string of the format `redirect:nodeName` is equivalent to:
 
-```
+```json
 {
     "type": "redirect",
     "text": "nodeName"
@@ -172,19 +172,13 @@ As you can probably guess by now, a string of the format "redirect:nodeName" is 
 
 #### Playing Audio
 
-The "play" type lets you play a prerecorded audio file. It corresponds to the TwiML [Play](https://www.twilio.com/docs/api/twiml/play) verb, and supports the same options it does.
+The `play` type lets you play a prerecorded audio file. It corresponds to the TwiML [Play](https://www.twilio.com/docs/api/twiml/play) verb, and supports the same options it does.
 
-Tinsel does not currently host audio files for you; you must upload them somewhere else on the web and link to them in your script. They can be mp3, wav, aiff, gsm, or μ-law files.
+Tinsel does not currently host audio files for you. You must upload them somewhere else on the web and link to them in your script. Tinsel supports mp3, wav, aiff, gsm, and μ-law files.
 
-You can either use the play verb with the following string format:
+You can either use the play verb of the format `play:http://icq.com/uhoh.wav` or the full form:
 
-```
-"play:http://icq.com/uhoh.wav"`
-```
-
-Or, in the full form:
-
-```
+```json
 {
     "type": "play",
     "text": "http://instantrimshot.com/rimshot.wav",
@@ -196,9 +190,9 @@ Or, in the full form:
 
 Of course, if you have a whole bunch of nodes, you need a way to get between them.
 
-The simplest way to do this is by adding a "routes" dictionary to a node that maps from input digits to node names. Tinsel will not explicitly enumerate routes to the player, so be sure to include any instructions as spoken text-to-speech or audio.
+The simplest way to do this is by adding a `routes` dictionary to a node that maps from input digits to node names. Tinsel will not explicitly enumerate routes to the player, so be sure to include any instructions as spoken text-to-speech or audio.
 
-```
+```json
 "fork": {
     "content": "You have reached a fork in the road. Press 1 to go left, or 2 to go right.",
     "routes": {
@@ -219,9 +213,9 @@ If the "routes" dictionary exists as part of a node, Tinsel will listen for user
 
 #### "Any" Route
 
-You can specify a catchall node if a user enters something that's not specified.
+You can specify a catchall node if a player enters something that's not specified.
 
-```
+```json
 "waiter": {
     "content": "What would you like for dinner? Press 2 for chicken, 4 for fish, or 6 for beef",
     "routes": {
@@ -230,18 +224,17 @@ You can specify a catchall node if a user enters something that's not specified.
         "6": "choseBeef",
         "any": "choseUnknownFood"
     }
-},
-...
+}
 ```
 
-If the user enters anything other than 2, 4, or 6, they will be routed to the "choseUnknownFood" node.
+If the player enters anything other than 2, 4, or 6, they will be routed to the "choseUnknownFood" node.
 
 
 #### "Default" Route
 
-Tinsel won't wait forever for input. You can specify a "default" route that will be triggered after five seconds of no user input. (That timeout is configurable).
+Tinsel won't wait forever for input. You can specify a `default` route that will be triggered after five seconds of no user input. (That timeout is configurable).
 
-```
+```json
 "coinToss": {
     "content": "Call it in the air! One for heads, two for tails.",
     "routes": {
@@ -252,15 +245,20 @@ Tinsel won't wait forever for input. You can specify a "default" route that will
 },
 "tooSlow": {
     "content": "Why didn't you choose one?" 
-},
-...
+}
 ```
 
 #### Options
 
-By including an "options" dictionary within your "routes" dictionary, you can specify how listening for input is handled: how long the timeout is (5s by default), how many digits are expected, and if the player should press a specific key after finishing input (no by default). These all corresponds to the options for the TwiML [Gather](https://www.twilio.com/docs/api/twiml/gather) verb.
+By including an `options` dictionary within your routes, you can specify how listening for input is handled:
 
-```
+* How long the timeout is (5s by default),
+* How many digits are expected
+* If the player should press a specific key after finishing input (no by default). 
+
+These all corresponds to the options for the TwiML [Gather](https://www.twilio.com/docs/api/twiml/gather) verb.
+
+```json
 "buyAPizza": {
     "content": "The price of a cheese pizza and a large soda at Panucci's Pizza is $10.77. To purchase, please enter your 4-digit pin, followed by the pound sign",
     "routes": {
@@ -283,7 +281,7 @@ Here's the _really cool_ bit about Tinsel: when defining a node's `content`, ins
 
 For example, the following will result in a voice saying "one plus one equals two".
 
-```
+```js
 "content": function() {
     var result = 1 + 1;
     return "1 plus 1 equals " + result;
@@ -299,13 +297,13 @@ All the standard rules apply about content blocks; that function could just as e
 
 Okay, so we can add some numbers together. Big whoop. Where this gets interesting is persisting state. 
 
-Within these functions, there is a special object called `this` that you can access. Any data you set on `this` will persist across all other nodes.
+Within these functions, you have access to a variable called `this`. Any data you set on the `this` object will persist across all other nodes.
 
-```
+```js
     "whoAreYou": {
         "content": function() {
             this.name = "Dave"; // or this["name"] = "Dave"
-            return "redirect:disallow"
+            return "redirect:disallow";
         }
     },
     "disallow": {
@@ -315,14 +313,14 @@ Within these functions, there is a special object called `this` that you can acc
     }
 ```
 
-Visiting "whoAreYou" will result in the spoken text "I'm afraid I can't let you do that, Dave". This state will be persisted across all nodes in the player's current phone call; if they hang up and call again, they'll be starting from scratch.
+Visiting "whoAreYou" will result in the spoken text "I'm afraid I can't let you do that, Dave". This state will be persisted across all nodes in the player's current phone call; if they hang up and call again, it will be a new game with fresh data.
 
 
 #### Capturing entered input
 
 If a node is visited as a result of the user entering in one or more digits, the entered number(s) can be accessed using the `this.Digits` property. This is particularly useful if a user was routed via an "any" or "default" node.
 
-```
+```js
 "captureAny": {
     "content": "Press a number, any number.",
     "routes": {
@@ -347,15 +345,17 @@ Note that the `this.Digits` property is erased/rewritten with every new node, so
 
 Once you've written your Tinsel script, you probably want to play it! Tinsel uses [Twilio](https://twilio.com) for voice services.
 
-**WARNING**: This costs real money. Twilio charges you to get a phone number through them ($1/month for a US number at the time of the writing of this README), as well as per minute of use ($0.01/minute for that same U.S. phone number to receive calls from another U.S. phone number). To say that more more time: **this will cost you real money.** We are not responsible for any charges you may incur.
+**WARNING**: This costs real money. Twilio charges you to get a phone number through them ($1/month for a US number at the time of writing), as well as per minute of use ($0.01/minute for that same U.S. number to receive calls from a U.S. number). 
+
+To say that more more time: **this will cost you real money.** We are not responsible for any charges you may incur.
 
 1. Register for a Twilio account
 2. Buy a phone number capable of receiving voice calls
 3. On that number's configuration screen, make sure its Voice section is set to "Configure with URL"
-4. Set the Voice request URL to be "http://maketinsel.com/`YOUR_USERNAME`/`STORY_NAME`", with a verb of GET. `YOUR_USERNAME` will be the Twitter handle you use to log in to Tinsel with.
+4. Set the Voice request URL to be `http://maketinsel.com/YOUR_USERNAME/STORY_NAME`, with a verb of `GET`. `YOUR_USERNAME` will be the Twitter handle you use to log in to Tinsel.
 5. Hit "Save"
 
-That's it! If you call the number, it should start at the node specified by the "start" property of your Tinsel file.
+That's it! If you call the number, it should start at the node specified by the `start` property of your Tinsel file.
 
 
 ## Self-Hosting Tinsel
@@ -372,9 +372,11 @@ It's also possible to host your own Tinsel instance. The suggested way to deploy
 5. Register for a Twitter app: http://apps.twitter.com
 6. Set the following config variables (feel free to use whatever alternate means you might like to set the ENV properly):
 
-    heroku config:set TWITTER_KEY="your consumer key here"
-    heroku config:set TWITTER_SECRET="your consumer secret here"
-    heroku config:set SESSION_SECRET="some string"
+```
+heroku config:set TWITTER_KEY="your consumer key here"
+heroku config:set TWITTER_SECRET="your consumer secret here"
+heroku config:set SESSION_SECRET="some string"
+```
 
 7. `git push heroku master`!
 
