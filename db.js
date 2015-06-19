@@ -58,9 +58,9 @@ exports.renameStory = (username, oldName, newName) => {
   });
 }
 
-exports.removeStory = (username, filename) => {
+exports.deleteStory = (username, filename) => {
   return dbPromise.then((db) => {
     const collection = db.collection(username);
-    return Q.ninvoke(collection, "remove", {name: oldName});
+    return Q.ninvoke(collection, "remove", {name: filename});
   }); 
 }

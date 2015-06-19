@@ -51,6 +51,7 @@
         You are editing the story '<strong id='title'></strong>'. 
         <button id='rename' class='btn btn-xs btn-default'>Rename</button>
       </p>
+      <button id='delete' class='btn btn-danger' style='float:right'>Delete</button>      
       <button id='save' class='btn btn-default'>Save</button>
     </div>
   </div>
@@ -113,6 +114,18 @@
         }).error(function(err) {
           alert("An error has occurred. Your data has NOT been saved.")
         });
+    });
+
+    $(document).on('click', '#delete', function(e) {
+      if (confirm("Are you sure you want to delete this story? This cannot be undone.")) {
+        var data = {story: query.story};
+        $.post("/api/story/delete", data)
+          .done(function(result) {
+            window.location = window.location.origin + "/stories"
+          }).error(function(err) {
+            alert("An error has occurred. Don't worry, your story wasn't deleted.");
+          });
+      }
     });
   </script>
 </body>

@@ -150,6 +150,17 @@ app.post('/api/story/rename', (req, res) => {
     });
 });
 
+app.post('/api/story/delete', (req, res) => {
+  if (!req.user) { res.sendStatus(403); return }
+
+  db.deleteStory(req.user, req.body.story)
+    .then((result) => res.sendStatus(200))
+    .catch((e) =>  {
+      console.log("ERROR: ", e)
+      res.sendStatus(500);
+    });
+});
+
 app.get('/api/:story/raw.js', (req, res) => {
   if (req.user) {
     res.redirect("/" + req.user + "/" + req.params.story + "/raw.js");
