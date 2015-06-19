@@ -53,7 +53,7 @@ exports.renameStory = (username, oldName, newName) => {
     const collection = db.collection(username);
     return Q.ninvoke(collection, "update", 
       {name: oldName},
-      {name: newName}
+      {$set: {name: newName}}
     );
   });
 }

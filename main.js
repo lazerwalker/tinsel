@@ -1,3 +1,4 @@
+
 const _ = require('lodash');
 const Q = require('q');
 const fs = require('fs')
@@ -132,6 +133,17 @@ app.post('/api/story', (req, res) => {
 
   db.updateStory(req.user, req.body.story, req.body.data)
     .then((result) => res.sendStatus(200) )
+    .catch((e) =>  {
+      console.log("ERROR: ", e)
+      res.sendStatus(500);
+    });
+});
+
+app.post('/api/story/rename', (req, res) => {
+  if (!req.user) { res.sendStatus(403); return }
+
+  db.renameStory(req.user, req.body.oldName, req.body.newName)
+    .then((result) => res.sendStatus(200))
     .catch((e) =>  {
       console.log("ERROR: ", e)
       res.sendStatus(500);

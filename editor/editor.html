@@ -47,7 +47,10 @@
     </nav>
   <div class='container' id='main'>
     <div class='toolbar'>
-      <p>You are editing the story '<strong id='title'></strong>'.</p>
+      <p>
+        You are editing the story '<strong id='title'></strong>'. 
+        <button id='rename' class='btn btn-xs btn-default'>Rename</button>
+      </p>
       <button id='save' class='btn btn-default'>Save</button>
     </div>
   </div>
@@ -92,6 +95,21 @@
               .removeClass("btn-success")
               .html("Save")
           });
+        }).error(function(err) {
+          alert("An error has occurred. Your data has NOT been saved.")
+        });
+    });
+
+    $(document).on('click', '#rename', function(e) {
+      var newName = prompt("Enter a new name for the story", query.story);
+      if (!newName || newName == query.story) return;
+      var data = {
+        oldName: query.story,
+        newName: newName
+      };
+      $.post("/api/story/rename", data)
+        .done(function(result) {
+          window.location = window.location.origin + window.location.pathname + "?story=" + newName
         }).error(function(err) {
           alert("An error has occurred. Your data has NOT been saved.")
         });
