@@ -23,7 +23,7 @@ In actuality, Tinsel is really two different things.
 
 ## So how do I use it?
 
-http://maketinsel.com is the hosted version of Tinsel. That's probably what you want.
+http://www.maketinsel.com is the hosted version of Tinsel. That's probably what you want.
 
 
 ## A caveat on stability and security
@@ -362,7 +362,7 @@ To say that more more time: **this will cost you real money.** We are not respon
 1. Register for a Twilio account
 2. Buy a phone number capable of receiving voice calls
 3. On that number's configuration screen, make sure its Voice section is set to "Configure with URL"
-4. Set the Voice request URL to be `http://maketinsel.com/YOUR_USERNAME/STORY_NAME`, with a verb of `GET`. `YOUR_USERNAME` will be the Twitter handle you use to log in to Tinsel.
+4. Set the Voice request URL to be `http://www.maketinsel.com/YOUR_USERNAME/STORY_NAME`, with a verb of `GET`. `YOUR_USERNAME` will be the Twitter handle you use to log in to Tinsel.
 5. Hit "Save"
 
 That's it! If you call the number, it should start at the node specified by the `start` property of your Tinsel file.
