@@ -4,7 +4,6 @@ Tinsel is a game engine and hosted web service that enables the creation of tele
 
 Why the name Tinsel? It's vaguely like [Twine](http://twinery.org), but it involves (phone) trees. I know, you're groaning.
 
-
 ## What actually is it?
 
 At a high level, Tinsel is a web app that lets you type or paste in scripts in a specific format, point a [Twilio](http://twilio.com) app at its servers, and magically have a functioning interactive phone tree you can call on any touch-tone phone.
@@ -15,6 +14,7 @@ In actuality, Tinsel is really two different things.
 
 * A web application that offers a browser-based UI for creating and editing Tinsel documents. It then dynamically transforms those scripts into Twilio-compatible TwiML files.
 
+(Looking for the old, Ruby-based version of Tinsel? Check out the `ruby` branch: http://github.com/lazerwalker/tinsel/tree/ruby)
 
 ## So how do I use it?
 
