@@ -103,7 +103,7 @@ The `text` type corresponds to the TwiML [Say](https://www.twilio.com/docs/api/t
 ```json
 "content": {
     "type": "text",
-    "text": "Hello, World!"
+    "text": "Hello, World!",
     "language": "en",
     "voice": "woman",
     "loop": 5
