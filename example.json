@@ -189,15 +189,24 @@
     },
     "nestedFunctions": {
       "content": [
-        function() { return "I am a function"; },
-        function() { return "I am also a function"; },
+        function() { 
+          this.seenFirstFunction = true;
+          return "I am a function"; 
+        },
+        function() { 
+          if (this.seenFirstFunction) {
+            return "I am also a function";
+          } else {
+            return "You should have seen the first function?"
+          } 
+        },
         "I am not a function"
       ]
     },
     "stringFunction": {
       "content": [
         "js:this.answer = (1+1);\n  return 'Some math:'",
-        "js:return \"1 + 1 = \" + (1+1);",
+        "js:return \"1 + 1 = \" + this.answer;",
       ]
     }
   },

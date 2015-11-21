@@ -34,8 +34,8 @@ function unwrapFunctions(content, opts, sandbox) {
 
   // input: content JSON or function that returns [content JSON, data]
   // output: promise containing [content JSON, data]
-  function unwrapFunction(c) {
-    if (c.type !== "function" && !(c instanceof Function)) return Q([handleShorthand(c), opts]);
+  function unwrapFunction(c, context) {
+    if (c.type !== "function" && !(c instanceof Function)) return Q([handleShorthand(c), context]);
 
     const defer = Q.defer();
 
@@ -51,8 +51,26 @@ function unwrapFunctions(content, opts, sandbox) {
   }
 
   if (_(content).isArray()) {
-    const promises = content.map(unwrapFunction);
-    return Q.all(promises);
+    // We need to execute these sequentially so state mutation works properly with multiple sequential JS functions
+    // TODO: There has to be a more functional way to do this.
+    var promise = Q(undefined);
+    var results = [];
+    content.forEach(function(c) {
+      promise = promise.then(function(result) {
+        var context = opts;
+        if (result) {
+          results.push(result);
+          var context = result[1];
+        }
+        return unwrapFunction(c, context);
+      });
+    });
+
+    return promise.then(function(result) {
+      if (result) results.push(result);
+      return results;
+    });
+
   } else {
     return unwrapFunction(content).then((x) => {
       if (_(x[0]).isArray()) {
