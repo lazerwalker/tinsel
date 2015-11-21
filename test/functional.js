@@ -2,10 +2,16 @@ var expect = require("chai").expect,
   exec = require('child_process').exec,
   request = require('request')
 
+var server;
+
 describe("when using the example JSON file", function() {
   before(function(done) {
-    exec('foreman start');
+    server = exec('foreman start');
     setTimeout(function() { done(); }, 1500);
+  });
+
+  after(function() {
+    server.kill('SIGINT');
   });
 
   it("should redirect the root to the start node", function(done) {
