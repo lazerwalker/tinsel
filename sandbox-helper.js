@@ -7,13 +7,20 @@ for (nodeIndex in script.story) {
   if (Array.isArray(array)) {
     for (i in array) {
       var item = array[i];
-      if (item.type == "function" && typeof item["function"] == "function") {
+      if (item.type == "function" && item["function"] instanceof Function) {
         functions.push(item.function);
         item.functionCount = functions.length - 1;
+      } else if (item instanceof Function) {
+        functions.push(item);        
+        // TODO: replacing an array element mid-iteration? BAD.
+        array[i] = {
+          type: "function",
+          functionCount: functions.length - 1
+        };
       }
     }
   } else {
-    if (typeof node.content == "function") {
+    if (node.content instanceof Function) {
       functions.push(node.content);
       node.content = {
         type: "function",

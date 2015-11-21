@@ -186,6 +186,13 @@
     },
     "usesHelpers": {
       "content": function() { return this.helpers.callAFunction("Yes!"); }
+    },
+    "nestedFunctions": {
+      "content": [
+        function() { return "I am a function"; },
+        function() { return "I am also a function"; },
+        "I am not a function"
+      ]
     }
   },
   "helpers": {

@@ -47,6 +47,13 @@ describe("when using the example JSON file", function() {
       });        
     });
 
+    it("should execute when it's part of a content array as a root object", function(done) {
+      request("http://localhost:5000/lazerwalker/example/nestedFunctions", function(error, response, body) {
+        expect(body).to.equal('<?xml version="1.0" encoding="UTF-8"?><Response><Say>I am a function</Say><Say>I am also a function</Say><Say>I am not a function</Say></Response>');
+        done();
+      });
+    });
+
     it("should allow access to the 'helpers' functions", function(done) {
       request("http://localhost:5000/lazerwalker/example/usesHelpers", function(error, response, body) {
         expect(body).to.equal('<?xml version="1.0" encoding="UTF-8"?><Response><Say>Does this work? Yes!</Say></Response>');

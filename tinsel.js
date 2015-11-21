@@ -35,7 +35,7 @@ function unwrapFunctions(content, opts, sandbox) {
   // input: content JSON or function that returns [content JSON, data]
   // output: promise containing [content JSON, data]
   function unwrapFunction(c) {
-    if (c.type !== "function") return Q([handleShorthand(c), opts]);
+    if (c.type !== "function" && !(c instanceof Function)) return Q([handleShorthand(c), opts]);
 
     const defer = Q.defer();
 
