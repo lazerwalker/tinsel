@@ -72,7 +72,11 @@ function nodeAfterResolvingDigits(digits, story, nodeName) {
 function sandboxStory(username, story) {
   const storyPromise = db.loadStory(username, story)
     .then(function(s) {
+      // TODO: Find someplace else for these to live?
       s.data = s.data.replace(/\\\"/g,'"');
+      s.data = s.data.replace(/\\n/g,'');
+      s.data = s.data.replace(/\\t/g,'');
+
       s.data = s.data.replace(/\"js:(.+)\"/g,"function() { $1 }");
       return s;
   });

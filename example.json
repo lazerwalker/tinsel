@@ -196,7 +196,7 @@
     },
     "stringFunction": {
       "content": [
-        "js:this.answer = (1+1); return 'Some math:'",
+        "js:this.answer = (1+1);\n  return 'Some math:'",
         "js:return \"1 + 1 = \" + (1+1);",
       ]
     }

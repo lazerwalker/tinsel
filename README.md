@@ -350,11 +350,11 @@ JS functions can also be used as individual elements within an array:
 
 However, arrays do not get flattened; in other words, a function within a content array must not itself return an array.
 
-Finally, you can also specify a function as a string prefixed with `js:`. This is largely intended to be used for interoperation with [Twison](https://github.com/lazerwalker/twison) and other code generators, not to be used by actual individuals. Note that these strings must be a single line; newline characters are not currently andled properly. For example:
+Finally, you can also specify a function as a string prefixed with `js:`. This is largely intended to be used for interoperation with [Twison](https://github.com/lazerwalker/twison) and other code generators, not to be used by actual individuals. Note that these strings must be a single line; "var foo = 1;\n var bar = 2;" will work, but having an actual newline in the file will not.
 
 ```js
     "node": {
-        "content": "js:function() { return \"O hai!\"; }
+        "content": "js:function() { \n return \"O hai!\"; \n }""
     }
 ```
 
