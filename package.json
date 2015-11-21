@@ -12,7 +12,7 @@
   "homepage": "https://github.com/lazerwalker/tinsel",
   "scripts": {
     "start": "node --harmony --harmony_arrow_functions main.js",
-    "test": "./node_modules/mocha/bin/mocha"
+    "test": "node populateTestDb.js; ./node_modules/mocha/bin/mocha"
   },
   "dependencies": {
     "body-parser": "^1.12.4",
