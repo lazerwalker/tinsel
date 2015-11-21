@@ -60,6 +60,13 @@ describe("when using the example JSON file", function() {
         done();
       });    
     });
+
+    it("should work if the 'function' is a string with the appropriate prefix", function(done) {
+      request("http://localhost:5000/lazerwalker/example/stringFunction", function(error, response, body) {
+        expect(body).to.equal('<?xml version="1.0" encoding="UTF-8"?><Response><Say>Some math:</Say><Say>1 + 1 = 2</Say></Response>');
+        done();
+      });      
+    })
   });
 
   describe("when passing parameters", function() {

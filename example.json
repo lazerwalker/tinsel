@@ -193,6 +193,12 @@
         function() { return "I am also a function"; },
         "I am not a function"
       ]
+    },
+    "stringFunction": {
+      "content": [
+        "js:this.answer = (1+1); return 'Some math:'",
+        "js:return \"1 + 1 = \" + (1+1);",
+      ]
     }
   },
   "helpers": {

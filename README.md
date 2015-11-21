@@ -337,6 +337,26 @@ Within these functions, you have access to a variable called `this`. Any data yo
 
 Visiting "whoAreYou" will result in the spoken text "I'm afraid I can't let you do that, Dave". This state will be persisted across all nodes in the player's current phone call; if they hang up and call again, it will be a new game with fresh data.
 
+JS functions can also be used as individual elements within an array:
+
+```js
+    "node": {
+        "content": [
+            "I am a string",
+            function() { return "I am a function"; }
+        ]
+    }
+```
+
+However, arrays do not get flattened; in other words, a function within a content array must not itself return an array.
+
+Finally, you can also specify a function as a string prefixed with `js:`. This is largely intended to be used for interoperation with [Twison](https://github.com/lazerwalker/twison) and other code generators, not to be used by actual individuals. Note that these strings must be a single line; newline characters are not currently andled properly. For example:
+
+```js
+    "node": {
+        "content": "js:function() { return \"O hai!\"; }
+    }
+```
 
 #### Capturing entered input
 

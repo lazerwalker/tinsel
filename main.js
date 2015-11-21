@@ -70,7 +70,12 @@ function nodeAfterResolvingDigits(digits, story, nodeName) {
 }
 
 function sandboxStory(username, story) {
-  const storyPromise = db.loadStory(username, story);
+  const storyPromise = db.loadStory(username, story)
+    .then(function(s) {
+      s.data = s.data.replace(/\\\"/g,'"');
+      s.data = s.data.replace(/\"js:(.+)\"/g,"function() { $1 }");
+      return s;
+  });
   return Sandbox.sandboxedStory(storyPromise)
 }
 
