@@ -34,8 +34,8 @@ function unwrapFunctions(content, opts, sandbox) {
 
   // input: content JSON or function that returns [content JSON, data]
   // output: promise containing [content JSON, data]
-  function unwrapFunction(c, context) {
-    if (c.type !== "function" && !(c instanceof Function)) return Q([handleShorthand(c), context]);
+  function unwrapFunction(c) {
+    if (c.type !== "function" && !(c instanceof Function)) return Q([handleShorthand(c), opts]);
 
     const defer = Q.defer();
 
@@ -57,12 +57,11 @@ function unwrapFunctions(content, opts, sandbox) {
     var results = [];
     content.forEach(function(c) {
       promise = promise.then(function(result) {
-        var context = opts;
         if (result) {
           results.push(result);
-          var context = result[1];
+          opts = result[1];
         }
-        return unwrapFunction(c, context);
+        return unwrapFunction(c);
       });
     });
 
