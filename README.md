@@ -383,6 +383,20 @@ If a node is visited as a result of the user entering in one or more digits, the
 Note that the `this.Digits` property is erased/rewritten with every new node, so if you want to persist that data you should store it into a different property.
 
 
+# Writing with Twine
+
+You can also write Tinsel scripts using [Twine](http://twinery.org), a web-based editor for hypertext-based interactive fiction. Instead of writing your Tinsel script as a single linear JSON file, Twine will let you conceptualize it as a series of connected nodes in a visual editor. You may find this helps to manage complexity for larger pieces.
+
+
+## Setting up Twine
+
+To use Tinsel's Twine integration, you need to be using [Twine 2](http://twinery.org/2). You can use the downloadable versions provided at http://twinery.org, but be sure to download Twine 2, as Twine 1 does not work with Tinsel.
+
+From Twine's list of stories, click "Formats", then "Add a New Format". Enter this URL: `http://github.com/lazerwalker/tinsel-twison/raw/master/dist/format.js`. You'll only need to do this once.
+
+Then, from within the editor for your story, choose the "Change Story Format" menu item (from within the menu accessible by clicking the up arrow next to the name of your project on the bottom bar). Select "Tinsel". When you click "Play", you should see Tinsel-compatible JSON code you can copy and paste straight into the maketinsel.com web editor.
+
+
 ## Connecting to Twilio
 
 Once you've written your Tinsel script, you probably want to play it! Tinsel uses [Twilio](https://twilio.com) for voice services.
