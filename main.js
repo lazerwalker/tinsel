@@ -134,7 +134,10 @@ app.get('/stories',  (req, res) => {
 // API
 //----------------------------------------
 app.get('/api/stories', (req, res) => {
-  console.log("Fetching stories", req.user)
+  if (!req.user) {
+    res.sendStatus(403);
+    return;
+  }
   db.fetchStories(req.user)
     .then((result) => {
       const names = _(result)
@@ -142,6 +145,9 @@ app.get('/api/stories', (req, res) => {
         .reject((name) => _.isNull(name))
         .value()
       res.json(names);
+    })
+    .catch((e) => {
+      res.status(500).send(e);
     });
 });
 
