@@ -10,13 +10,17 @@ Why the name Tinsel? It's vaguely like [Twine](http://twinery.org), but it invol
 
 ## What actually is it?
 
-At a high level, Tinsel is a web app that lets you type or paste in scripts in a specific format, point a [Twilio](http://twilio.com) app at its servers, and magically have a functioning interactive phone tree you can call on any touch-tone phone.
+At a high level, Tinsel is a web app that lets you create scripts in a specific format, point a [Twilio](http://twilio.com) app at its servers, and magically have a functioning interactive phone tree you can call on any touch-tone phone.
 
-In actuality, Tinsel is really two different things.
+In actuality, Tinsel is really three different things.
 
 * A JSON-based grammar to declaratively describe content nodes and relationships between them based on numberpad input. If you've used Twine before, it's sort of like that, but without a visual editor.
 
 * A web application that offers a browser-based UI for creating and editing Tinsel documents. It then dynamically transforms those scripts into Twilio-compatible TwiML files.
+
+* An integration that allows you to use the [Twine 2](http://twinery.org) editor to create stories, automatically converting from Twine's format into Tinsel scripts and exporting those scripts to the hosted Tinsel service.
+
+The Twine integration specifically lives in the [Tinsel-Twison](https://github.com/lazerwalker/tinsel-twison) GitHub repo.
 
 (Looking for the old, Ruby-based version of Tinsel? Check out the `ruby` branch: http://github.com/lazerwalker/tinsel/tree/ruby)
 
@@ -31,7 +35,263 @@ http://www.maketinsel.com is the hosted version of Tinsel. That's probably what 
 Tinsel is very rough prototype software, with many bugs and missing features. Furthermore, it has been designed largely for games and interactive art, a choice that doesn't place particular importance on security or privacy. Which is to say: use Tinsel to make cool things. If you're trying to use it to fulfill a business need, you're likely better off building a custom solution yourself on top of Twilio.
 
 
-# Language Reference
+# Using Twine to make Tinsel
+
+The easiest way to use Tinsel is to write your stories using [Twine 2](http://twinery.org). This section will talk about how to get that set up, as well as how to actually write and export your stories from Twine to Tinsel.
+
+
+## Setup
+
+Make sure you are using Twine 2. Either the web-based or downloadable versions will work, but you need to be using Twine 2; Twine 1 is not currently supported.
+
+From the Twine 2 story select screen, add a story format, and point it to the url `http://github.com/lazerwalker/tinsel-twison/raw/master/dist/format.js`.
+
+From within your story, set its story format to Tinsel.
+
+Now, choosing "Play" will give you a Tinsel-compatible JSON file you can copy and paste straight into the Tinsel web editor at [http://maketinsel.com].
+
+
+## Writing With Twine
+
+This guide assumes familiarity with Twine 2. If you've never used it, you might want to check out the resources for beginners on the [Twine 2 wiki](http://twinery.org/wiki/twine2:guide).
+
+Writing Tinsel stories in Twine is generally the same as regular Twine use, but there are a bunch of specifics to note.
+
+For the most part, your Tinsel stories will communicate with the player in one of two ways: text to speech, or prerecorded audio. In a given Twine node, you can do either or both of these, as well as insert a silent pause, automatically redirect to another node, and link to other nodes based on the result of the player's numeric input.
+
+### Hello, World!
+
+If you just have plain text inside a Twine node, Tinsel will read that out as text-to-speech using the default Twilio voice (a male voice with an American accent).
+
+The simplest possible functioning Tinsel story would be a single node with the following text:
+
+```"Hello, world!"```
+
+### Alternate Text-To-Speech Options
+
+Twilio (and subsequently Tinsel) offer three different voices: a male voice (called "man"), and two female voices ("woman" and "alice"). As mentioned above, the default voice is "man", but you can explicitly specify any of these voices by prefixing your text with the name of the voice and a colon.
+
+```woman: This will be said in a female voice```
+
+
+### Mixing and matching multiple voices
+
+You can have multiple voices within a single node by putting two newlines between text. 
+
+```
+man: I'm late! I'm late!
+
+woman: Off with their heads!
+
+alice: I really shouldn't have fallen down that rabbithole!
+```
+
+A node with these contents will read those three sentences, in the appropriate voices, in the order they are listed.
+
+
+### Pausing
+
+You can insert an explicit pause by using the string `pause:x` (or `pause: x`, spaces are okay), where `x` is the number of seconds to pause. Like including multiple voices, you should separate a pause by two newlines on either side from other content.
+
+```
+man: I see you shiver with anticip-
+ 
+pause: 1
+
+man: ation.
+```
+
+### Playing audio files
+
+If you want to play a prerecorded audio file, it's as simple as putting in a string of the format `play: http://icq.com/uhoh.wav`.
+
+Tinsel does not currently host audio files for you; you must upload them somewhere else on the web and link to them in your script. Tinsel supports mp3, wav, aiff, gsm, and μ-law files.
+
+As with everything else, separate this by two newlines.
+
+```
+alice: Why was Cinderalla so bad at soccer?
+
+pause: 2
+
+alice: Because she kept running away from the ball!
+
+play: http://instantrimshot.com/rimshot.wav",
+```
+
+
+### Redirecting
+
+Sometimes you might want to redirect directly to another node. You can do that with the text `redirect: nodename`, where `nodename` is the name of the Twine node. 
+
+As soon as that redirect command is reached, the contents of the next node will be played. If you include text or other content in a node after a redirect, it won't play. Similarly, if you include a redirect within a node that contains one or more routes (described below), the redirect will take precedence over user input.
+
+**lilypad1**
+
+```
+One!
+
+redirect:lilypad2
+```
+
+**lilypad2**
+
+```
+Two!
+
+redirect:lilypad3
+```
+
+**lilypad3**
+
+```
+Three!
+```
+
+Loading the "lilypad1" node will result in the text "One! Two! Three!" being spoken.
+
+
+### Links
+
+Of course, if you have a whole bunch of nodes, you need a way for the player to navigate between them other than automatic redirects.
+
+Twine operates on hyperlinks: you click on a word anywhere inside a node, and it links you to somewhere else. Tinsel is closer to a "choose your own adventure" novel: while in a given node, the player can punch in certain numbers on their phone to link to another node. As a result, you need to think about linking a little bit differently in Tinsel than in normal Twine.
+
+Here is an example of what your links should look like.
+
+```
+You have reached a fork in the road. Press 1 to go left, or 2 to go right.
+
+[[1->left]]
+[[2->right]]
+```
+
+This will use text-to-speach to read the first sentence to the player, and then listen for input. If the player presses 1, the node entitled "left" will play; if they press 2, the "right" node will play.
+
+Note that Tinsel does not tell the player about the existence of links. It's up to you as the author to inform your player, through text-to-speech or recorded audio, what their options are. That previous example does that by explicitly telling the player that they can press 1 or 2, and what choice each of those numbers represents.
+
+You can technically put Tinsel links anywhere in the node – they will be properly parsed as links, and not spoken by the text-to-speech engine – but it's recommended that you follow the convention of putting them at the end of the node.
+
+#### "Any" links
+
+You can also use the "any" label to create a link that will be followed if the player enters a number that doesn't have an explicit link connected to it:
+
+```
+What would you like for dinner? Press 2 for chicken, 4 for fish, or 6 for beef.
+
+[[2->choseChicken]]
+[[4->choseFish]]
+[[6->choseBeef]]
+[[any->choseUnknownFood]]
+```
+
+If the player enters anything other than 2, 4, or 6, they will be routed to the "choseUnknownFood" node.
+
+
+#### "Timeout" links
+
+Similarly, you can use the "timeout" label to specify a link that should be followed if the player doesn't enter anything after five seconds have passed.
+
+```
+Call it in the air! One for heads, two for tails.
+
+[[1->heads]]
+[[2->tails]]
+[[timeout->tooSlow]]
+```
+
+#### Configuring links 
+
+What if you want to use a `timeout` link, but want the wait period to be shorter or longer than 5 seconds?
+
+It's possible to configure a few options related to links:
+
+* How long the timeout is (5s by default),
+* How many digits are expected (default 1)
+* If the player should press a specific key after finishing input (no by default).
+
+If you've used Twilio before, these all corresponds to the options for the TwiML Gather verb (which Tinsel uses under the hood).
+
+```
+The price of a cheese pizza and a large soda at Panucci's Pizza is $10.77. To purchase, please enter your 4-digit pin, followed by the pound sign
+
+[[any->emptyBankAccount]]
+
+{{routeOptions}}
+	{{timeout}}10{{/timeout}}
+	{{numDigits}}4{{/numDigits}}
+	{{finishOnKey}}#{{/finishOnKey}}
+{{/routeOptions}}
+```
+
+This options block can be placed anywhere within your node, so long as there are at least two newlines between it anything else.
+
+### Embedding JavaScript
+This is all well and good, but what if you want to do something a bit more interactive?
+
+Here's the really cool bit about Tinsel: instead of just specifying static content in the format we've just outlined, you can instead embed a JavaScript fuction that in turn returns valid content.
+
+
+For example, the following will result in a voice saying "one plus one equals two".
+
+```
+{{js}}
+    var result = 1 + 1;
+    return "1 plus 1 equals " + result;
+{{/js}}
+```
+
+Pretty awesome, right? Just like everything else in Tinsel, you can mix JS code with other bits of content by separating them with two newlines.
+
+```
+woman: What's 1 + 1?
+
+{{js}}
+	var result = 1 + 1;
+	return "alice: " + result + "!"
+{{/js}}
+```
+
+This will result in the `woman` voice asking "what's 1 + 1?" and the `alice` voice responding "2!".
+	
+(For the security-minded: this JS is all executed within a jailed sandbox context.)
+
+### Persisting state across nodes
+
+Okay, so we can add some numbers together. Big whoop. Where this gets interesting is persisting state.
+
+Within these functions, you have access to a variable called `this`. Any data you set on the this object will persist across all other nodes.
+
+**whoAreYou**
+
+```
+{{js}}
+	this.name = "Dave"; // or this["name"] = "Dave"
+{{/js}}
+
+redirect:disallow
+```
+
+**disallow**
+
+```
+{{js}}
+    return "I'm afraid I can't let you do that, " + this["name"]; // or this.name
+{{/js}}
+```
+
+Visiting "whoAreYou" will result in the spoken text "I'm afraid I can't let you do that, Dave". This state will be persisted across all nodes in the player's current phone call; if they hang up and call again, it will be a new game with fresh data.
+
+### Macros
+You cannot use any Twine macros when writing Tinsel. This is why Tinsel instead offers the ability to interpolate JS code with the `{{js}}` tag instead.
+
+
+
+# Full Language Reference
+
+This section documents the JSON-based format Tinsel uses under the hood.
+
+For most users, the Twine integration is the best way to use Tinsel. However, this will be useful if you'd prefer to write your Tinsel scripts by hand using Tinsel's web-based script editor.
 
 A Tinsel document is more or less a [JSON](http://json.org) document in a particular format. Here's a "Hello World" :
 
