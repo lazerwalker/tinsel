@@ -116,13 +116,13 @@ pause: 2
 
 alice: Because she kept running away from the ball!
 
-play: http://instantrimshot.com/rimshot.wav",
+play: http://instantrimshot.com/rimshot.wav
 ```
 
 
 ### Redirecting
 
-Sometimes you might want to redirect directly to another node. You can do that with the text `redirect: nodename`, where `nodename` is the name of the Twine node. 
+Sometimes you might want to redirect directly to another node. You can do that with the text `redirect: nodename`, where `nodename` is the name of the Twine node to redirect to.
 
 As soon as that redirect command is reached, the contents of the next node will be played. If you include text or other content in a node after a redirect, it won't play. Similarly, if you include a redirect within a node that contains one or more routes (described below), the redirect will take precedence over user input.
 
