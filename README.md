@@ -65,7 +65,7 @@ If you just have plain text inside a Twine node, Tinsel will read that out as te
 
 The simplest possible functioning Tinsel story would be a single node with the following text:
 
-```"Hello, world!"```
+```Hello, world!```
 
 ### Alternate Text-To-Speech Options
 
