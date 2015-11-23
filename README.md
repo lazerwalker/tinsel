@@ -48,7 +48,9 @@ From the Twine 2 story select screen, add a story format, and point it to the ur
 
 From within your story, set its story format to Tinsel.
 
-Now, choosing "Play" will give you a Tinsel-compatible JSON file you can copy and paste straight into the Tinsel web editor at [http://maketinsel.com].
+Now, choosing "Play" will give you a Tinsel-compatible JSON file you can copy and paste straight into the Tinsel web editor at http://maketinsel.com. 
+
+Once you've done that, you'll be able to play your story on an actual telephone by following the instructions in the "Conneting to Twilio" section below.
 
 
 ## Writing With Twine
@@ -284,6 +286,23 @@ Visiting "whoAreYou" will result in the spoken text "I'm afraid I can't let you 
 
 ### Macros
 You cannot use any Twine macros when writing Tinsel. This is why Tinsel instead offers the ability to interpolate JS code with the `{{js}}` tag instead.
+
+
+# Connecting to Twilio
+
+Once you've written your Tinsel script, you probably want to play it! Tinsel uses [Twilio](https://twilio.com) for voice services.
+
+**WARNING**: This costs real money. Twilio charges you to get a phone number through them ($1/month for a US number at the time of writing), as well as per minute of use ($0.01/minute for that same U.S. number to receive calls from a U.S. number). 
+
+To say that once more: **this will cost you real money.** We are not responsible for any charges you may incur.
+
+1. Register for a Twilio account
+2. Buy a phone number capable of receiving voice calls
+3. On that number's configuration screen, make sure its Voice section is set to "Configure with URL"
+4. Set the Voice request URL to be `http://www.maketinsel.com/YOUR_USERNAME/STORY_NAME`, with a verb of `GET`. `YOUR_USERNAME` will be the Twitter handle you use to log in to Tinsel.
+5. Hit "Save"
+
+That's it! If you call the number, it should start at the node specified by the `start` property of your Tinsel file. After it's set up, any new changes you make to your story script should be reflected instantly on Twilio as soon as you save them in the web editor.
 
 
 
@@ -641,37 +660,6 @@ If a node is visited as a result of the user entering in one or more digits, the
 ```
 
 Note that the `this.Digits` property is erased/rewritten with every new node, so if you want to persist that data you should store it into a different property.
-
-
-# Writing with Twine
-
-You can also write Tinsel scripts using [Twine](http://twinery.org), a web-based editor for hypertext-based interactive fiction. Instead of writing your Tinsel script as a single linear JSON file, Twine will let you conceptualize it as a series of connected nodes in a visual editor. You may find this helps to manage complexity for larger pieces.
-
-
-## Setting up Twine
-
-To use Tinsel's Twine integration, you need to be using [Twine 2](http://twinery.org/2). You can use the downloadable versions provided at http://twinery.org, but be sure to download Twine 2, as Twine 1 does not work with Tinsel.
-
-From Twine's list of stories, click "Formats", then "Add a New Format". Enter this URL: `http://github.com/lazerwalker/tinsel-twison/raw/master/dist/format.js`. You'll only need to do this once.
-
-Then, from within the editor for your story, choose the "Change Story Format" menu item (from within the menu accessible by clicking the up arrow next to the name of your project on the bottom bar). Select "Tinsel". When you click "Play", you should see Tinsel-compatible JSON code you can copy and paste straight into the maketinsel.com web editor.
-
-
-## Connecting to Twilio
-
-Once you've written your Tinsel script, you probably want to play it! Tinsel uses [Twilio](https://twilio.com) for voice services.
-
-**WARNING**: This costs real money. Twilio charges you to get a phone number through them ($1/month for a US number at the time of writing), as well as per minute of use ($0.01/minute for that same U.S. number to receive calls from a U.S. number). 
-
-To say that once more: **this will cost you real money.** We are not responsible for any charges you may incur.
-
-1. Register for a Twilio account
-2. Buy a phone number capable of receiving voice calls
-3. On that number's configuration screen, make sure its Voice section is set to "Configure with URL"
-4. Set the Voice request URL to be `http://www.maketinsel.com/YOUR_USERNAME/STORY_NAME`, with a verb of `GET`. `YOUR_USERNAME` will be the Twitter handle you use to log in to Tinsel.
-5. Hit "Save"
-
-That's it! If you call the number, it should start at the node specified by the `start` property of your Tinsel file. After it's set up, any new changes you make to your story script should be reflected instantly on Twilio as soon as you save them in the web editor.
 
 
 # Self-Hosting Tinsel
