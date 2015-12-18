@@ -14,7 +14,7 @@ At a high level, Tinsel is a web app that lets you create scripts in a specific 
 
 In actuality, Tinsel is really three different things.
 
-* A JSON-based grammar to declaratively describe content nodes and relationships between them based on numberpad input. If you've used Twine before, it's sort of like that, but without a visual editor.
+* A JSON-based grammar to declaratively describe content nodes and relationships between them based on numberpad input. 
 
 * A web application that offers a browser-based UI for creating and editing Tinsel documents. It then dynamically transforms those scripts into Twilio-compatible TwiML files.
 
@@ -35,7 +35,7 @@ http://www.maketinsel.com is the hosted version of Tinsel. That's probably what 
 Tinsel is very rough prototype software, with many bugs and missing features. Furthermore, it has been designed largely for games and interactive art, a choice that doesn't place particular importance on security or privacy. Which is to say: use Tinsel to make cool things. If you're trying to use it to fulfill a business need, you're likely better off building a custom solution yourself on top of Twilio.
 
 
-# Using Twine to make Tinsel
+# Using Twine to make Tinsel scripts
 
 The easiest way to use Tinsel is to write your stories using [Twine 2](http://twinery.org). This section will talk about how to get that set up, as well as how to actually write and export your stories from Twine to Tinsel.
 
@@ -44,11 +44,11 @@ The easiest way to use Tinsel is to write your stories using [Twine 2](http://tw
 
 Make sure you are using Twine 2. Either the web-based or downloadable versions will work, but you need to be using Twine 2; Twine 1 is not currently supported.
 
-From the Twine 2 story select screen, add a story format, and point it to the url `http://github.com/lazerwalker/tinsel-twison/raw/master/dist/format.js`.
+From the Twine 2 story select screen, add a story format (click the "Formats" button on the right, then "Add a story format". Enter the url `http://lazerwalker.com/tinsel-twison/format.js`.
 
-From within your story, set its story format to Tinsel.
+From within your story, set its story format to Tinsel. You can do this by clicking the bottom toolbar item with the name of your story, and then selecting "Change Story Format".
 
-Now, choosing "Play" will give you a Tinsel-compatible JSON file you can copy and paste straight into the Tinsel web editor at http://maketinsel.com. 
+From here on out, choosing "Play" from within the story editor will give you a Tinsel-compatible JSON file you can copy and paste straight into the Tinsel web editor at http://maketinsel.com. 
 
 Once you've done that, you'll be able to play your story on an actual telephone by following the instructions in the "Conneting to Twilio" section below.
 
@@ -112,7 +112,7 @@ Tinsel does not currently host audio files for you; you must upload them somewhe
 As with everything else, separate this by two newlines.
 
 ```
-alice: Why was Cinderalla so bad at soccer?
+alice: Why was Cinderella so bad at soccer?
 
 pause: 2
 
