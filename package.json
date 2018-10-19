@@ -18,17 +18,17 @@
     "body-parser": "^1.12.4",
     "express": "^4.12.4",
     "express-session": "^1.11.3",
-    "lodash": "^3.9.3",
+    "lodash": "^4.17.11",
     "mongodb": "^2.0.33",
     "passport": "^0.2.2",
     "passport-twitter": "^1.0.3",
     "q": "^1.4.1",
     "sandbox": "^0.8.6",
-    "twilio": "^2.2.1"
+    "twilio": "^3.23.1"
   },
   "devDependencies": {
     "chai": "*",
     "mocha": "*",
-    "request": "*"
+    "request": "^2.88.0"
   }
 }
